@@ -17,6 +17,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "Account")
 @NamedQueries({ @NamedQuery(name = "Account.findByUserName", query = "select a from Account a where a.userName = :name") })
@@ -55,6 +57,7 @@ public class Account implements Serializable {
 	/**
 	 * @return the email
 	 */
+	@NotEmpty(message="{validation.email.NotEmpty.message}")
 	@Column(name = "email")
 	public String getEmail() {
 		return email;
@@ -71,6 +74,7 @@ public class Account implements Serializable {
 	/**
 	 * @return the password
 	 */
+	@NotEmpty(message="{validation.password.NotEmpty.message}")
 	@Column(name = "password")
 	public String getPassword() {
 		return password;
@@ -88,6 +92,7 @@ public class Account implements Serializable {
 	 * @return the userName
 	 */
 	@Id
+	@NotEmpty(message="{validation.userName.NotEmpty.message}")
 	@Column(name = "userName")
 	public String getUserName() {
 		return userName;
