@@ -11,12 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.safe.stack.config.ControllerTestConfig;
 
 /**
- * @author Clarence
+ * @author Zainul Franciscus
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ControllerTestConfig.class})
 @ActiveProfiles("test")
 public class AbstractControllerTest {
+	
 
 }

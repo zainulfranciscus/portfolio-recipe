@@ -16,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -57,8 +58,8 @@ public class Account implements Serializable {
 	/**
 	 * @return the email
 	 */
-	@NotEmpty(message="{validation.email.NotEmpty.message}")
-	@Column(name = "email")
+	@NotEmpty(message="{validation.email.NotEmpty.message}") @Pattern(regexp = ".+@.+\\.[a-z]+")
+	@Column(name = "email")	
 	public String getEmail() {
 		return email;
 	}
@@ -74,7 +75,7 @@ public class Account implements Serializable {
 	/**
 	 * @return the password
 	 */
-	@NotEmpty(message="{validation.password.NotEmpty.message}")
+	@NotEmpty(message="{validation.password.NotEmpty.message}") @Pattern(regexp="^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
 	@Column(name = "password")
 	public String getPassword() {
 		return password;

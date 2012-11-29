@@ -23,7 +23,7 @@ public class AccountTest extends AbstractServiceImplTest{
 	public void testEmailValidation()
 	{
 		Account acc = new Account();
-		acc.setEmail("email");
+		acc.setEmail("email@yahoo.com");
 		acc.setUserName("userName");
 		
 		Set<ConstraintViolation<Account>> violations = validator.validate(acc);
@@ -33,7 +33,7 @@ public class AccountTest extends AbstractServiceImplTest{
 		assertEquals("{validation.password.NotEmpty.message}",violations.iterator().next().getMessage());
 		
 		acc = new Account();
-		acc.setPassword("password");
+		acc.setPassword("passW0rd");
 		acc.setUserName("userName");
 		
 		violations = validator.validate(acc);
@@ -43,8 +43,8 @@ public class AccountTest extends AbstractServiceImplTest{
 		assertEquals("{validation.email.NotEmpty.message}",violations.iterator().next().getMessage());
 		
 		acc = new Account();
-		acc.setPassword("password");
-		acc.setEmail("email");
+		acc.setPassword("passW0rd");
+		acc.setEmail("email@yahoo.com");
 
 		violations = validator.validate(acc);
 		 
