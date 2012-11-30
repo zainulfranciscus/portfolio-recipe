@@ -30,7 +30,7 @@ public class AccountTest extends AbstractServiceImplTest{
 		
 		assertNotNull(violations);
 		assertEquals(1,violations.size());
-		assertEquals("{validation.password.NotEmpty.message}",violations.iterator().next().getMessage());
+		assertEquals("Password must not be empty",violations.iterator().next().getMessage());
 		
 		acc = new Account();
 		acc.setPassword("passW0rd");
@@ -40,7 +40,7 @@ public class AccountTest extends AbstractServiceImplTest{
 		 
 		assertNotNull(violations);
 		assertEquals(1,violations.size());
-		assertEquals("{validation.email.NotEmpty.message}",violations.iterator().next().getMessage());
+		assertEquals("Email must not be empty",violations.iterator().next().getMessage());
 		
 		acc = new Account();
 		acc.setPassword("passW0rd");
@@ -50,7 +50,7 @@ public class AccountTest extends AbstractServiceImplTest{
 		 
 		assertNotNull(violations);
 		assertEquals(1,violations.size());		
-		assertEquals("{validation.userName.NotEmpty.message}",violations.iterator().next().getMessage());
+		assertEquals("user name must not be empty",violations.iterator().next().getMessage());
 		
 	}
 
