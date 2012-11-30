@@ -24,7 +24,7 @@
     <!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
     <default-servlet-handler/> 
 	
-	<context:component-scan base-package="com.apress.prospring3.ch19.web.controller" />
+	<context:component-scan base-package="com.safe.stack.web.controller" />
 	
     <!-- register "global" interceptor beans to apply to all registered HandlerMappings -->
     <interceptors>
@@ -47,18 +47,14 @@
     <!-- store preferred theme configuration in a cookie -->
     <beans:bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>                  
     
-     <!-- Tiles Configuration -->
-    <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
-        <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<beans:property name="prefix" value="/WEB-INF/views/" />
+    	<beans:property name="suffix" value=".jspx" />
     </beans:bean>
-    
-  
-    
+
     <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <beans:property name="validationMessageSource" ref="messageSource"/>
     </beans:bean>        
 
-    <!-- Enable file upload functionality -->
-    <beans:bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver" id="multipartResolver"/>
      
 </beans:beans>

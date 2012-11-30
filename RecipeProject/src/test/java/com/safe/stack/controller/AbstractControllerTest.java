@@ -3,6 +3,7 @@
  */
 package com.safe.stack.controller;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,6 +18,7 @@ import com.safe.stack.config.ControllerTestConfig;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ControllerTestConfig.class})
 @ActiveProfiles("test")
+@Ignore
 public class AbstractControllerTest {
 	
 

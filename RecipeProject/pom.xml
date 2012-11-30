@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.apress</groupId>
-	<artifactId>prospring3</artifactId>
+	<groupId>com.safe.stack</groupId>
+	<artifactId>recipe</artifactId>
 	<name>abc</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
@@ -124,7 +124,7 @@
             <scope>test</scope>
         </dependency>        
         
-        <!-- Additional dependencies for ProSpring3 Chapter 17 -->
+        
         
         <!-- JPA backend -->
         <dependency>
@@ -311,33 +311,9 @@
 				<version>2.6</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-			              <outputDirectory>${basedir}\target\test-classes</outputDirectory>
-			              <resources>          
-			                <resource>
-			                  <directory>${basedir}\src\main\webapp\WEB-INF</directory>
-			                  <filtering>true</filtering>
-			                </resource>
-			              </resources>              
-	            		</configuration> 						
-					</execution>
-				</executions>
+				</configuration>				
 			</plugin>			
 		</plugins>
-		<testResources>
-			<testResource>
-				<directory>
-				${project.basedir}/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml
-				</directory>
-			</testResource>	
-		</testResources>
+		
 	</build>
 </project>
