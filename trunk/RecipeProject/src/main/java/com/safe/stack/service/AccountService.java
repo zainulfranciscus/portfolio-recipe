@@ -8,7 +8,7 @@ public interface AccountService {
 
 	Account findByUserName(String name);
 
-	void saveRecipe(String userName, Long recipeId);
+	void likeARecipe(String userName, Long recipeId);
 
 
 

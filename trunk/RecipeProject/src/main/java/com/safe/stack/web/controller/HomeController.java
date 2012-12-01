@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.safe.stack.domain.Account;
+import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
 
 @RequestMapping("/")
@@ -19,6 +21,9 @@ public class HomeController {
 	
 	@Autowired
 	private RecipeService recipeService;
+	
+	@Autowired
+	private AccountService accountService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String showAllRecipes(Model uiModel)
@@ -47,6 +52,21 @@ public class HomeController {
 		
 		uiModel.addAttribute("recipes", recipeService.findByIngredients(ingredients));
 		return "list";
+	}
+	
+	@RequestMapping(value= "/searchLikedRecipe", method = RequestMethod.POST)
+	public String showLikedRecipe(@RequestParam("userName") String userName, Model uiModel)
+	{
+		Account account = accountService.findByUserName(userName);
+		uiModel.addAttribute("account", account);
+		return "account";
+	}
+	
+	@RequestMapping(value= "/likeARecipe", method = RequestMethod.POST)
+	public String likeARecipe(@RequestParam("userName") String userName, @RequestParam("recipeId") String recipeId)
+	{
+		accountService.likeARecipe(userName, Long.parseLong(recipeId));
+		return "recipe";
 	}
 
 }

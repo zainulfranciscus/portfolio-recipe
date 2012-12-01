@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 	 * @see com.safe.stack.service.AccountService#save(java.lang.String, int)
 	 */
 	@Override
-	public void saveRecipe(String userName, Long recipeId) {
+	public void likeARecipe(String userName, Long recipeId) {
 		LikedRecipe likedRecipe = new LikedRecipe();
 		likedRecipe.setUserName(userName);
 		likedRecipe.setRecipeId(recipeId);
