@@ -40,7 +40,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 	public void testLikedRecipe() {
 		
 		Recipe recipe = recipeService.findAll().get(0);
-		accountService.saveRecipe("user 1", recipe.getId());
+		accountService.likeARecipe("user 1", recipe.getId());
 		
 		Account account = accountService.findByUserName("user 1");
 		Set<Recipe> recipes = account.getLikedRecipes();
