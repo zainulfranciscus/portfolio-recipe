@@ -79,15 +79,10 @@ public class HomeControllerTest extends AbstractControllerTest {
 		ingredients.add("spinach");
 		ingredients.add("beef");
 
-		Recipe spinachRecipe = new Recipe();
-		spinachRecipe.setIngredient("spinach");
-
-		Recipe beefRecipe = new Recipe();
-		beefRecipe.setIngredient("beef");
+		Recipe spinachBeefRecipe = new Recipe();
 
 		List<Recipe> recipes = new ArrayList<Recipe>();
-		recipes.add(spinachRecipe);
-		recipes.add(beefRecipe);
+		recipes.add(spinachBeefRecipe);
 
 		RecipeService recipeService = mock(RecipeService.class);
 		when(recipeService.findByIngredients(ingredients)).thenReturn(recipes);
@@ -95,74 +90,66 @@ public class HomeControllerTest extends AbstractControllerTest {
 		HomeController homeController = new HomeController();
 		ReflectionTestUtils.setField(homeController, "recipeService",
 				recipeService);
-		
+
 		ExtendedModelMap uiModel = new ExtendedModelMap();
 		String result = homeController.searchRecipes(ingredient, uiModel);
-		
+
 		assertNotNull(result);
 		assertEquals(result, "list");
-		
+
 		assertEquals(recipes, uiModel.get("recipes"));
 
 	}
-	
+
 	@Test
-	public void testShowLikedRecipe()
-	{
+	public void testShowLikedRecipe() {
 		AccountService accountService = mock(AccountService.class);
 		HomeController homeController = new HomeController();
 
 		String userName = "user1";
 		Set<Recipe> likedRecipe = new HashSet<Recipe>();
-		
+
 		Account account = new Account();
 		account.setUserName(userName);
 		account.setLikedRecipes(likedRecipe);
-		
+
 		when(accountService.findByUserName(userName)).thenReturn(account);
-		
+
 		ReflectionTestUtils.setField(homeController, "accountService",
 				accountService);
-		
+
 		ExtendedModelMap uiModel = new ExtendedModelMap();
 		String result = homeController.showLikedRecipe(userName, uiModel);
-		
+
 		assertNotNull(result);
 		assertEquals(result, "account");
-		
+
 		assertEquals(account, uiModel.get("account"));
-		
-		
+
 	}
-	
+
 	@Test
-	public void testLikeARecipe()
-	{
+	public void testLikeARecipe() {
 		AccountService accountService = mock(AccountService.class);
 		HomeController homeController = new HomeController();
 
 		String userName = "user1";
-		Long recipeId = 1l; 
-		
+		Long recipeId = 1l;
+
 		Recipe recipe = new Recipe();
 		recipe.setId(recipeId);
-		
-		
-		
+
 		ReflectionTestUtils.setField(homeController, "accountService",
 				accountService);
-		
+
 		ExtendedModelMap uiModel = new ExtendedModelMap();
 		String result = homeController.likeARecipe(userName, "1");
-		
+
 		Mockito.verify(accountService).likeARecipe(userName, recipeId);
-		
+
 		assertNotNull(result);
 		assertEquals(result, "recipe");
-		
-		
+
 	}
-	
-	
 
 }

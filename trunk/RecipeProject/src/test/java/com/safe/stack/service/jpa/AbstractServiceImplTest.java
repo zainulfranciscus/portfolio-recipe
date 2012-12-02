@@ -17,7 +17,7 @@ import com.safe.stack.config.ServiceTestConfig;
 import com.safe.stack.test.listener.ServiceTestExecutionListener;
 
 /**
- * @author Clarence
+ * @author Zainul Franciscus
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)

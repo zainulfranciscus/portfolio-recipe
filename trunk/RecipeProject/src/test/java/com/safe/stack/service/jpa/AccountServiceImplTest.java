@@ -34,15 +34,14 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 		assertEquals("mycompany@company", account.getEmail());
 		assertEquals("twitter", account.getTwitter());
 	}
-
-	@DataSets(setUpDataSet = "/com/safe/stack/service/jpa/LikedRecipeTestData.xls")
+	
 	@Test
 	public void testLikedRecipe() {
 		
 		Recipe recipe = recipeService.findAll().get(0);
-		accountService.likeARecipe("user 1", recipe.getId());
+		accountService.likeARecipe("My Company", recipe.getId());
 		
-		Account account = accountService.findByUserName("user 1");
+		Account account = accountService.findByUserName("My Company");
 		Set<Recipe> recipes = account.getLikedRecipes();
 		
 		assertEquals(1,recipes.size());

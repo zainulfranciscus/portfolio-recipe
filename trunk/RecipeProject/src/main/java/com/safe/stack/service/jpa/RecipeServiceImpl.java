@@ -27,7 +27,7 @@ public class RecipeServiceImpl implements RecipeService {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	private static final String FIND_RECIPE_SQL = "from Recipe r where ";
+	private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select r from Recipe r join r.ingredients i where ";
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -61,17 +61,17 @@ public class RecipeServiceImpl implements RecipeService {
 		}
 		
 		StringBuilder builder = new StringBuilder();		
-		builder.append(FIND_RECIPE_SQL);
+		builder.append(FIND_RECIPE_BY_INGREDIENT_SQL);
 			
 		for(int i = 0; i < ingredients.size(); i++)
 		{			
 			if(i == 0)
 			{
-				builder.append("r.ingredient = :arg0");
+				builder.append("i.ingredient = :arg0");
 				continue;
 			}
 			
-			builder.append(" or r.ingredient = :arg").append(i);
+			builder.append(" or i.ingredient = :arg").append(i);
 		}
 		
 		Query query = entityManager.createQuery(builder.toString());
