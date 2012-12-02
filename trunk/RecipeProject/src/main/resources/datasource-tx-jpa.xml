@@ -46,6 +46,16 @@
             <jdbc:script location="classpath:DDL_RECIPE.sql"/>
             <jdbc:script location="classpath:DDL_LIKED_RECIPE.sql"/>
         </jdbc:embedded-database>
+    </beans>
+    
+    <beans profile="mysql">
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+			destroy-method="close">
+			<property name="driverClass" value="com.mysql.jdbc.Driver" />
+			<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/portfolio" />
+			<property name="user" value="root" />
+			<property name="password" value="m00n1te!" />
+		</bean>
     </beans>   
 
 </beans>
