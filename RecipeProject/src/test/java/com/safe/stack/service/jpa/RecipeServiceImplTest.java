@@ -25,12 +25,10 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 		Recipe recipeFromDB = recipeService.findRecipe(1L);
 
 		assertNotNull(recipeFromDB);
-		assertEquals("pie lover", recipeFromDB.getAuthor());
+		assertEquals("caserolle lover", recipeFromDB.getAuthor());
 		assertEquals("url", recipeFromDB.getAuthorLink());
 		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("oz", recipeFromDB.getMetric());
-		assertEquals("pie", recipeFromDB.getName());
-		assertEquals("egg", recipeFromDB.getIngredient());
+		assertEquals("caserolle", recipeFromDB.getName());
 
 	}
 
@@ -47,28 +45,19 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 		assertEquals("pie lover", recipeFromDB.getAuthor());
 		assertEquals("url", recipeFromDB.getAuthorLink());
 		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("oz", recipeFromDB.getMetric());
 		assertEquals("pie", recipeFromDB.getName());
-		assertEquals("egg", recipeFromDB.getIngredient());
-		assertEquals(1, recipeFromDB.getAmount());
 		
 		recipeFromDB = recipes.get(1);		
 		assertEquals("caserolle lover", recipeFromDB.getAuthor());
 		assertEquals("url", recipeFromDB.getAuthorLink());
 		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("ml", recipeFromDB.getMetric());
 		assertEquals("caserolle", recipeFromDB.getName());
-		assertEquals("rice", recipeFromDB.getIngredient());
-		assertEquals(2, recipeFromDB.getAmount());
 		
 		recipeFromDB = recipes.get(2);		
 		assertEquals("fries lover", recipeFromDB.getAuthor());
 		assertEquals("url", recipeFromDB.getAuthorLink());
 		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("cups", recipeFromDB.getMetric());
 		assertEquals("fries", recipeFromDB.getName());
-		assertEquals("potato", recipeFromDB.getIngredient());
-		assertEquals(3, recipeFromDB.getAmount());
 
 	}
 	
@@ -91,7 +80,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 		assertEquals(1, recipes.size());
 
 		Recipe recipeFromDB = recipes.get(0);				
-		assertEquals("egg", recipeFromDB.getIngredient());
+		assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
 
 		ingredients.add("rice");
 		ingredients.add("potato");
@@ -102,14 +91,14 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 		assertEquals(3, recipes.size());
 
 		recipeFromDB = recipes.get(0);				
-		assertEquals("egg", recipeFromDB.getIngredient());
+		assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
 		
 		recipeFromDB = recipes.get(1);				
-		assertEquals("rice", recipeFromDB.getIngredient());
+		assertEquals("rice", recipeFromDB.getIngredients().iterator().next().getIngredient());
 
 		
 		recipeFromDB = recipes.get(2);				
-		assertEquals("potato", recipeFromDB.getIngredient());
+		assertEquals("potato", recipeFromDB.getIngredients().iterator().next().getIngredient());
 
 
 	}

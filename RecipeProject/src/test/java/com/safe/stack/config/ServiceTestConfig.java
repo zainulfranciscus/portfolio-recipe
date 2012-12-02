@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 
 import org.dbunit.DataSourceDatabaseTester;
 import org.dbunit.util.fileloader.XlsDataFileLoader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +32,7 @@ public class ServiceTestConfig {
 				.addScript("classpath:DDL_ACCOUNT.sql")
 				.addScript("classpath:DDL_RECIPE.sql")
 				.addScript("classpath:DDL_LIKED_RECIPE.sql")
+				.addScript("classpath:DDL_INGREDIENTS.sql")
 				.build();
 	}
 	
