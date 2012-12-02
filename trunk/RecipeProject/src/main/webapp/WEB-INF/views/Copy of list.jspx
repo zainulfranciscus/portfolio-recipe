@@ -7,24 +7,10 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	<c:if test="${not empty recipes}">
-	<table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Author</th>
-				<th>diet</th>	
-			</tr>
-		</thead>
-		
-		<c:forEach items="${recipes}" var="recipe">
-			<tr>
-				<td><a href="${recipe.id}">${recipe.name}</a> </td>
-				<td>${recipe.author}</td>
-				<td>${recipe.diet}</td>				
-			</tr>
-		</c:forEach>
-	</table>
-	</c:if>
+	test
+	<form method="post" action="searchRecipeByIngredient">
+		<input type="text" name="foo.name" />
+		<input type="submit">submit</input>         
+	</form>
 
 </div>
