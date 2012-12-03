@@ -29,7 +29,7 @@ public class HomeController {
 	public String showAllRecipes(Model uiModel)
 	{
 		uiModel.addAttribute("recipes", recipeService.findAll());
-		return "list";
+		return "recipe/list";
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
