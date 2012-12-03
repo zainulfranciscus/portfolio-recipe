@@ -5,4 +5,9 @@
         <put-attribute name="body"
             value="/WEB-INF/views/recipe/list.jspx" />
     </definition>
+    
+    <definition extends="default" name="recipe/login">
+        <put-attribute name="body"
+            value="/WEB-INF/views/recipe/login.jspx" />
+    </definition>
 </tiles-definitions>

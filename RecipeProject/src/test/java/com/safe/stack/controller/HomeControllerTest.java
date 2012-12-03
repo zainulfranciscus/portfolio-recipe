@@ -41,7 +41,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 		String result = homeController.showAllRecipes(uiModel);
 
 		assertNotNull(result);
-		assertEquals(result, "list");
+		assertEquals(result, "recipe/list");
 
 		List<Recipe> modelRecipe = (List<Recipe>) uiModel.get("recipes");
 

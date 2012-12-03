@@ -1,14 +1,6 @@
-display list of recipes in the list.jsp. Once this is done, and working, convert it into a tile page.
-
-
-
-1. add the maven dependencies for apache tiles. Refer to page 613
-2. Create a default.jspx. This jsp file should consist of a section for the header, body, and footer.
-3. add tile interceptor into the servlet-context.xml
-
-re-order the sql:
-
-1. recipe
-2. account
-3. liked recipe
-4. ingredients
+1. Create a login page.
+2. Create a user in the database.
+3. Make sure that people can login using a valid login id.
+4. Make sure that the login page warns user if they supply an invalid login id.
+5. Make sure that the password and user name are validated against the validation rule built into the Account domain object.
+6. Bind the login form into the Account domain object.

@@ -46,6 +46,7 @@
             <jdbc:script location="classpath:DDL_RECIPE.sql"/>
             <jdbc:script location="classpath:DDL_LIKED_RECIPE.sql"/>
 			<jdbc:script location="classpath:DDL_INGREDIENTS.sql"/>
+			<jdbc:script location="classpath:DDL_USER.sql"/>
         </jdbc:embedded-database>
     </beans>
     
