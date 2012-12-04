@@ -33,6 +33,7 @@ public class Account implements Serializable {
     private String location;
     private String twitter;
     private int version;
+    private String authority;
 
     private Set<Recipe> likedRecipes = new HashSet<Recipe>();
 
@@ -187,5 +188,22 @@ public class Account implements Serializable {
     public void setVersion(int version) {
 	this.version = version;
     }
+
+    /**
+     * @return the authority
+     */
+    @Column(name = "authority")
+    public String getAuthority() {
+        return authority;
+    }
+
+    /**
+     * @param authority the authority to set
+     */
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
+    
+    
 
 }

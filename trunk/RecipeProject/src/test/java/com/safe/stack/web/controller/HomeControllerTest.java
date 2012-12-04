@@ -9,23 +9,19 @@ import static org.mockito.Mockito.when;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
-import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.Path.Node;
-import javax.validation.Payload;
-import javax.validation.metadata.ConstraintDescriptor;
 
 import org.hibernate.validator.engine.ConstraintViolationImpl;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.MessageSource;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -34,7 +30,6 @@ import com.safe.stack.domain.Account;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
-import com.safe.stack.web.form.Message;
 
 public class HomeControllerTest extends AbstractControllerTest {
 
@@ -181,6 +176,8 @@ public class HomeControllerTest extends AbstractControllerTest {
     public void testSignUp() {
 	HomeController homeController = new HomeController();
 	AccountService mockAccountService = mock(AccountService.class);
+	AuthenticationManager mockAuthManager = mock(AuthenticationManager.class);
+	
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
 
 	when(mockValidator.validate(Mockito.isA(Account.class))).thenReturn(
@@ -188,12 +185,13 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ReflectionTestUtils.setField(homeController, "accountService", mockAccountService);
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
+	ReflectionTestUtils.setField(homeController, "authManager", mockAuthManager);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	String result = homeController.signUp("user1", "password", uiModel, Locale.UK);
+	String result = homeController.signUp("user1", "password", uiModel, Locale.UK, new MockHttpServletRequest());
 	Mockito.verify(mockAccountService).save(Mockito.isA(Account.class));
-
+	Mockito.verify(mockAuthManager).authenticate(Mockito.isA(Authentication.class));
 	assertNotNull(result);
 	assertNull(uiModel.get("message"));
 	assertEquals(result, HomeController.RECIPE_LIST_PAGE);
@@ -224,7 +222,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	String result = homeController.signUp("user1", "password", uiModel, Locale.UK);
+	String result = homeController.signUp("user1", "password", uiModel, Locale.UK, new MockHttpServletRequest());
 
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_LOGIN_PAGE);

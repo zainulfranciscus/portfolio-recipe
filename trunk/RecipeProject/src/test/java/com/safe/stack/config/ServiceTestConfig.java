@@ -20,7 +20,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  * 
  */
 @Configuration
-@ImportResource({"classpath:datasource-tx-jpa.xml","classpath:servlet-context.xml"})
+@ImportResource({"classpath:datasource-tx-jpa.xml","classpath:servlet-context.xml","classpath:security-context.xml"})
 @ComponentScan(basePackages={"com.safe.stack.service.jpa"})
 @Profile("test")
 public class ServiceTestConfig {
