@@ -30,7 +30,7 @@ public class Recipe {
 	private String author;
 	private String diet;
 	private String authorLink;
-	private Blob picture;
+	private String picture;
 	private int version;
 	private Set<Account> account;
 	private Set<Ingredient> ingredients;
@@ -154,7 +154,7 @@ public class Recipe {
 	 * @return the picture
 	 */
 	@Column(name = "picture")
-	public Blob getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
@@ -162,7 +162,7 @@ public class Recipe {
 	 * @param picture
 	 *            the picture to set
 	 */
-	public void setPicture(Blob picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 

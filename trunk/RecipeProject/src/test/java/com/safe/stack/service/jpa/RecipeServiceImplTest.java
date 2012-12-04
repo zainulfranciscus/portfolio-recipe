@@ -29,6 +29,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 		assertEquals("url", recipeFromDB.getAuthorLink());
 		assertEquals("vegan", recipeFromDB.getDiet());
 		assertEquals("caserolle", recipeFromDB.getName());
+		assertEquals("caserolle_pic", recipeFromDB.getPicture());
 
 	}
 

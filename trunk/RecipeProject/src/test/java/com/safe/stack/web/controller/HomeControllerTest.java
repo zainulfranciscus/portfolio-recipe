@@ -48,7 +48,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	String result = homeController.showAllRecipes(uiModel);
 
 	assertNotNull(result);
-	assertEquals(result, "recipe/list");
+	assertEquals(result, HomeController.RECIPE_LIST_PAGE);
 
 	List<Recipe> modelRecipe = (List<Recipe>) uiModel.get("recipes");
 
@@ -70,7 +70,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	String result = homeController.showRecipe(1l, uiModel);
 
 	assertNotNull(result);
-	assertEquals(result, "recipe");
+	assertEquals(result, HomeController.RECIPE_DETAILS_PAGE);
 
 	assertEquals(aRecipe, uiModel.get("recipe"));
 

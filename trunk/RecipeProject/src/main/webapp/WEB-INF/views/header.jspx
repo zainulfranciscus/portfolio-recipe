@@ -5,9 +5,18 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	header
-
+	Browse 
+	Logo
+	About
+	
+	<sec:authorize access="not isAuthenticated()">
+	<a href="login">SignIn</a>
+	</sec:authorize>
+	
  	<sec:authorize access="isAuthenticated()">
- 	Welcome
+ 	User Name
+ 	Profile
+ 	Likes
+ 	Sign Out
  	</sec:authorize>
 </div>

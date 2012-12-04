@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form" version="2.0">
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<table>
+		<tr>
+			<td>${recipe.name}</td>
+		</tr>
+		<tr>
+			<td>${recipe.author}</td>
+		</tr>
+		<tr>
+			<td>${recipe.authorLink}</td>
+		</tr>
+		<tr>
+			<td><img src="images/${recipe.picture}" /></td>
+		</tr>
+		<tr>
+			<td>Ingredients</td>
+		</tr>
+		<c:forEach items="${recipe.ingredients}" var="ingredient">
+			<tr>
+				<td>${ingredient.ingredient} ${ingredient.amount} ${ingredient.metric}</td>
+			</tr>
+		</c:forEach>
+		
+		<tr>
+			<td>Preparation</td>
+		</tr>
+		<tr>
+			<td>Read Recipe Preparation at <a href="${recipe.authorLink}">${recipe.author}</a></td>
+		</tr>
+	</table>
+
+
+</div>
