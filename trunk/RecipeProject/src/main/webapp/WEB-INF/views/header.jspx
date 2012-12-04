@@ -17,6 +17,6 @@
  	User Name
  	Profile
  	Likes
- 	Sign Out
+ 	<a href="j_spring_security_logout">Sign Out</a>
  	</sec:authorize>
 </div>
