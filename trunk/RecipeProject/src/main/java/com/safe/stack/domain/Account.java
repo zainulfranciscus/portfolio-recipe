@@ -40,7 +40,7 @@ public class Account implements Serializable {
      * @return the likedRecipes
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "userName"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
+    @JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "email"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
     public Set<Recipe> getLikedRecipes() {
 	return likedRecipes;
     }
@@ -56,10 +56,11 @@ public class Account implements Serializable {
     /**
      * @return the email
      */
+    @Column(name = "email")
+    @Id
     @NotEmpty(message = "{validation.email.NotEmpty.message}")
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="{validation.email.invalid.format}")
-    @Column(name = "email")
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="{validation.email.invalid.format}")  
     public String getEmail() {
 	return email;
     }
@@ -92,8 +93,7 @@ public class Account implements Serializable {
 
     /**
      * @return the userName
-     */
-    @Id
+     */    
     @Column(name = "userName")
     public String getUserName() {
 	return userName;
