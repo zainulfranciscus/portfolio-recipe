@@ -34,6 +34,7 @@ public class HomeController {
 
     protected static final String RECIPE_LIST_PAGE = "recipe/list";
     protected static final String RECIPE_LOGIN_PAGE = "recipe/login";
+    protected static final String RECIPE_DETAILS_PAGE = "recipe/detail";
 
     @Autowired
     private MessageSource messageSource;
@@ -59,7 +60,7 @@ public class HomeController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showRecipe(@PathVariable("id") Long id, Model uiModel) {
 	uiModel.addAttribute("recipe", recipeService.findRecipe(id));
-	return "recipe";
+	return RECIPE_DETAILS_PAGE;
     }
 
     @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST)

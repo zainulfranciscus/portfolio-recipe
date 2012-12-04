@@ -19,6 +19,7 @@
 		
 		<c:forEach items="${recipes}" var="recipe">
 			<tr>
+			    <td><img src="images/${recipe.picture}"/></td>
 				<td><a href="${recipe.id}">${recipe.name}</a> </td>
 				<td>${recipe.author}</td>
 				<td>${recipe.diet}</td>				
