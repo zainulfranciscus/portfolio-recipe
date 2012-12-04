@@ -206,8 +206,9 @@ public class HomeControllerTest extends AbstractControllerTest {
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
 	MessageSource mockMessageSource = mock(MessageSource.class);
 
-	when(mockMessageSource.getMessage("{validation.email.invalid.format}", new Object[] {}, Locale.UK))
-		.thenReturn("This is not a valid email address");
+	when(
+		mockMessageSource.getMessage("{validation.email.invalid.format}", new Object[] {},
+			Locale.UK)).thenReturn("This is not a valid email address");
 
 	ConstraintViolation<Account> violation = new ConstraintViolationImpl<Account>(
 		"{validation.email.invalid.format}", "This is not a valid email address",
@@ -228,10 +229,11 @@ public class HomeControllerTest extends AbstractControllerTest {
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_LOGIN_PAGE);
 
-	Message msg = (Message) uiModel.get("message");
-	
-	assertNotNull(msg);
-	assertEquals("This is not a valid email address", msg.getMessage());
+	Set<ConstraintViolation<Account>> errors = (Set<ConstraintViolation<Account>>) uiModel
+		.get("valdation_errors");
+
+	assertNotNull(errors);
+	assertEquals("This is not a valid email address", errors.iterator().next().getMessage());
 
     }
 }

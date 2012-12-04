@@ -56,11 +56,11 @@ public class Account implements Serializable {
     /**
      * @return the email
      */
-    @Column(name = "email")
-    @Id
     @NotEmpty(message = "{validation.email.NotEmpty.message}")
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="{validation.email.invalid.format}")  
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="{validation.email.invalid.format}")
+    @Column(name = "email")
+    @Id
     public String getEmail() {
 	return email;
     }
