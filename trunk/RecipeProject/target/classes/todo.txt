@@ -1,6 +1,3 @@
-1. Create a login page.
-2. Create a user in the database.
-3. Make sure that people can login using a valid login id.
-4. Make sure that the login page warns user if they supply an invalid login id.
+
 5. Make sure that the password and user name are validated against the validation rule built into the Account domain object.
 6. Bind the login form into the Account domain object.

@@ -14,8 +14,8 @@
 	<authentication-manager>
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="select username,password, enabled 
-		      from users where username=?" />
+				users-by-username-query="select userName,password, enabled 
+		      from account where userName=?" />
 		</authentication-provider>
 	</authentication-manager>
 
