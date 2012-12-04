@@ -7,7 +7,22 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	
-	 <spring:url var="loginUrl" value="/j_spring_security_check" />
+	<spring:url var="loginUrl" value="/j_spring_security_check" />
+	
+	<script type="text/javascript">
+    $(function(){ 
+        $('#SignUpBtn').click(function(){
+        	   $('#loginForm').attr('action', 'signUp');
+        });
+        
+        $('#SignInBtn').click(function(){
+     	   $('#loginForm').attr('action', "${loginUrl}");
+     });
+        
+     
+    });
+    </script>
+    
 	
 	<c:if test="${not empty login_failed}">
 		<div class="errorblock">
@@ -15,7 +30,7 @@
 		</div>
 	</c:if>
 
-	<form name='f' action="${loginUrl}" method='POST'>
+	<form name='f' action="${loginUrl}" method='POST' id="loginForm">
 
 		<table>
 			<tr>
@@ -29,8 +44,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-					value="submit" />
+				<td colspan='2'><input id="SignInBtn" name="SignIn" type="submit"
+					value="SignIn" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2'><input id="SignUpBtn" name="SignUp" type="submit"
+					value="SignUp" />
 				</td>
 			</tr>
 			<tr>

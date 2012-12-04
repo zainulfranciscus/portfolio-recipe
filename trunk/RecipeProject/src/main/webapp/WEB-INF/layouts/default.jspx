@@ -14,7 +14,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
 
-
+<spring:url value="/resources/scripts/jquery-1.7.1.js" var="jquery_url" />
+<script src="${jquery_url}" type="text/javascript"><jsp:text/></script>
 <title>Default Template</title>
 </head>
 
@@ -26,6 +27,6 @@
 		<tiles:insertAttribute name="body" />
 		<tiles:insertAttribute name="footer" ignore="true" />
 	</div>
-	
+
 </body>
 </html>
