@@ -25,11 +25,14 @@
     
 	
 	<c:if test="${not empty login_failed}">
-		<div class="errorblock">
 			Your login attempt was not successful, try again.<br /> 
-		</div>
 	</c:if>
 
+	<c:if test="${not empty valdation_errors}">
+			<c:forEach items="${valdation_errors}" var="error">
+			${error.message}
+		</c:forEach> 
+	</c:if>
 	<form name='f' action="${loginUrl}" method='POST' id="loginForm">
 
 		<table>

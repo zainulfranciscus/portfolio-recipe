@@ -96,28 +96,23 @@ public class HomeController {
 
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, params = "SignUp")
     public String signUp(@RequestParam("j_username") String userName,
-	    @RequestParam("j_password") String password, Model uiModel,Locale locale) {
+	    @RequestParam("j_password") String password, Model uiModel, Locale locale) {
 
 	Account acc = new Account();
-	acc.setUserName(userName);
+	acc.setEmail(userName);
 	acc.setPassword(password);
 
 	Set<ConstraintViolation<Account>> violations = validator.validate(acc);
 
-	if(violations.size() > 0)
-	{
-	    for(ConstraintViolation<Account> violation: violations)
-	    {
-		String msg = messageSource.getMessage(violation.getMessageTemplate(), new Object[]{}, locale);
-		uiModel.addAttribute("message", new Message("error", msg));
-	    }
-	    
+	if (violations.size() > 0) {
+
+	    uiModel.addAttribute("valdation_errors", violations);
 	    return RECIPE_LOGIN_PAGE;
-	    
+
 	}
-	
+
 	accountService.save(acc);
-	
+
 	return RECIPE_LIST_PAGE;
 
     }
