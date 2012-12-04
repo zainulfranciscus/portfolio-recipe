@@ -24,7 +24,6 @@ public class AccountTest extends AbstractServiceImplTest{
 	{
 		Account acc = new Account();
 		acc.setEmail("email@yahoo.com");
-		acc.setUserName("userName");
 		
 		Set<ConstraintViolation<Account>> violations = validator.validate(acc);
 		
@@ -34,7 +33,6 @@ public class AccountTest extends AbstractServiceImplTest{
 		
 		acc = new Account();
 		acc.setPassword("passW0rd");
-		acc.setUserName("userName");
 		
 		violations = validator.validate(acc);
 		 
@@ -43,14 +41,23 @@ public class AccountTest extends AbstractServiceImplTest{
 		assertEquals("Email must not be empty",violations.iterator().next().getMessage());
 		
 		acc = new Account();
+		acc.setEmail("invalid_email");
 		acc.setPassword("passW0rd");
-		acc.setEmail("email@yahoo.com");
-
+		
 		violations = validator.validate(acc);
-		 
 		assertNotNull(violations);
-		assertEquals(1,violations.size());		
-		assertEquals("user name must not be empty",violations.iterator().next().getMessage());
+		assertEquals(1,violations.size());
+		assertEquals("{validation.email.invalid.format}",violations.iterator().next().getMessageTemplate());
+		
+		acc = new Account();
+		acc.setEmail("email@yahoo.com");
+		acc.setPassword("password");
+		
+		violations = validator.validate(acc);
+		assertNotNull(violations);
+		assertEquals(1,violations.size());
+		assertEquals("{validation.password.invalid.format}",violations.iterator().next().getMessageTemplate());
+				
 		
 	}
 
