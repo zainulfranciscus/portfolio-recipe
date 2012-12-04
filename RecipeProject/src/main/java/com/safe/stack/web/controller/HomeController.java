@@ -5,10 +5,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -40,6 +46,9 @@ public class HomeController {
 
     @Autowired
     private LocalValidatorFactoryBean validator;
+
+    @Autowired
+    private AuthenticationManager authManager;
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
@@ -96,7 +105,8 @@ public class HomeController {
 
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, params = "SignUp")
     public String signUp(@RequestParam("j_username") String userName,
-	    @RequestParam("j_password") String password, Model uiModel, Locale locale) {
+	    @RequestParam("j_password") String password, Model uiModel, Locale locale,
+	    HttpServletRequest request) {
 
 	Account acc = new Account();
 	acc.setEmail(userName);
@@ -112,6 +122,15 @@ public class HomeController {
 	}
 
 	accountService.save(acc);
+
+	UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+		userName, password);
+
+	Authentication auth = authManager.authenticate(token);
+	SecurityContextHolder.getContext().setAuthentication(auth);
+	request.getSession().setAttribute(
+		HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+		SecurityContextHolder.getContext());
 
 	return RECIPE_LIST_PAGE;
 

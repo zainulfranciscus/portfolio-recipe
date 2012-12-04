@@ -17,9 +17,7 @@
 						
 				users-by-username-query="select email,password, enabled from account where email=?"
 				
-				authorities-by-username-query="
-					select au.email, au.authority from authorities au 
-				    where au.email =?  "  
+				authorities-by-username-query="select email, authority from account where email=?  "  
 			/>
 		</authentication-provider>
 	</authentication-manager>

@@ -33,6 +33,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("password", account.getPassword());
 	assertEquals("mycompany@company", account.getEmail());
 	assertEquals("twitter", account.getTwitter());
+	assertEquals("user", account.getAuthority());
     }
 
     @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
