@@ -11,8 +11,13 @@
             value="/WEB-INF/views/recipe/login.jspx" />
     </definition>
     
-     <definition extends="default" name="recipe/detail">
+    <definition extends="default" name="recipe/detail">
         <put-attribute name="body"
             value="/WEB-INF/views/recipe/detail.jspx" />
+    </definition>
+	
+	<definition extends="default" name="recipe/addRecipe">
+        <put-attribute name="body"
+            value="/WEB-INF/views/recipe/addRecipe.jspx" />
     </definition>
 </tiles-definitions>

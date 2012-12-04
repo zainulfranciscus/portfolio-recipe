@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.safe.stack.domain.Account;
+import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
 import com.safe.stack.web.form.Message;
@@ -35,6 +36,7 @@ public class HomeController {
     protected static final String RECIPE_LIST_PAGE = "recipe/list";
     protected static final String RECIPE_LOGIN_PAGE = "recipe/login";
     protected static final String RECIPE_DETAILS_PAGE = "recipe/detail";
+    protected static final String RECIPE_ADD_RECIPE_PAGE = "recipe/addRecipe";
 
     @Autowired
     private MessageSource messageSource;
@@ -62,7 +64,26 @@ public class HomeController {
 	uiModel.addAttribute("recipe", recipeService.findRecipe(id));
 	return RECIPE_DETAILS_PAGE;
     }
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String openLoginPage(Model uiModel) {
+	return RECIPE_LOGIN_PAGE;
+    }
+    
+    @RequestMapping(value = "/addRecipe", method = RequestMethod.GET)
+    public String showAddRecipe(Model uiModel)
+    {
+	uiModel.addAttribute("recipe", new Recipe());
+	return RECIPE_ADD_RECIPE_PAGE;
+    }
+    
 
+    @RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
+    public String saveRecipe(Recipe recipe, Model uiModel)
+    {
+	return RECIPE_LIST_PAGE;
+    }
+    
     @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST)
     public String searchRecipes(@RequestParam("ingredient") String ingredient, Model uiModel) {
 	String[] tokens = ingredient.trim().split("\\s+");
@@ -90,10 +111,7 @@ public class HomeController {
 	return "recipe";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String openLoginPage(Model uiModel) {
-	return RECIPE_LOGIN_PAGE;
-    }
+   
 
     @RequestMapping("/loginfail")
     public String loginFail(Model uiModel, Locale locale) {
