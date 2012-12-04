@@ -3,16 +3,19 @@ package com.safe.stack.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.safe.stack.domain.Account;
 import com.safe.stack.service.AccountService;
@@ -34,6 +37,9 @@ public class HomeController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private LocalValidatorFactoryBean validator;
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
@@ -87,12 +93,33 @@ public class HomeController {
 			new Object[] {}, locale)));
 	return RECIPE_LOGIN_PAGE;
     }
-    
-    @RequestMapping(value = "/signUp", method = RequestMethod.POST, params="SignUp")
-    public String signUp(Model uiModel){
+
+    @RequestMapping(value = "/signUp", method = RequestMethod.POST, params = "SignUp")
+    public String signUp(@RequestParam("j_username") String userName,
+	    @RequestParam("j_password") String password, Model uiModel,Locale locale) {
+
+	Account acc = new Account();
+	acc.setUserName(userName);
+	acc.setPassword(password);
+
+	Set<ConstraintViolation<Account>> violations = validator.validate(acc);
+
+	if(violations.size() > 0)
+	{
+	    for(ConstraintViolation<Account> violation: violations)
+	    {
+		String msg = messageSource.getMessage(violation.getMessageTemplate(), new Object[]{}, locale);
+		uiModel.addAttribute("message", new Message("error", msg));
+	    }
+	    
+	    return RECIPE_LOGIN_PAGE;
+	    
+	}
+	
+	accountService.save(acc);
 	
 	return RECIPE_LIST_PAGE;
-	
+
     }
 
 }

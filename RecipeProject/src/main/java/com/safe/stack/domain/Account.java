@@ -25,167 +25,167 @@ import org.hibernate.validator.constraints.NotEmpty;
 @NamedQueries({ @NamedQuery(name = "Account.findByUserName", query = "select a from Account a where a.userName = :name") })
 public class Account implements Serializable {
 
-	private String email;
-	private String password;
-	private String userName;
-	private Blob picture;
-	private Blob bio;
-	private String location;
-	private String twitter;
-	private int version;
-	
-	private Set<Recipe> likedRecipes = new HashSet<Recipe>();
+    private String email;
+    private String password;
+    private String userName;
+    private Blob picture;
+    private Blob bio;
+    private String location;
+    private String twitter;
+    private int version;
 
-	
-	/**
-	 * @return the likedRecipes
-	 */
-	@ManyToMany (fetch=FetchType.LAZY)
-	@JoinTable(name = "LikedRecipe", 
-	joinColumns = @JoinColumn(name = "userName"), 
-	inverseJoinColumns = @JoinColumn(name = "recipeId"))
-	public Set<Recipe> getLikedRecipes() {
-		return likedRecipes;
-	}
+    private Set<Recipe> likedRecipes = new HashSet<Recipe>();
 
-	/**
-	 * @param likedRecipes the likedRecipes to set
-	 */
-	public void setLikedRecipes(Set<Recipe> likedRecipes) {
-		this.likedRecipes = likedRecipes;
-	}
+    /**
+     * @return the likedRecipes
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "userName"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
+    public Set<Recipe> getLikedRecipes() {
+	return likedRecipes;
+    }
 
-	/**
-	 * @return the email
-	 */
-	@NotEmpty(message="{validation.email.NotEmpty.message}") @Pattern(regexp = ".+@.+\\.[a-z]+")
-	@Column(name = "email")	
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * @param likedRecipes
+     *            the likedRecipes to set
+     */
+    public void setLikedRecipes(Set<Recipe> likedRecipes) {
+	this.likedRecipes = likedRecipes;
+    }
 
-	/**
-	 * @param email
-	 *            the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    /**
+     * @return the email
+     */
+    @NotEmpty(message = "{validation.email.NotEmpty.message}")
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="{validation.email.invalid.format}")
+    @Column(name = "email")
+    public String getEmail() {
+	return email;
+    }
 
-	/**
-	 * @return the password
-	 */
-	@NotEmpty(message="{validation.password.NotEmpty.message}") @Pattern(regexp="^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$")
-	@Column(name = "password")
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * @param email
+     *            the email to set
+     */
+    public void setEmail(String email) {
+	this.email = email;
+    }
 
-	/**
-	 * @param password
-	 *            the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * @return the password
+     */
+    @NotEmpty(message = "{validation.password.NotEmpty.message}")
+    @Pattern(regexp = "^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$", message="{validation.password.invalid.format}")
+    @Column(name = "password")
+    public String getPassword() {
+	return password;
+    }
 
-	/**
-	 * @return the userName
-	 */
-	@Id
-	@NotEmpty(message="{validation.userName.NotEmpty.message}")
-	@Column(name = "userName")
-	public String getUserName() {
-		return userName;
-	}
+    /**
+     * @param password
+     *            the password to set
+     */
+    public void setPassword(String password) {
+	this.password = password;
+    }
 
-	/**
-	 * @param userName
-	 *            the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    /**
+     * @return the userName
+     */
+    @Id
+    @Column(name = "userName")
+    public String getUserName() {
+	return userName;
+    }
 
-	/**
-	 * @return the picture
-	 */
-	@Column(name = "picture")
-	public Blob getPicture() {
-		return picture;
-	}
+    /**
+     * @param userName
+     *            the userName to set
+     */
+    public void setUserName(String userName) {
+	this.userName = userName;
+    }
 
-	/**
-	 * @param picture
-	 *            the picture to set
-	 */	
-	public void setPicture(Blob picture) {
-		this.picture = picture;
-	}
+    /**
+     * @return the picture
+     */
+    @Column(name = "picture")
+    public Blob getPicture() {
+	return picture;
+    }
 
-	/**
-	 * @return the bio
-	 */
-	@Column (name = "bio")
-	public Blob getBio() {
-		return bio;
-	}
+    /**
+     * @param picture
+     *            the picture to set
+     */
+    public void setPicture(Blob picture) {
+	this.picture = picture;
+    }
 
-	/**
-	 * @param bio
-	 *            the bio to set
-	 */
-	public void setBio(Blob bio) {
-		this.bio = bio;
-	}
+    /**
+     * @return the bio
+     */
+    @Column(name = "bio")
+    public Blob getBio() {
+	return bio;
+    }
 
-	/**
-	 * @return the location
-	 */
-	@Column (name = "location")
-	public String getLocation() {
-		return location;
-	}
+    /**
+     * @param bio
+     *            the bio to set
+     */
+    public void setBio(Blob bio) {
+	this.bio = bio;
+    }
 
-	/**
-	 * @param location
-	 *            the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    /**
+     * @return the location
+     */
+    @Column(name = "location")
+    public String getLocation() {
+	return location;
+    }
 
-	/**
-	 * @return the twitter
-	 */
-	@Column (name = "twitter")
-	public String getTwitter() {
-		return twitter;
-	}
+    /**
+     * @param location
+     *            the location to set
+     */
+    public void setLocation(String location) {
+	this.location = location;
+    }
 
-	/**
-	 * @param twitter
-	 *            the twitter to set
-	 */
-	public void setTwitter(String twitter) {
-		this.twitter = twitter;
-	}
+    /**
+     * @return the twitter
+     */
+    @Column(name = "twitter")
+    public String getTwitter() {
+	return twitter;
+    }
 
-	/**
-	 * @return the version
-	 */
-	@Version
-	@Column (name = "version")
-	public int getVersion() {
-		return version;
-	}
+    /**
+     * @param twitter
+     *            the twitter to set
+     */
+    public void setTwitter(String twitter) {
+	this.twitter = twitter;
+    }
 
-	/**
-	 * @param version
-	 *            the version to set
-	 */
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    /**
+     * @return the version
+     */
+    @Version
+    @Column(name = "version")
+    public int getVersion() {
+	return version;
+    }
+
+    /**
+     * @param version
+     *            the version to set
+     */
+    public void setVersion(int version) {
+	this.version = version;
+    }
 
 }
