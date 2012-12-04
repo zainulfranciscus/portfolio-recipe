@@ -2,7 +2,7 @@ package com.safe.stack.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.sql.Blob;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -33,13 +33,13 @@ public class Recipe {
 	private String picture;
 	private int version;
 	private Set<Account> account;
-	private Set<Ingredient> ingredients;
+	private List<Ingredient> ingredients;
 
 	/**
 	 * @return the ingredients
 	 */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-	public Set<Ingredient> getIngredients() {
+	public List<Ingredient> getIngredients() {
 		return ingredients;
 	}
 
@@ -47,7 +47,7 @@ public class Recipe {
 	 * @param ingredients
 	 *            the ingredients to set
 	 */
-	public void setIngredients(Set<Ingredient> ingredients) {
+	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
 

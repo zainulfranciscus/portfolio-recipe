@@ -1,3 +1,6 @@
-Complete the recipe detail page:
+Create an add recipe page:
 
-1. 
+1. Learn how to upload images
+2. Learn how to bind form into Recipe object.
+3. Find a jquery plugin or script that let you add 
+4. Secure the controller method. Only allows users who have logged in as an admin to open it.
