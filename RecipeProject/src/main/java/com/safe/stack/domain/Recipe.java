@@ -55,7 +55,7 @@ public class Recipe {
 	 * @return the account
 	 */
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "recipeId"), inverseJoinColumns = @JoinColumn(name = "userName"))
+	@JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "recipeId"), inverseJoinColumns = @JoinColumn(name = "email"))
 	public Set<Account> getAccount() {
 		return account;
 	}

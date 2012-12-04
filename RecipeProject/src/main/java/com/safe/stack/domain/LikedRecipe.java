@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +14,7 @@ public class LikedRecipe {
 	
 	private Long id;
 	private Long recipeId;
-	private String userName;
+	private String email;
 	
 	/**
 	 * @return the id
@@ -48,15 +47,15 @@ public class LikedRecipe {
 	/**
 	 * @return the email
 	 */
-	@Column (name = "userName")
-	public String getUserName() {
-		return userName;
+	@Column (name = "email")
+	public String getEmail() {
+		return email;
 	}
 	/**
 	 * @param email the email to set
 	 */
-	public void setUserName(String name) {
-		this.userName = name;
+	public void setEmail(String name) {
+		this.email = name;
 	}
 	
 	

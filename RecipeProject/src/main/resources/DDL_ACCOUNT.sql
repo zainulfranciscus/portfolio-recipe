@@ -4,9 +4,9 @@ DROP TABLE IF EXISTS Account;
 
 CREATE  TABLE Account (
 
-  email VARCHAR(45) NOT NULL ,
-  password VARCHAR(45) NOT NULL ,
-  username VARCHAR(45) NULL ,
+  email VARCHAR(50) NOT NULL ,
+  password VARCHAR(50) NOT NULL ,
+  username VARCHAR(50) NULL ,
   picture LONGBLOB NULL ,
   bio BLOB NULL ,
   location VARCHAR(45) NULL ,

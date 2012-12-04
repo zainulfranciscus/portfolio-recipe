@@ -55,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void likeARecipe(String userName, Long recipeId) {
 		LikedRecipe likedRecipe = new LikedRecipe();
-		likedRecipe.setUserName(userName);
+		likedRecipe.setEmail(userName);
 		likedRecipe.setRecipeId(recipeId);
 		likedRecipeRepository.save(likedRecipe);
 		

@@ -4,12 +4,12 @@ create table LikedRecipe (
  
 id int not null AUTO_INCREMENT,
 recipeId int not null, 
-userName VARCHAR(45) NOT NULL ,
+email VARCHAR(50) NOT NULL ,
 primary key (id),
 
  CONSTRAINT emailFK
-    FOREIGN KEY (userName)
-    REFERENCES account (userName)
+    FOREIGN KEY (email)
+    REFERENCES account (email)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     
