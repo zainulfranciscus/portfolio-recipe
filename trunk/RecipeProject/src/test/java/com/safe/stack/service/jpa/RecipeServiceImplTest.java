@@ -15,93 +15,98 @@ import com.safe.stack.service.RecipeService;
 
 public class RecipeServiceImplTest extends AbstractServiceImplTest {
 
-	@Autowired
-	RecipeService recipeService;
+    @Autowired
+    RecipeService recipeService;
 
-	@DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
-	@Test
-	public void testSave() {
+    @Test
+    public void testSave() {
 
-		Recipe recipeFromDB = recipeService.findRecipe(1L);
+	Recipe r = new Recipe();
+	r.setAuthor("caserolle lover");
+	r.setAuthorLink("url");
+	r.setDiet("vegan");
+	r.setName("caserolle");
+	r.setPicture("caserolle_pic");
+	recipeService.save(r);
 
-		assertNotNull(recipeFromDB);
-		assertEquals("caserolle lover", recipeFromDB.getAuthor());
-		assertEquals("url", recipeFromDB.getAuthorLink());
-		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("caserolle", recipeFromDB.getName());
-		assertEquals("caserolle_pic", recipeFromDB.getPicture());
+	Recipe recipeFromDB = recipeService.findRecipe(1L);
 
-	}
+	assertNotNull(recipeFromDB);
+	assertEquals("caserolle lover", recipeFromDB.getAuthor());
+	assertEquals("url", recipeFromDB.getAuthorLink());
+	assertEquals("vegan", recipeFromDB.getDiet());
+	assertEquals("caserolle", recipeFromDB.getName());
+	assertEquals("caserolle_pic", recipeFromDB.getPicture());
 
-	@DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
-	@Test
-	public void testFindAll() {
+    }
 
-		List<Recipe> recipes = recipeService.findAll();
+    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @Test
+    public void testFindAll() {
 
-		assertNotNull(recipes);
-		assertEquals(3, recipes.size());
+	List<Recipe> recipes = recipeService.findAll();
 
-		Recipe recipeFromDB = recipes.get(0);		
-		assertEquals("pie lover", recipeFromDB.getAuthor());
-		assertEquals("url", recipeFromDB.getAuthorLink());
-		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("pie", recipeFromDB.getName());
-		
-		recipeFromDB = recipes.get(1);		
-		assertEquals("caserolle lover", recipeFromDB.getAuthor());
-		assertEquals("url", recipeFromDB.getAuthorLink());
-		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("caserolle", recipeFromDB.getName());
-		
-		recipeFromDB = recipes.get(2);		
-		assertEquals("fries lover", recipeFromDB.getAuthor());
-		assertEquals("url", recipeFromDB.getAuthorLink());
-		assertEquals("vegan", recipeFromDB.getDiet());
-		assertEquals("fries", recipeFromDB.getName());
+	assertNotNull(recipes);
+	assertEquals(3, recipes.size());
 
-	}
-	
-	@DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
-	@Test
-	public void testFindByIngredient() {
+	Recipe recipeFromDB = recipes.get(0);
+	assertEquals("pie lover", recipeFromDB.getAuthor());
+	assertEquals("url", recipeFromDB.getAuthorLink());
+	assertEquals("vegan", recipeFromDB.getDiet());
+	assertEquals("pie", recipeFromDB.getName());
 
-		List<String> ingredients = new ArrayList<String>();
-		
-		List<Recipe> recipes = recipeService.findByIngredients(ingredients);
-		
-		assertNotNull(recipes);
-		assertEquals(0, recipes.size());
-		
-		ingredients.add("egg");
-		
-		recipes = recipeService.findByIngredients(ingredients);
-		
-		assertNotNull(recipes);
-		assertEquals(1, recipes.size());
+	recipeFromDB = recipes.get(1);
+	assertEquals("caserolle lover", recipeFromDB.getAuthor());
+	assertEquals("url", recipeFromDB.getAuthorLink());
+	assertEquals("vegan", recipeFromDB.getDiet());
+	assertEquals("caserolle", recipeFromDB.getName());
 
-		Recipe recipeFromDB = recipes.get(0);				
-		assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
+	recipeFromDB = recipes.get(2);
+	assertEquals("fries lover", recipeFromDB.getAuthor());
+	assertEquals("url", recipeFromDB.getAuthorLink());
+	assertEquals("vegan", recipeFromDB.getDiet());
+	assertEquals("fries", recipeFromDB.getName());
 
-		ingredients.add("rice");
-		ingredients.add("potato");
-		
-		recipes = recipeService.findByIngredients(ingredients);
-		
-		assertNotNull(recipes);
-		assertEquals(3, recipes.size());
+    }
 
-		recipeFromDB = recipes.get(0);				
-		assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
-		
-		recipeFromDB = recipes.get(1);				
-		assertEquals("rice", recipeFromDB.getIngredients().iterator().next().getIngredient());
+    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @Test
+    public void testFindByIngredient() {
 
-		
-		recipeFromDB = recipes.get(2);				
-		assertEquals("potato", recipeFromDB.getIngredients().iterator().next().getIngredient());
+	List<String> ingredients = new ArrayList<String>();
 
+	List<Recipe> recipes = recipeService.findByIngredients(ingredients);
 
-	}
+	assertNotNull(recipes);
+	assertEquals(0, recipes.size());
+
+	ingredients.add("egg");
+
+	recipes = recipeService.findByIngredients(ingredients);
+
+	assertNotNull(recipes);
+	assertEquals(1, recipes.size());
+
+	Recipe recipeFromDB = recipes.get(0);
+	assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
+
+	ingredients.add("rice");
+	ingredients.add("potato");
+
+	recipes = recipeService.findByIngredients(ingredients);
+
+	assertNotNull(recipes);
+	assertEquals(3, recipes.size());
+
+	recipeFromDB = recipes.get(0);
+	assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
+
+	recipeFromDB = recipes.get(1);
+	assertEquals("rice", recipeFromDB.getIngredients().iterator().next().getIngredient());
+
+	recipeFromDB = recipes.get(2);
+	assertEquals("potato", recipeFromDB.getIngredients().iterator().next().getIngredient());
+
+    }
 
 }

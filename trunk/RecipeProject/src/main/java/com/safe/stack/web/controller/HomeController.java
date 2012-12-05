@@ -1,6 +1,7 @@
 package com.safe.stack.web.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.safe.stack.domain.Account;
+import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
@@ -64,26 +66,25 @@ public class HomeController {
 	uiModel.addAttribute("recipe", recipeService.findRecipe(id));
 	return RECIPE_DETAILS_PAGE;
     }
-    
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String openLoginPage(Model uiModel) {
 	return RECIPE_LOGIN_PAGE;
     }
-    
+
     @RequestMapping(value = "/addRecipe", method = RequestMethod.GET)
-    public String showAddRecipe(Model uiModel)
-    {
+    public String showAddRecipe(Model uiModel) {
 	uiModel.addAttribute("recipe", new Recipe());
 	return RECIPE_ADD_RECIPE_PAGE;
     }
-    
 
     @RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
-    public String saveRecipe(Recipe recipe, Model uiModel)
-    {
+    public String saveRecipe(Recipe recipe, Model uiModel) {
+
+	recipeService.save(recipe);
 	return RECIPE_LIST_PAGE;
     }
-    
+
     @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST)
     public String searchRecipes(@RequestParam("ingredient") String ingredient, Model uiModel) {
 	String[] tokens = ingredient.trim().split("\\s+");
@@ -110,8 +111,6 @@ public class HomeController {
 	accountService.likeARecipe(userName, Long.parseLong(recipeId));
 	return "recipe";
     }
-
-   
 
     @RequestMapping("/loginfail")
     public String loginFail(Model uiModel, Locale locale) {

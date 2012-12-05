@@ -234,4 +234,23 @@ public class HomeControllerTest extends AbstractControllerTest {
 	assertEquals("This is not a valid email address", errors.iterator().next().getMessage());
 
     }
+    
+    @Test
+    public void testSaveRecipe()
+    {
+	HomeController homeController = new HomeController();
+	RecipeService mockRecipeService = mock(RecipeService.class);
+	
+	Recipe recipe = new Recipe();
+	
+	ReflectionTestUtils.setField(homeController, "recipeService", mockRecipeService);
+	
+	ExtendedModelMap uiModel = new ExtendedModelMap();	
+	String result = homeController.saveRecipe(recipe, uiModel);
+	
+	Mockito.verify(mockRecipeService).save(recipe);
+	
+	assertNotNull(result);
+	assertEquals(result, HomeController.RECIPE_LIST_PAGE);
+    }
 }

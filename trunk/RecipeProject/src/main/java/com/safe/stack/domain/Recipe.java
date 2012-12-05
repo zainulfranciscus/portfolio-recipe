@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.springframework.util.AutoPopulatingList;
+
 @Entity
 @Table(name = "Recipe")
 @NamedQueries({ @NamedQuery(name = "Recipe.findAll", query = "select r from Recipe r") })
@@ -33,7 +35,7 @@ public class Recipe {
 	private String picture;
 	private int version;
 	private Set<Account> account;
-	private List<Ingredient> ingredients;
+	private List<Ingredient> ingredients = new AutoPopulatingList<Ingredient>(Ingredient.class);
 
 	/**
 	 * @return the ingredients

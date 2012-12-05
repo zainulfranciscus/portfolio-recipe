@@ -6,20 +6,32 @@
 
 	<script type="text/javascript">
  
+	
+	 
 		$(document).ready(function(){
 			
 			var counter = 1;
 			
 			 $('#add').click(function() {	
 				 
-				 var ingredientsElement = "<tr>"+
+				 var ingredientsElement = "<tr id='row" + counter + "'>"+
 				 "<td>Ingredient: <input name='ingredients[" + counter + "].ingredient' type='text' /></td>" +
 				 "<td>Amount: <input name='ingredients[" + counter + "].amount' type='text' /></td>" +
 				 "<td>Metric: <input name='ingredients[" + counter + "].metric' type='text' /></td>" +
+				 "<td><input id='remove' value='remove' name=" + counter + " type='button' /></td>" +
 				 "</tr>"
 				 
 				 $(ingredientsElement).appendTo('#ingredientsSection');
   		     });
+			 
+			 $('#remove').live('click', function() {
+				 
+				 var rowToBeDeletedIndex = $(this).attr("name");
+				 $("#row" + rowToBeDeletedIndex).remove();
+				 
+			 });
+			 
+			
 
 		 
 		    
@@ -40,6 +52,7 @@
 						<td>Metric: <input name="ingredients[0].metric" type="text" /></td>
 				
 				</tr>
+								
 	        </tbody>
 		</table>
 
