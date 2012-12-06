@@ -28,6 +28,8 @@ import org.springframework.util.AutoPopulatingList;
 @NamedQueries({ @NamedQuery(name = "Recipe.findAll", query = "select r from Recipe r") })
 public class Recipe {
 
+    public static final String PICTURE_DIR = "file:///C:/source/Pictures/";
+    
     private Long id;
     private String name;
     private String author;
@@ -37,7 +39,7 @@ public class Recipe {
     private int version;
     private Set<Account> account;
     private List<Ingredient> ingredients = new AutoPopulatingList<Ingredient>(Ingredient.class);
-
+  
     /**
      * @return the ingredients
      */

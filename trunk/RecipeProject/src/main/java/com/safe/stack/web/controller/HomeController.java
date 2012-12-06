@@ -1,5 +1,9 @@
 package com.safe.stack.web.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,8 +11,10 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -79,7 +85,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
-    public String saveRecipe(Recipe recipe, Model uiModel) {
+    public String saveRecipe(Recipe recipe, Model uiModel,
+	    @RequestParam(value = "file", required = false) Part file) throws IOException {
 
 	Set<ConstraintViolation<Recipe>> recipeViolations = validator.validate(recipe);
 
@@ -107,6 +114,19 @@ public class HomeController {
 	}
 
 	recipeService.save(recipe);
+
+	if (file != null) {
+	    File f = new File(
+		    "C:/springsource/vfabric-tc-server-developer-2.7.2.RELEASE/base-instance/wtpwebapps/RecipeProject/images/"
+			    + recipe.getPicture());
+	    if (f.exists()) {
+		f.createNewFile();
+	    }
+	    OutputStream out = new FileOutputStream(f);
+	    IOUtils.copy(file.getInputStream(), out);
+	    out.flush();
+	    out.close();
+	}
 	return RECIPE_LIST_PAGE;
     }
 
@@ -180,3 +200,4 @@ public class HomeController {
     }
 
 }
+
