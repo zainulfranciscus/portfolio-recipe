@@ -22,6 +22,8 @@
 				 "</tr>"
 				 
 				 $(ingredientsElement).appendTo('#ingredientsSection');
+				 
+				 counter +=1;
   		     });
 			 
 			 $('#remove').live('click', function() {
@@ -39,7 +41,7 @@
 	</script>
     
 	<form:form modelAttribute="recipe" id="addRecipeForm" method="post"
-		action="saveRecipe">
+		action="saveRecipe" enctype="multipart/form-data">
 		<table>
 			<tbody id="ingredientsSection">
 				<tr>
@@ -56,6 +58,14 @@
 				
 				<tr>
 					<td>Diet Type: <input name="diet" type="text"/></td>
+				</tr>
+				
+				<tr>
+					<td>Photo: <input name="picture" type="text"/></td>
+				</tr>
+				
+				<tr>
+					<td>Photo: <input name="file" type="file"/></td>
 				</tr>
 				
 				<tr>				
@@ -85,3 +95,5 @@
 			${ingredient_error.message}
 		</c:forEach> 
 	</c:if>
+	
+	<img src="file:///C:/source/Pictures/vegan_spicy_pinto_bean.jpg"></img>

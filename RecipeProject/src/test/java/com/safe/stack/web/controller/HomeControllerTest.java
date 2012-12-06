@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -239,7 +240,7 @@ public class HomeControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testSaveRecipe() {
+    public void testSaveRecipe() throws IOException {
 	HomeController homeController = new HomeController();
 	RecipeService mockRecipeService = mock(RecipeService.class);
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
@@ -255,7 +256,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel);
+	String result = homeController.saveRecipe(recipe, uiModel,null);
 
 	Mockito.verify(mockRecipeService).save(recipe);
 
@@ -264,7 +265,7 @@ public class HomeControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testSaveInvalidRecipe() {
+    public void testSaveInvalidRecipe() throws IOException {
 	HomeController homeController = new HomeController();
 
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
@@ -300,7 +301,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel);
+	String result = homeController.saveRecipe(recipe, uiModel,null);
 
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_ADD_RECIPE_PAGE);
