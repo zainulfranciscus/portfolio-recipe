@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -68,7 +69,7 @@ public class Ingredient {
      * @return the amount
      */
     @Column(name = "amount")
-    //@NotEmpty(message = "{validation.amount.NotEmpty.message}")
+    @Min(1)
     public int getAmount() {
 	return amount;
     }
