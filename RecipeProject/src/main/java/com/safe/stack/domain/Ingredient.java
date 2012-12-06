@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "Ingredient")
 public class Ingredient {
@@ -49,7 +51,7 @@ public class Ingredient {
      */
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ingredientId")
+    @Column(name = "ingredientId")    
     public Long getIngredientId() {
 	return ingredientId;
     }
@@ -66,6 +68,7 @@ public class Ingredient {
      * @return the amount
      */
     @Column(name = "amount")
+    //@NotEmpty(message = "{validation.amount.NotEmpty.message}")
     public int getAmount() {
 	return amount;
     }
@@ -115,6 +118,7 @@ public class Ingredient {
      * @return the ingredient
      */
     @Column(name = "ingredient")
+    @NotEmpty(message = "{validation.ingredient.NotEmpty.message}")
     public String getIngredient() {
 	return ingredient;
     }

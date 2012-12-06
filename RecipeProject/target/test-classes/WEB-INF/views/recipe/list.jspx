@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form" version="2.0">
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:if test="${not empty recipes}">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Author</th>
+				<th>diet</th>	
+			</tr>
+		</thead>
+		
+		<c:forEach items="${recipes}" var="recipe">
+			<tr>
+			    <td><img src="images/${recipe.picture}"/></td>
+				<td><a href="${recipe.id}">${recipe.name}</a> </td>
+				<td>${recipe.author}</td>
+				<td>${recipe.diet}</td>				
+			</tr>
+		</c:forEach>
+	</table>
+	</c:if>
+
+</div>

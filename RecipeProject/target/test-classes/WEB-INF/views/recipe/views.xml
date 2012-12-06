@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="recipe/list">
+        <put-attribute name="body"
+            value="/WEB-INF/views/recipe/list.jspx" />
+    </definition>
+    
+    <definition extends="default" name="recipe/login">
+        <put-attribute name="body"
+            value="/WEB-INF/views/recipe/login.jspx" />
+    </definition>
+    
+    <definition extends="default" name="recipe/detail">
+        <put-attribute name="body"
+            value="/WEB-INF/views/recipe/detail.jspx" />
+    </definition>
+	
+	<definition extends="default" name="recipe/addRecipe">
+        <put-attribute name="body"
+            value="/WEB-INF/views/recipe/addRecipe.jsp" />
+    </definition>
+</tiles-definitions>

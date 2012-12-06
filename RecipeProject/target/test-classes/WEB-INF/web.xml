@@ -6,7 +6,7 @@
   </context-param>
   <context-param>
     <param-name>spring.profiles.active</param-name>
-    <param-value>dev</param-value>
+    <param-value>mysql</param-value>
   </context-param>
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -15,6 +15,8 @@
   <filter-mapping>
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>
@@ -56,7 +58,7 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+      <param-value>classpath:servlet-context.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
     <multipart-config>

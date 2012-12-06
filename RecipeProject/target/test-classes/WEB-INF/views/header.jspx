@@ -1,0 +1,23 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	Browse Logo About
+
+	<sec:authorize access="not isAuthenticated()">
+		<a href="login">SignIn</a>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('admin')">
+	<a href="addRecipe">add recipe</a>
+	</sec:authorize>
+
+	<sec:authorize access="isAuthenticated()">
+ 	User Name
+ 	Profile
+ 	Likes
+ 	<a href="j_spring_security_logout">Sign Out</a>
+	</sec:authorize>
+</div>
