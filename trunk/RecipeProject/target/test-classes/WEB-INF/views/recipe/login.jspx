@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
+
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<spring:url var="loginUrl" value="/j_spring_security_check" />
+	
+	<script type="text/javascript">
+    $(function(){ 
+        $('#SignUpBtn').click(function(){
+        	   $('#loginForm').attr('action', 'signUp');
+        });
+        
+        $('#SignInBtn').click(function(){
+     	   $('#loginForm').attr('action', "${loginUrl}");
+     });
+        
+     
+    });
+    </script>
+    
+	
+	<c:if test="${not empty login_failed}">
+			Your login attempt was not successful, try again.<br /> 
+	</c:if>
+
+	<c:if test="${not empty valdation_errors}">
+			<c:forEach items="${valdation_errors}" var="error">
+			${error.message}
+		</c:forEach> 
+	</c:if>
+	<form name='f' action="${loginUrl}" method='POST' id="loginForm">
+
+		<table>
+			<tr>
+				<td>User:</td>
+				<td><input type='text' name='j_username' value=''/>
+				</td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type='password' name='j_password' />
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2'><input id="SignInBtn" name="SignIn" type="submit"
+					value="SignIn" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2'><input id="SignUpBtn" name="SignUp" type="submit"
+					value="SignUp" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2'><input name="reset" type="reset" />
+				</td>
+			</tr>
+		</table>
+
+	</form>
+	
+</div>	
