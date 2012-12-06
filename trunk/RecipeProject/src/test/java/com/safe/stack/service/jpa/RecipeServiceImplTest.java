@@ -54,7 +54,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	ingredients = recipeFromDB.getIngredients();
 	assertEquals(1,ingredients.size());
 	
-	assertEquals(250, ingredients.get(0).getAmount());
+	assertEquals(new Integer(250), ingredients.get(0).getAmount());
 	assertEquals("Pasta", ingredients.get(0).getIngredient());
 	assertEquals("g", ingredients.get(0).getMetric());
 

@@ -31,7 +31,7 @@ public class IngredientTest extends AbstractServiceImplTest {
 	assertEquals("Please specify an ingredient", violations.iterator().next().getMessage());
 
     }
-    
+
     @Test
     public void testAmountValidation() {
 	Ingredient ingr = new Ingredient();
@@ -42,7 +42,8 @@ public class IngredientTest extends AbstractServiceImplTest {
 
 	assertNotNull(violations);
 	assertEquals(1, violations.size());
-	assertEquals("must be greater than or equal to 1", violations.iterator().next().getMessage());
+	assertEquals("Please specify the amount for each ingredient.", violations.iterator().next()
+		.getMessage());
 
     }
 
