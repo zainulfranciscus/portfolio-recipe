@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.AutoPopulatingList;
 
 @Entity
@@ -93,6 +94,7 @@ public class Recipe {
      * @return the name
      */
     @Column(name = "name")
+    @NotEmpty(message = "{validation.recipeName.NotEmpty.message}")
     public String getName() {
 	return name;
     }
@@ -109,6 +111,7 @@ public class Recipe {
      * @return the author
      */
     @Column(name = "author")
+    @NotEmpty(message = "{validation.recipeAuthor.NotEmpty.message}")
     public String getAuthor() {
 	return author;
     }
