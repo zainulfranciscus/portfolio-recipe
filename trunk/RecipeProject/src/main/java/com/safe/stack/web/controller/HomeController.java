@@ -1,7 +1,7 @@
 package com.safe.stack.web.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -80,6 +80,31 @@ public class HomeController {
 
     @RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
     public String saveRecipe(Recipe recipe, Model uiModel) {
+
+	Set<ConstraintViolation<Recipe>> recipeViolations = validator.validate(recipe);
+
+	if (recipeViolations.size() > 0) {
+
+	    uiModel.addAttribute("recipe_errors", recipeViolations);
+
+	}
+
+	List<Ingredient> ingredients = recipe.getIngredients();
+
+	Set<ConstraintViolation<Ingredient>> ingredientViolations = new HashSet<ConstraintViolation<Ingredient>>();
+
+	for (Ingredient ingr : ingredients) {
+	    ingredientViolations = validator.validate(ingr);
+
+	    if (ingredientViolations.size() > 0) {
+		uiModel.addAttribute("ingredient_errors", ingredientViolations);
+		break;
+	    }
+	}
+
+	if (recipeViolations.size() > 0 || ingredientViolations.size() > 0) {
+	    return RECIPE_ADD_RECIPE_PAGE;
+	}
 
 	recipeService.save(recipe);
 	return RECIPE_LIST_PAGE;

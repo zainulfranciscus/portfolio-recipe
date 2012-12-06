@@ -27,6 +27,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.safe.stack.domain.Account;
+import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
@@ -177,7 +178,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	HomeController homeController = new HomeController();
 	AccountService mockAccountService = mock(AccountService.class);
 	AuthenticationManager mockAuthManager = mock(AuthenticationManager.class);
-	
+
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
 
 	when(mockValidator.validate(Mockito.isA(Account.class))).thenReturn(
@@ -189,7 +190,8 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	String result = homeController.signUp("user1", "password", uiModel, Locale.UK, new MockHttpServletRequest());
+	String result = homeController.signUp("user1", "password", uiModel, Locale.UK,
+		new MockHttpServletRequest());
 	Mockito.verify(mockAccountService).save(Mockito.isA(Account.class));
 	Mockito.verify(mockAuthManager).authenticate(Mockito.isA(Authentication.class));
 	assertNotNull(result);
@@ -222,7 +224,8 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	String result = homeController.signUp("user1", "password", uiModel, Locale.UK, new MockHttpServletRequest());
+	String result = homeController.signUp("user1", "password", uiModel, Locale.UK,
+		new MockHttpServletRequest());
 
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_LOGIN_PAGE);
@@ -234,23 +237,78 @@ public class HomeControllerTest extends AbstractControllerTest {
 	assertEquals("This is not a valid email address", errors.iterator().next().getMessage());
 
     }
-    
+
     @Test
-    public void testSaveRecipe()
-    {
+    public void testSaveRecipe() {
 	HomeController homeController = new HomeController();
 	RecipeService mockRecipeService = mock(RecipeService.class);
-	
+	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
+
+	when(mockValidator.validate(Mockito.isA(Recipe.class))).thenReturn(
+		new HashSet<ConstraintViolation<Recipe>>());
+	when(mockValidator.validate(Mockito.isA(Ingredient.class))).thenReturn(
+		new HashSet<ConstraintViolation<Ingredient>>());
+
 	Recipe recipe = new Recipe();
-	
+
 	ReflectionTestUtils.setField(homeController, "recipeService", mockRecipeService);
-	
-	ExtendedModelMap uiModel = new ExtendedModelMap();	
+	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
+
+	ExtendedModelMap uiModel = new ExtendedModelMap();
 	String result = homeController.saveRecipe(recipe, uiModel);
-	
+
 	Mockito.verify(mockRecipeService).save(recipe);
-	
+
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_LIST_PAGE);
+    }
+
+    @Test
+    public void testSaveInvalidRecipe() {
+	HomeController homeController = new HomeController();
+
+	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
+	MessageSource mockMessageSource = mock(MessageSource.class);
+
+	when(
+		mockMessageSource.getMessage("{validation.ingredient.NotEmpty.message}",
+			new Object[] {}, Locale.UK)).thenReturn("Please specify an ingredient");
+
+	ConstraintViolation<Ingredient> violation = new ConstraintViolationImpl<Ingredient>(
+		"{validation.ingredient.NotEmpty.message}", "Please specify an ingredient",
+		Ingredient.class, new Ingredient(), new Object(), new Object(), null, null,
+		ElementType.ANNOTATION_TYPE);
+
+	Set<ConstraintViolation<Ingredient>> violations = new HashSet<ConstraintViolation<Ingredient>>();
+	violations.add(violation);
+
+	when(mockValidator.validate(Mockito.isA(Ingredient.class))).thenReturn(violations);
+
+	Recipe recipe = new Recipe();
+	recipe.setAuthor("me");
+	recipe.setName("fried rice");
+
+	Ingredient ingr = new Ingredient();
+	ingr.setAmount(5);
+
+	List<Ingredient> ingredients = new ArrayList<Ingredient>();
+	ingredients.add(ingr);
+
+	recipe.setIngredients(ingredients);
+
+	ReflectionTestUtils.setField(homeController, "messageSource", mockMessageSource);
+	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
+
+	ExtendedModelMap uiModel = new ExtendedModelMap();
+	String result = homeController.saveRecipe(recipe, uiModel);
+
+	assertNotNull(result);
+	assertEquals(result, HomeController.RECIPE_ADD_RECIPE_PAGE);
+
+	Set<ConstraintViolation<Ingredient>> errors = (Set<ConstraintViolation<Ingredient>>) uiModel
+		.get("ingredient_errors");
+
+	assertNotNull(errors);
+	assertEquals("Please specify an ingredient", errors.iterator().next().getMessage());
     }
 }
