@@ -72,3 +72,16 @@
 
 	</form:form>
 	<a href="#" id="add">add</a>
+	
+	
+	<c:if test="${not empty recipe_errors}">
+			<c:forEach items="${recipe_errors}" var="recipe_error">
+			${recipe_error.message}
+		</c:forEach> 
+	</c:if>
+	
+	<c:if test="${not empty ingredient_errors}">
+			<c:forEach items="${ingredient_errors}" var="ingredient_error">
+			${ingredient_error.message}
+		</c:forEach> 
+	</c:if>
