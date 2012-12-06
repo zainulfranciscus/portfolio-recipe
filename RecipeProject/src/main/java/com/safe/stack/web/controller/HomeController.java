@@ -17,6 +17,7 @@ import javax.validation.ConstraintViolation;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -78,6 +79,7 @@ public class HomeController {
 	return RECIPE_LOGIN_PAGE;
     }
 
+    @PreAuthorize("hasRole('admin')")
     @RequestMapping(value = "/addRecipe", method = RequestMethod.GET)
     public String showAddRecipe(Model uiModel) {
 	uiModel.addAttribute("recipe", new Recipe());
