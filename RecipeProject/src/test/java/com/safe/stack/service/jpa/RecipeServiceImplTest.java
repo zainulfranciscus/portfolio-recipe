@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.safe.stack.annotation.DataSets;
+import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.RecipeService;
 
@@ -27,6 +28,18 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	r.setDiet("vegan");
 	r.setName("caserolle");
 	r.setPicture("caserolle_pic");
+	
+	Ingredient ingr = new Ingredient();
+	ingr.setAmount(250);
+	ingr.setIngredient("Pasta");
+	ingr.setMetric("g");
+
+	
+	List<Ingredient> ingredients = new ArrayList<Ingredient>();
+	ingredients.add(ingr);
+	
+	r.setIngredients(ingredients);
+	
 	recipeService.save(r);
 
 	Recipe recipeFromDB = recipeService.findRecipe(1L);
@@ -37,6 +50,13 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("vegan", recipeFromDB.getDiet());
 	assertEquals("caserolle", recipeFromDB.getName());
 	assertEquals("caserolle_pic", recipeFromDB.getPicture());
+	
+	ingredients = recipeFromDB.getIngredients();
+	assertEquals(1,ingredients.size());
+	
+	assertEquals(250, ingredients.get(0).getAmount());
+	assertEquals("Pasta", ingredients.get(0).getIngredient());
+	assertEquals("g", ingredients.get(0).getMetric());
 
     }
 
@@ -73,6 +93,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
     @Test
     public void testFindByIngredient() {
 
+	
 	List<String> ingredients = new ArrayList<String>();
 
 	List<Recipe> recipes = recipeService.findByIngredients(ingredients);
