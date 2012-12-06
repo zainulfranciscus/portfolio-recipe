@@ -21,65 +21,61 @@ import com.safe.stack.service.RecipeService;
 @Transactional
 public class RecipeServiceImpl implements RecipeService {
 
-	@Autowired
-	private RecipeRepository recipeRepository;
+    @Autowired
+    private RecipeRepository recipeRepository;
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select r from Recipe r join r.ingredients i where ";
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.safe.stack.service.RecipeService#save(com.safe.stack.domain.Recipe)
-	 */
-	public void save(Recipe recipe) {
-		recipeRepository.save(recipe);
+    private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select r from Recipe as r join r.ingredients as i where ";
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.safe.stack.service.RecipeService#save(com.safe.stack.domain.Recipe)
+     */
+    public void save(Recipe recipe) {
+	recipeRepository.save(recipe);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.safe.stack.service.RecipeService#findRecipe(java.lang.Long)
+     */
+    public Recipe findRecipe(Long id) {
+	return recipeRepository.findOne(id);
+    }
+
+    public List<Recipe> findAll() {
+	return (List<Recipe>) entityManager.createNamedQuery("Recipe.findAll", Recipe.class)
+		.getResultList();
+    }
+
+    public List<Recipe> findByIngredients(List<String> ingredients) {
+
+	if (ingredients.size() == 0) {
+	    return new ArrayList<Recipe>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.safe.stack.service.RecipeService#findRecipe(java.lang.Long)
-	 */
-	public Recipe findRecipe(Long id) {
-		return recipeRepository.findOne(id);
+	StringBuilder builder = new StringBuilder();
+	builder.append(FIND_RECIPE_BY_INGREDIENT_SQL);
+
+	for (int i = 0; i < ingredients.size(); i++) {
+	    if (i == 0) {
+		builder.append("i.ingredient = :arg0");
+		continue;
+	    }
+
+	    builder.append(" or i.ingredient = :arg").append(i);
 	}
 
-	public List<Recipe> findAll() {
-		return (List<Recipe>)entityManager.createNamedQuery("Recipe.findAll", Recipe.class)
-				.getResultList();
+	Query query = entityManager.createQuery(builder.toString());
+	for (int i = 0; i < ingredients.size(); i++) {
+	    query.setParameter("arg" + i, ingredients.get(i));
 	}
-	
-	public List<Recipe> findByIngredients(List<String> ingredients)
-	{
-		
-		if(ingredients.size() == 0)
-		{
-			return new ArrayList<Recipe>();
-		}
-		
-		StringBuilder builder = new StringBuilder();		
-		builder.append(FIND_RECIPE_BY_INGREDIENT_SQL);
-			
-		for(int i = 0; i < ingredients.size(); i++)
-		{			
-			if(i == 0)
-			{
-				builder.append("i.ingredient = :arg0");
-				continue;
-			}
-			
-			builder.append(" or i.ingredient = :arg").append(i);
-		}
-		
-		Query query = entityManager.createQuery(builder.toString());
-		for(int i = 0; i < ingredients.size(); i++)
-		{
-			query.setParameter("arg" + i, ingredients.get(i));
-		}
-		return query.getResultList();
-	}
+	return query.getResultList();
+    }
 
 }

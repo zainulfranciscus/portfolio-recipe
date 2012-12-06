@@ -46,6 +46,18 @@
 					<td>Name: <input name="name" type="text" /></td>
 				</tr>
 				
+				<tr>
+					<td>Author: <input name="author" type="text"/></td>
+				</tr>
+				
+				<tr>
+					<td>Link to Author Website: <input name="authorLink" type="text"/></td>
+				</tr>
+				
+				<tr>
+					<td>Diet Type: <input name="diet" type="text"/></td>
+				</tr>
+				
 				<tr>				
 						<td>Ingredient: <input name="ingredients[0].ingredient" type="text" /></td>
 						<td>Amount: <input name="ingredients[0].amount" type="text" /></td>
