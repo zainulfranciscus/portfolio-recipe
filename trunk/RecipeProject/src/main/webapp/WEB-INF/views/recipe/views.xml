@@ -3,7 +3,7 @@
 <tiles-definitions>
     <definition extends="default" name="recipe/list">
         <put-attribute name="body"
-            value="/WEB-INF/views/recipe/list.jspx" />
+            value="/WEB-INF/views/recipe/list.jsp" />
     </definition>
     
     <definition extends="default" name="recipe/login">

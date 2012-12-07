@@ -163,12 +163,16 @@ public class HomeController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/likeARecipe", method = RequestMethod.POST)
-    public String likeARecipe(@RequestParam("recipeId") String recipeId) {
+    public String likeARecipe(@RequestParam("recipeId") String recipeId, @RequestParam("operation") String operation) {
 
 	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	String userName = ((RecipeUser) principal).getUsername();
 
-	accountService.likeARecipe(userName, Long.parseLong(recipeId));
+	if(operation.equalsIgnoreCase("like"))
+	{
+	    accountService.likeARecipe(userName, Long.parseLong(recipeId));	    
+	}
+	
 	
 	return RECIPE_LIST_PAGE;
 
