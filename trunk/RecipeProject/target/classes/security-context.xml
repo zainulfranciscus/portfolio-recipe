@@ -12,14 +12,12 @@
 	</http>
 
 	<authentication-manager alias="authManager">
-		<authentication-provider>
-			<jdbc-user-service data-source-ref="dataSource"
-						
-				users-by-username-query="select email,password, enabled from account where email=?"
-				
-				authorities-by-username-query="select email, authority from account where email=?  "  
-			/>
-		</authentication-provider>
+		<authentication-provider user-service-ref='myUserDetailsService'/>			
 	</authentication-manager>
 
+	<beans:bean id="myUserDetailsService"
+		class="com.safe.stack.service.security.UserService">
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+	
 </beans:beans>
