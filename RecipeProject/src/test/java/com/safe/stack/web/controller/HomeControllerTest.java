@@ -22,7 +22,11 @@ import org.mockito.Mockito;
 import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -32,6 +36,7 @@ import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
+import com.safe.stack.service.security.RecipeUser;
 
 public class HomeControllerTest extends AbstractControllerTest {
 
@@ -147,13 +152,15 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ReflectionTestUtils.setField(homeController, "accountService", accountService);
 
+	RecipeUser userDetails = new RecipeUser("user1", "123456", true, false, false, false,
+		AuthorityUtils.NO_AUTHORITIES);
+	Authentication authentication = new TestingAuthenticationToken(userDetails, new Object());
+	SecurityContextHolder.getContext().setAuthentication(authentication);
+
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.likeARecipe(userName, "1");
 
+	homeController.likeARecipe(String.valueOf(recipeId));
 	Mockito.verify(accountService).likeARecipe(userName, recipeId);
-
-	assertNotNull(result);
-	assertEquals(result, "recipe");
 
     }
 
@@ -256,7 +263,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel,null);
+	String result = homeController.saveRecipe(recipe, uiModel, null);
 
 	Mockito.verify(mockRecipeService).save(recipe);
 
@@ -301,7 +308,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel,null);
+	String result = homeController.saveRecipe(recipe, uiModel, null);
 
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_ADD_RECIPE_PAGE);

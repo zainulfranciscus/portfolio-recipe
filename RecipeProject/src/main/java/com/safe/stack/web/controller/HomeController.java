@@ -22,7 +22,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,18 +66,6 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
 
-	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-	if(principal instanceof RecipeUser)
-	{
-	    String user = "";
-	}
-	if (principal instanceof UserDetails) {
-	    String username = ((UserDetails) principal).getUsername();
-	} else {
-	    String username = principal.toString();
-	}
-
 	uiModel.addAttribute("recipes", recipeService.findAll());
 	return RECIPE_LIST_PAGE;
     }
@@ -90,7 +77,14 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String openLoginPage(Model uiModel) {
+    public String openLoginPage(Model uiModel, HttpServletRequest request) {
+
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	if (principal != null && principal instanceof RecipeUser) {
+	    request.getSession().setAttribute("RecipeUser", (RecipeUser) principal);
+	}
+
 	return RECIPE_LOGIN_PAGE;
     }
 
@@ -167,11 +161,17 @@ public class HomeController {
 	return "account";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/likeARecipe", method = RequestMethod.POST)
-    public String likeARecipe(@RequestParam("userName") String userName,
-	    @RequestParam("recipeId") String recipeId) {
+    public String likeARecipe(@RequestParam("recipeId") String recipeId) {
+
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	String userName = ((RecipeUser) principal).getUsername();
+
 	accountService.likeARecipe(userName, Long.parseLong(recipeId));
-	return "recipe";
+	
+	return RECIPE_LIST_PAGE;
+
     }
 
     @RequestMapping("/loginfail")

@@ -2,6 +2,7 @@ package com.safe.stack.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.iterators.FilterIterator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.AutoPopulatingList;
 
@@ -29,7 +32,7 @@ import org.springframework.util.AutoPopulatingList;
 public class Recipe {
 
     public static final String PICTURE_DIR = "file:///C:/source/Pictures/";
-    
+
     private Long id;
     private String name;
     private String author;
@@ -39,7 +42,7 @@ public class Recipe {
     private int version;
     private Set<Account> account;
     private List<Ingredient> ingredients = new AutoPopulatingList<Ingredient>(Ingredient.class);
-  
+
     /**
      * @return the ingredients
      */
@@ -189,6 +192,38 @@ public class Recipe {
      */
     public void setVersion(int version) {
 	this.version = version;
+    }
+
+    public boolean isLikedByUser(String userEmail)
+    {
+	AccountPredicate accPredicate = new AccountPredicate();
+	accPredicate.email = userEmail;
+	
+	Iterator accountIterator = new FilterIterator(account.iterator(), accPredicate);
+	return accountIterator.hasNext();
+    }
+}
+
+class AccountPredicate implements Predicate {
+
+    String email = "";
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.apache.commons.collections.Predicate#evaluate(java.lang.Object)
+     */
+    @Override
+    public boolean evaluate(Object obj) {
+	
+	if(obj instanceof Account)
+	{
+	    Account acc = (Account) obj;
+	    
+	    return acc.getEmail().equalsIgnoreCase(email);
+	}
+	
+	return false;
     }
 
 }
