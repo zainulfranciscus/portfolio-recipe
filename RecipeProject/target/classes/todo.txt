@@ -1,3 +1,5 @@
 Create an add recipe page:
-Secure the controller method. Only allows users who have logged in as an admin to open it.
-
+create a like button.
+Develop an ajax to like a recipe.
+show users who like a recipe on the recipe detail page.
+implement the search text field.

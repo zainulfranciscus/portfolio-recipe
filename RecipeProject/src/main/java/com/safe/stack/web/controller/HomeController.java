@@ -22,6 +22,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
+import com.safe.stack.service.security.RecipeUser;
 import com.safe.stack.web.form.Message;
 
 @RequestMapping("/")
@@ -64,6 +66,19 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
+
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+	if(principal instanceof RecipeUser)
+	{
+	    String user = "";
+	}
+	if (principal instanceof UserDetails) {
+	    String username = ((UserDetails) principal).getUsername();
+	} else {
+	    String username = principal.toString();
+	}
+
 	uiModel.addAttribute("recipes", recipeService.findAll());
 	return RECIPE_LIST_PAGE;
     }
@@ -202,4 +217,3 @@ public class HomeController {
     }
 
 }
-
