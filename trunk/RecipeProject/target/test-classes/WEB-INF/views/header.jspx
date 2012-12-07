@@ -11,10 +11,12 @@
 	</sec:authorize>
 
 	<sec:authorize access="hasRole('admin')">
-	<a href="addRecipe">add recipe</a>
+		<a href="addRecipe">add recipe</a>
 	</sec:authorize>
 
 	<sec:authorize access="isAuthenticated()">
+	${sessionScope.RecipeUser.userAlias}
+	
  	User Name
  	Profile
  	Likes

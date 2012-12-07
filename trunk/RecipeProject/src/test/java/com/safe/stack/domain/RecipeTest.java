@@ -1,10 +1,11 @@
 package com.safe.stack.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -43,5 +44,22 @@ public class RecipeTest extends AbstractServiceImplTest {
 	assertEquals(1, violations.size());
 	assertEquals("Please specify the publisher of this recipe", violations.iterator().next()
 		.getMessage());
+    }
+
+    @Test
+    public void testLikeByUser() {
+
+	Account acc = new Account();
+	acc.setEmail("sandra");
+
+	Set<Account> accounts = new HashSet<Account>();
+	accounts.add(acc);
+
+	Recipe r = new Recipe();
+	r.setAccount(accounts);
+
+	assertTrue(r.isLikedByUser("sandra"));
+	assertFalse(r.isLikedByUser("adrian"));
+
     }
 }
