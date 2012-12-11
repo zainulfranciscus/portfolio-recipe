@@ -26,7 +26,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
     @Test
     public void testSave() {
 
-	Account account = accountService.findByUserName("user1");
+	Account account = accountService.findByEmail("mycompany@company");
 
 	assertNotNull(account);
 	assertEquals("user1", account.getUserName());
@@ -43,13 +43,35 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 	Recipe recipe = recipeService.findAll().get(0);
 	accountService.likeARecipe("mycompany@company", recipe.getId());
 
-	Account account = accountService.findByUserName("user1");
+	Account account = accountService.findByEmail("mycompany@company");
 	Set<Recipe> recipes = account.getLikedRecipes();
 
 	assertEquals(1, recipes.size());
 
 	Recipe likedRecipe = recipes.iterator().next();
 
+    }
+    
+    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @Test
+    public void testUnlikeRecipe()
+    {
+
+	Recipe recipe = recipeService.findAll().get(0);
+	accountService.likeARecipe("mycompany@company", recipe.getId());
+
+	Account account = accountService.findByEmail("mycompany@company");
+	Set<Recipe> recipes = account.getLikedRecipes();
+
+	assertEquals(1, recipes.size());
+
+	Recipe likedRecipe = recipes.iterator().next();
+	accountService.unlikeARecipe("mycompany@company", recipe.getId());
+	
+	account = accountService.findByEmail("mycompany@company");
+	recipes = account.getLikedRecipes();
+
+	assertEquals(0, recipes.size());
     }
 
 }

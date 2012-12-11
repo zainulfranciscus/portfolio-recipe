@@ -1,5 +1,0 @@
-Create an add recipe page:
-create a like button.
-Develop an ajax to like a recipe.
-show users who like a recipe on the recipe detail page.
-implement the search text field.

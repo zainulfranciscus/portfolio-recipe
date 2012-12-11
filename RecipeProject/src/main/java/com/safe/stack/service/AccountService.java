@@ -6,10 +6,10 @@ public interface AccountService {
 
 	void save(Account acc);
 
-	Account findByUserName(String name);
+	Account findByEmail(String name);
 
 	void likeARecipe(String userName, Long recipeId);
 
-
+	void unlikeARecipe(String email, Long recipeId);
 
 }
