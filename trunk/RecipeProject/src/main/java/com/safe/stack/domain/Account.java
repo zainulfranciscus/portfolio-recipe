@@ -5,6 +5,7 @@ import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Account")
-@NamedQueries({ @NamedQuery(name = "Account.findByUserName", query = "select a from Account a where a.userName = :name") })
+@NamedQueries({ @NamedQuery(name = "Account.findByEmail", query = "select a from Account a where a.email = :email") })
 public class Account implements Serializable {
 
     private String email;
@@ -40,7 +41,7 @@ public class Account implements Serializable {
     /**
      * @return the likedRecipes
      */
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
     @JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "email"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
     public Set<Recipe> getLikedRecipes() {
 	return likedRecipes;

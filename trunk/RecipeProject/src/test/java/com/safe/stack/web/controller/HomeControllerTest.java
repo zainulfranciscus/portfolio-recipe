@@ -125,7 +125,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	account.setUserName(userName);
 	account.setLikedRecipes(likedRecipe);
 
-	when(accountService.findByUserName(userName)).thenReturn(account);
+	when(accountService.findByEmail(userName)).thenReturn(account);
 
 	ReflectionTestUtils.setField(homeController, "accountService", accountService);
 
@@ -159,7 +159,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	homeController.likeARecipe(String.valueOf(recipeId));
+	homeController.likeARecipe(String.valueOf(recipeId),"like");
 	Mockito.verify(accountService).likeARecipe(userName, recipeId);
 
     }

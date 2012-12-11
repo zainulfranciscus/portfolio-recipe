@@ -43,6 +43,7 @@ import com.safe.stack.web.form.Message;
 @Controller
 public class HomeController {
 
+    private static final String LIKE = "like";
     protected static final String RECIPE_LIST_PAGE = "recipe/list";
     protected static final String RECIPE_LOGIN_PAGE = "recipe/login";
     protected static final String RECIPE_DETAILS_PAGE = "recipe/detail";
@@ -156,7 +157,7 @@ public class HomeController {
 
     @RequestMapping(value = "/searchLikedRecipe", method = RequestMethod.POST)
     public String showLikedRecipe(@RequestParam("userName") String userName, Model uiModel) {
-	Account account = accountService.findByUserName(userName);
+	Account account = accountService.findByEmail(userName);
 	uiModel.addAttribute("account", account);
 	return "account";
     }
@@ -168,7 +169,7 @@ public class HomeController {
 	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	String userName = ((RecipeUser) principal).getUsername();
 
-	if(operation.equalsIgnoreCase("like"))
+	if(operation.equalsIgnoreCase(LIKE))
 	{
 	    accountService.likeARecipe(userName, Long.parseLong(recipeId));	    
 	}
