@@ -16,6 +16,7 @@
 
 	<sec:authorize access="isAuthenticated()">
 	${sessionScope.RecipeUser.userAlias}
+	${sessionScope.RecipeUser.authorities}
 	
  	User Name
  	Profile

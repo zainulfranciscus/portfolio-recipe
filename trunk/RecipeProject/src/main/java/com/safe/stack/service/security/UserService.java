@@ -2,6 +2,7 @@ package com.safe.stack.service.security;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -60,16 +61,18 @@ public class UserService extends JdbcDaoImpl {
     @Override
     protected UserDetails createUserDetails(String username, UserDetails userFromUserQuery,
 	    List<GrantedAuthority> combinedAuthorities) {
-	
-	RecipeUser recipeUserFromQuery = (RecipeUser) userFromUserQuery;
-	
-	// TODO Auto-generated method stub
-	UserDetails userDetails = super.createUserDetails(username, userFromUserQuery, combinedAuthorities);
-	
-	BeanUtils.copyProperties(userDetails, recipeUserFromQuery);
-	
-	return recipeUserFromQuery;
-	
-    }
 
+	RecipeUser recipeUserFromQuery = (RecipeUser) userFromUserQuery;
+
+	UserDetails userDetails = super.createUserDetails(username, userFromUserQuery,
+		combinedAuthorities);
+
+	RecipeUser recipeUser = new RecipeUser(userDetails.getUsername(),
+		userDetails.getPassword(), userDetails.isEnabled(),
+		userDetails.isAccountNonExpired(), userDetails.isCredentialsNonExpired(),
+		userDetails.isAccountNonLocked(), userDetails.getAuthorities());
+
+	return recipeUser;
+
+    }
 }
