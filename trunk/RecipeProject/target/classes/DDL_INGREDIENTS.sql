@@ -3,9 +3,15 @@ DROP TABLE IF EXISTS Ingredient;
 CREATE TABLE Ingredient(
 
 ingredientId int not null AUTO_INCREMENT,
-ingredient varchar (255) NOT NULL,
-amount int NOT NULL default 0,
-metric varchar (45),
+ingredientType int not null NOT NULL,
+amount varchar (255),
+metric varchar (255),
 version int not null default 0,
-PRIMARY KEY (ingredientId)
+PRIMARY KEY (ingredientId),
+
+CONSTRAINT ingredientTypeFK
+    FOREIGN KEY (ingredientType)
+    REFERENCES IngredientType (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
 );

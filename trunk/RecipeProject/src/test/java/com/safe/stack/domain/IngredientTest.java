@@ -21,7 +21,7 @@ public class IngredientTest extends AbstractServiceImplTest {
     @Test
     public void testIngredientValidation() {
 	Ingredient ingr = new Ingredient();
-	ingr.setAmount(20);
+	ingr.setAmount("20");
 	ingr.setMetric("g");
 
 	Set<ConstraintViolation<Ingredient>> violations = validator.validate(ingr);
@@ -34,8 +34,12 @@ public class IngredientTest extends AbstractServiceImplTest {
 
     @Test
     public void testAmountValidation() {
+	
+	IngredientType ingredientType = new IngredientType();
+	ingredientType.setName("Pasta");
+	
 	Ingredient ingr = new Ingredient();
-	ingr.setIngredient("Pasta");
+	ingr.setIngredientType(ingredientType);
 	ingr.setMetric("g");
 
 	Set<ConstraintViolation<Ingredient>> violations = validator.validate(ingr);
