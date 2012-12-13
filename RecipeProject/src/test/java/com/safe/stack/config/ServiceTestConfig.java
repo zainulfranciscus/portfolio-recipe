@@ -32,8 +32,9 @@ public class ServiceTestConfig {
 				.addScript("classpath:DDL_ACCOUNT.sql")
 				.addScript("classpath:DDL_RECIPE.sql")
 				.addScript("classpath:DDL_LIKED_RECIPE.sql")
+				.addScript("classpath:DDL_INGREDIENT_TYPE.sql")
 				.addScript("classpath:DDL_INGREDIENTS.sql")
-				.addScript("classpath:DDL_RECIPE_INGREDIENT.sql")				
+				.addScript("classpath:DDL_RECIPE_INGREDIENT.sql")								
 				.build();
 	}
 	

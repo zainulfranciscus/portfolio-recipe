@@ -297,7 +297,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	recipe.setName("fried rice");
 
 	Ingredient ingr = new Ingredient();
-	ingr.setAmount(5);
+	ingr.setAmount("5");
 
 	List<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ingredients.add(ingr);

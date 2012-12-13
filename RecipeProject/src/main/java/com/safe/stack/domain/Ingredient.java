@@ -10,41 +10,37 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Ingredient")
 public class Ingredient {
 
     private Long ingredientId;
-    private Integer amount;
+    private String amount;
     private String metric;
-    private String ingredient;
+    private IngredientType ingredientType;
     private int version;
     private Recipe recipe;
-    
-    
 
     /**
      * @return the recipe
      */
-    @ManyToOne ( cascade = { CascadeType.ALL })
-    @JoinTable(name="RecipeIngredient",
-    joinColumns = @JoinColumn(name="ingredientId"),
-    inverseJoinColumns = @JoinColumn(name="recipeId"))
+    @ManyToOne(cascade = { CascadeType.ALL })
+    @JoinTable(name = "RecipeIngredient", joinColumns = @JoinColumn(name = "ingredientId"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
     public Recipe getRecipe() {
-        return recipe;
+	return recipe;
     }
 
     /**
-     * @param recipe the recipe to set
+     * @param recipe
+     *            the recipe to set
      */
     public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+	this.recipe = recipe;
     }
 
     /**
@@ -52,7 +48,7 @@ public class Ingredient {
      */
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ingredientId")    
+    @Column(name = "ingredientId")
     public Long getIngredientId() {
 	return ingredientId;
     }
@@ -70,7 +66,7 @@ public class Ingredient {
      */
     @Column(name = "amount")
     @NotNull(message = "{validation.amount.NotEmpty.message}")
-    public Integer getAmount() {
+    public String getAmount() {
 	return amount;
     }
 
@@ -78,7 +74,7 @@ public class Ingredient {
      * @param amount
      *            the amount to set
      */
-    public void setAmount(Integer amount) {
+    public void setAmount(String amount) {
 	this.amount = amount;
     }
 
@@ -116,20 +112,21 @@ public class Ingredient {
     }
 
     /**
-     * @return the ingredient
+     * @return the ingredientType
      */
-    @Column(name = "ingredient")
-    @NotEmpty(message = "{validation.ingredient.NotEmpty.message}")
-    public String getIngredient() {
-	return ingredient;
+    @OneToOne (cascade = { CascadeType.ALL })
+    @JoinColumn(name="ingredientType")
+    @NotNull(message="{validation.ingredient.NotEmpty.message}")
+    public IngredientType getIngredientType() {
+	return ingredientType;
     }
 
     /**
-     * @param ingredient
-     *            the ingredient to set
+     * @param ingredientType
+     *            the ingredientType to set
      */
-    public void setIngredient(String ingredient) {
-	this.ingredient = ingredient;
+    public void setIngredientType(IngredientType ingredientType) {
+	this.ingredientType = ingredientType;
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.safe.stack.annotation.DataSets;
 import com.safe.stack.domain.Ingredient;
+import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.RecipeService;
 
@@ -29,9 +30,12 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	r.setName("caserolle");
 	r.setPicture("caserolle_pic");
 	
+	IngredientType ingredientType = new IngredientType();
+	ingredientType.setName("Pasta");
+	
 	Ingredient ingr = new Ingredient();
-	ingr.setAmount(250);
-	ingr.setIngredient("Pasta");
+	ingr.setAmount("250");
+	ingr.setIngredientType(ingredientType);
 	ingr.setMetric("g");
 
 	
@@ -54,8 +58,8 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	ingredients = recipeFromDB.getIngredients();
 	assertEquals(1,ingredients.size());
 	
-	assertEquals(new Integer(250), ingredients.get(0).getAmount());
-	assertEquals("Pasta", ingredients.get(0).getIngredient());
+	assertEquals("250", ingredients.get(0).getAmount());
+	assertEquals("Pasta", ingredients.get(0).getIngredientType().getName());
 	assertEquals("g", ingredients.get(0).getMetric());
 
     }
@@ -109,7 +113,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(1, recipes.size());
 
 	Recipe recipeFromDB = recipes.get(0);
-	assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
+	assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
 
 	ingredients.add("rice");
 	ingredients.add("potato");
@@ -120,13 +124,13 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(3, recipes.size());
 
 	recipeFromDB = recipes.get(0);
-	assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredient());
+	assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
 
 	recipeFromDB = recipes.get(1);
-	assertEquals("rice", recipeFromDB.getIngredients().iterator().next().getIngredient());
+	assertEquals("rice", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
 
 	recipeFromDB = recipes.get(2);
-	assertEquals("potato", recipeFromDB.getIngredients().iterator().next().getIngredient());
+	assertEquals("potato", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
 
     }
 
