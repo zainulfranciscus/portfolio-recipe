@@ -15,10 +15,11 @@
 			 $('#add').click(function() {	
 				 
 				 var ingredientsElement = "<tr id='row" + counter + "'>"+
-				 "<td>Ingredient: <input name='ingredients[" + counter + "].ingredient' type='text' /></td>" +
+				 "<td>Ingredient: <input name='ingredients[" + counter + "].ingredientType.name' type='text' />" +
+				 "Ingredient: <input name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></td>" +
 				 "<td>Amount: <input name='ingredients[" + counter + "].amount' type='text' /></td>" +
 				 "<td>Metric: <input name='ingredients[" + counter + "].metric' type='text' /></td>" +
-				 "<td><input id='remove' value='remove' name=" + counter + " type='button' /></td>" +
+				 "<td><input value='remove' name='removeBtn' lang=" + counter + " type='button' /></td>" +
 				 "</tr>"
 				 
 				 $(ingredientsElement).appendTo('#ingredientsSection');
@@ -26,19 +27,20 @@
 				 counter +=1;
   		     });
 			 
-			 $('#remove').live('click', function() {
+			 $('input[name="removeBtn"]').live('click', function() {
 				 
-				 var rowToBeDeletedIndex = $(this).attr("name");
+				 var rowToBeDeletedIndex = $(this).attr("lang");
 				 $("#row" + rowToBeDeletedIndex).remove();
 				 
 			 });
-			 
-			
 
-		 
-		    
 		  });
 	</script>
+	
+	<c:forEach items="${ingredientTypes}" var="ingredientType">   
+    	<input type="hidden" value="${ingredientType.id}" name="ingredientType" lang="${ingredientType.name}"/>
+    </c:forEach>
+	
     
 	<form:form modelAttribute="recipe" id="addRecipeForm" method="post"
 		action="saveRecipe" enctype="multipart/form-data">
@@ -69,7 +71,10 @@
 				</tr>
 				
 				<tr>				
-						<td>Ingredient: <input name="ingredients[0].ingredient" type="text" /></td>
+						<td>
+						Ingredient: <input name="ingredients[0].ingredientType.name" type="text" />
+						<input name='ingredients[0].ingredientType.id' type='hidden' />
+						</td>
 						<td>Amount: <input name="ingredients[0].amount" type="text" /></td>
 						<td>Metric: <input name="ingredients[0].metric" type="text" /></td>
 				
