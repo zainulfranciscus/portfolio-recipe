@@ -45,6 +45,7 @@ import com.safe.stack.web.form.Message;
 public class HomeController {
 
     private static final String LIKE = "like";
+    private static final String UNLIKE = "unlike";
     protected static final String RECIPE_LIST_PAGE = "recipe/list";
     protected static final String RECIPE_LOGIN_PAGE = "recipe/login";
     protected static final String RECIPE_DETAILS_PAGE = "recipe/detail";
@@ -93,7 +94,7 @@ public class HomeController {
     @PreAuthorize("hasRole('admin')")
     @RequestMapping(value = "/addRecipe", method = RequestMethod.GET)
     public String showAddRecipe(Model uiModel) {
-	
+
 	List<IngredientType> ingredientTypes = recipeService.findAllIngredientTypes();
 	uiModel.addAttribute("ingredientTypes", ingredientTypes);
 	uiModel.addAttribute("recipe", new Recipe());
@@ -175,7 +176,13 @@ public class HomeController {
 	String userName = ((RecipeUser) principal).getUsername();
 
 	if (operation.equalsIgnoreCase(LIKE)) {
+
 	    accountService.likeARecipe(userName, Long.parseLong(recipeId));
+
+	} else if (operation.equalsIgnoreCase(UNLIKE)) {
+
+	    accountService.unlikeARecipe(userName, Long.parseLong(recipeId));
+
 	}
 
 	return RECIPE_LIST_PAGE;

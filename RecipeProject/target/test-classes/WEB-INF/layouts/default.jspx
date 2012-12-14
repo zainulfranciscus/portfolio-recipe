@@ -18,9 +18,13 @@
 <spring:url value="/resources/scripts/jquery-ui-1.9.2.custom.js" var="jquery_ui_url" />
 
 <spring:url value="/resources/styles/jquery-ui-1.9.2.custom.css" var="jquery_ui_theme_css" />
+<spring:url value="/resources/scripts/common.js" var="common_js" />
+
 
 <script src="${jquery_url}" type="text/javascript"><jsp:text/></script>
 <script src="${jquery_ui_url}" type="text/javascript"><jsp:text/></script>
+<script src="${common_js}" type="text/javascript"><jsp:text/></script>
+
 
 <link rel="stylesheet" type="text/css" media="screen" href="${jquery_ui_theme_css}" />
 

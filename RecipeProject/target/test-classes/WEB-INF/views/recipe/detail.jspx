@@ -25,7 +25,7 @@
 		</tr>
 		<c:forEach items="${recipe.ingredients}" var="ingredient">
 			<tr>
-				<td>${ingredient.ingredient} ${ingredient.amount} ${ingredient.metric}</td>
+				<td>${ingredient.ingredientType.name} ${ingredient.amount} ${ingredient.metric}</td>
 			</tr>
 		</c:forEach>
 		
@@ -34,6 +34,30 @@
 		</tr>
 		<tr>
 			<td>Read Recipe Preparation at <a href="${recipe.authorLink}">${recipe.author}</a></td>
+		</tr>
+		
+		<tr>
+			<c:forEach items="${recipe.account}" var="account">
+			
+			<td>${account.userName}</td>
+			
+			</c:forEach>
+		</tr>
+		
+		<tr>
+		
+			
+			<c:set var="username" value='${sessionScope.RecipeUser.username}'/>
+			<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}'/>
+				
+			<c:if test="${isLikedByUser}">
+				<td><a href="#" title="${recipe.id}" name="unlike">Unlike</a></td>
+			</c:if> 
+				
+			<c:if test="${not isLikedByUser}">
+				<td><a href="#" title="${recipe.id}" name="like">Like</a></td>
+			</c:if>
+				
 		</tr>
 	</table>
 
