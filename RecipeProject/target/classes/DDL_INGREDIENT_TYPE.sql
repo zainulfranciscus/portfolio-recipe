@@ -6,5 +6,5 @@ Id int not null AUTO_INCREMENT,
 name longtext NOT NULL,
 version int not null default 0,
 PRIMARY KEY (Id),
-unique key ingredientName (name asc)
+unique key ingredientName (name (255))
 );
