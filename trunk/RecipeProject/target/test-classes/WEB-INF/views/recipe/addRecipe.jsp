@@ -15,8 +15,8 @@
 			 $('#add').click(function() {	
 				 
 				 var ingredientsElement = "<tr id='row" + counter + "'>"+
-				 "<td>Ingredient: <input name='ingredients[" + counter + "].ingredientType.name' type='text' />" +
-				 "Ingredient: <input name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></td>" +
+				 "<td>Ingredient: <input name='ingredients[" + counter + "].ingredientType.name' type='text' lang='" + counter + "'/>" +
+				 "<input name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></td>" +
 				 "<td>Amount: <input name='ingredients[" + counter + "].amount' type='text' /></td>" +
 				 "<td>Metric: <input name='ingredients[" + counter + "].metric' type='text' /></td>" +
 				 "<td><input value='remove' name='removeBtn' lang=" + counter + " type='button' /></td>" +
@@ -26,6 +26,16 @@
 				 
 				 counter +=1;
   		     });
+			 
+			 $('input[name*=".ingredientType.name"]').live('blur',function(){
+				 
+				 var ingredientTypeFieldName = "ingredients[" +  $(this).attr("lang") + "].ingredientType.id";
+				 var ingredientTypeValue = $(this).val();				 
+				 var idForThisIngredient = $('input[lang="' + ingredientTypeValue + '"]').val();
+				 
+				 $('input[name="' + ingredientTypeFieldName + '"]').attr("value",idForThisIngredient);
+				 
+			 });
 			 
 			 $('input[name="removeBtn"]').live('click', function() {
 				 
@@ -72,8 +82,8 @@
 				
 				<tr>				
 						<td>
-						Ingredient: <input name="ingredients[0].ingredientType.name" type="text" />
-						<input name='ingredients[0].ingredientType.id' type='hidden' />
+						Ingredient: <input name="ingredients[0].ingredientType.name" lang="0" type="text" />
+						<input name='ingredients[0].ingredientType.id' type='hidden'"/>
 						</td>
 						<td>Amount: <input name="ingredients[0].amount" type="text" /></td>
 						<td>Metric: <input name="ingredients[0].metric" type="text" /></td>
