@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.safe.stack.domain.Account;
 import com.safe.stack.domain.Ingredient;
+import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
@@ -92,6 +93,9 @@ public class HomeController {
     @PreAuthorize("hasRole('admin')")
     @RequestMapping(value = "/addRecipe", method = RequestMethod.GET)
     public String showAddRecipe(Model uiModel) {
+	
+	List<IngredientType> ingredientTypes = recipeService.findAllIngredientTypes();
+	uiModel.addAttribute("ingredientTypes", ingredientTypes);
 	uiModel.addAttribute("recipe", new Recipe());
 	return RECIPE_ADD_RECIPE_PAGE;
     }
@@ -164,17 +168,16 @@ public class HomeController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/likeARecipe", method = RequestMethod.POST)
-    public String likeARecipe(@RequestParam("recipeId") String recipeId, @RequestParam("operation") String operation) {
+    public String likeARecipe(@RequestParam("recipeId") String recipeId,
+	    @RequestParam("operation") String operation) {
 
 	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	String userName = ((RecipeUser) principal).getUsername();
 
-	if(operation.equalsIgnoreCase(LIKE))
-	{
-	    accountService.likeARecipe(userName, Long.parseLong(recipeId));	    
+	if (operation.equalsIgnoreCase(LIKE)) {
+	    accountService.likeARecipe(userName, Long.parseLong(recipeId));
 	}
-	
-	
+
 	return RECIPE_LIST_PAGE;
 
     }

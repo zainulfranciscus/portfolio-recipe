@@ -63,6 +63,27 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("g", ingredients.get(0).getMetric());
 
     }
+    
+    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @Test
+    public void testFindAllIngredientType()
+    {
+	List<IngredientType> ingredientTypes = recipeService.findAllIngredientTypes();
+	
+	assertNotNull(ingredientTypes);
+	assertEquals(3, ingredientTypes.size());
+	
+	assertEquals(0, ingredientTypes.get(0).getId().intValue());
+	assertEquals("egg", ingredientTypes.get(0).getName());
+	
+	assertEquals(1, ingredientTypes.get(1).getId().intValue());
+	assertEquals("rice", ingredientTypes.get(1).getName());
+	
+	assertEquals(2, ingredientTypes.get(2).getId().intValue());
+	assertEquals("potato", ingredientTypes.get(2).getName());
+	
+	
+    }
 
     @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
     @Test

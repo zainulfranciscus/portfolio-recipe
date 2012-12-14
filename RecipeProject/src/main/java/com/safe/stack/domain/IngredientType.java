@@ -6,11 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "IngredientType")
+@Table(name = "IngredientType", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
+@NamedQueries({ @NamedQuery(name = "IngredientType.findAll", query = "select t from IngredientType t") })
 public class IngredientType {
 
     private Integer id;
@@ -38,7 +42,7 @@ public class IngredientType {
     /**
      * @return the name
      */
-    @Column(name = "name")
+    @Column(name = "name")   
     public String getName() {
 	return name;
     }

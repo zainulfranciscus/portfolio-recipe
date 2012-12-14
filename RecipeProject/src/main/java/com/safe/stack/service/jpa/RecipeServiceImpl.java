@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.repository.RecipeRepository;
 import com.safe.stack.service.RecipeService;
@@ -50,6 +51,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     public List<Recipe> findAll() {
 	return (List<Recipe>) entityManager.createNamedQuery("Recipe.findAll", Recipe.class)
+		.getResultList();
+    }
+    
+    public List<IngredientType> findAllIngredientTypes()
+    {
+	return (List<IngredientType>) entityManager.createNamedQuery("IngredientType.findAll", IngredientType.class)
 		.getResultList();
     }
 
