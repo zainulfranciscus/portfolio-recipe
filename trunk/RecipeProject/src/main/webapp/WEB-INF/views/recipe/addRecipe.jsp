@@ -2,15 +2,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-	
-
 	<script type="text/javascript">
- 
 	
-	 
-		$(document).ready(function(){
+ 		$(document).ready(function(){
 			
 			var counter = 1;
+			
+			var ingredientList =  $('input[name="ingredientType"]');
+			var ingredientArray	 = new Array();
+			
+			for(var i = 0; i < ingredientList.length; i++)
+			{
+				ingredientArray[i] = $(ingredientList[i]).attr("lang");
+				
+			}
 			
 			 $('#add').click(function() {	
 				 
@@ -26,6 +31,10 @@
 				 
 				 counter +=1;
   		     });
+			 
+			 $('input[name*=".ingredientType.name"]').autocomplete({
+				 source: ingredientArray
+			 });
 			 
 			 $('input[name*=".ingredientType.name"]').live('blur',function(){
 				 
