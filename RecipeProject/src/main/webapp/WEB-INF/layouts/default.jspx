@@ -18,6 +18,7 @@
 <spring:url value="/resources/scripts/jquery-ui-1.9.2.custom.js" var="jquery_ui_url" />
 
 <spring:url value="/resources/styles/jquery-ui-1.9.2.custom.css" var="jquery_ui_theme_css" />
+<spring:url value="/resources/styles/recipe.css" var="jquery_ui_theme_css" />
 <spring:url value="/resources/scripts/common.js" var="common_js" />
 
 
@@ -27,6 +28,7 @@
 
 
 <link rel="stylesheet" type="text/css" media="screen" href="${jquery_ui_theme_css}" />
+<link rel="stylesheet" type="text/css" media="screen" href="${common_js}" />
 
 <title>Default Template</title>
 </head>

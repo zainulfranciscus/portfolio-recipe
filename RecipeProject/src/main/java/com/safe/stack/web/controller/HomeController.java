@@ -146,6 +146,7 @@ public class HomeController {
 	}
 	return RECIPE_LIST_PAGE;
     }
+    
 
     @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST)
     public String searchRecipes(@RequestParam("ingredient") String ingredient, Model uiModel) {
@@ -157,7 +158,7 @@ public class HomeController {
 	}
 
 	uiModel.addAttribute("recipes", recipeService.findByIngredients(ingredients));
-	return "list";
+	return RECIPE_LIST_PAGE;
     }
 
     @RequestMapping(value = "/searchLikedRecipe", method = RequestMethod.POST)
