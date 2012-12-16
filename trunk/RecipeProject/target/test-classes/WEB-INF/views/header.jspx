@@ -4,11 +4,15 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	Browse Logo About
-
-	<sec:authorize access="not isAuthenticated()">
-		<a href="login">SignIn</a>
-	</sec:authorize>
+	<div class="site-header" id="dark-header">
+		<div id="inner-header" class="fullscreen">
+			<ul class="right dark">
+				<sec:authorize access="not isAuthenticated()">
+					<a class="menu signin inset dark" href="login">SignIn</a>
+				</sec:authorize>
+			</ul>
+		</div>
+	</div>
 
 	<sec:authorize access="hasRole('admin')">
 		<a href="addRecipe">add recipe</a>
