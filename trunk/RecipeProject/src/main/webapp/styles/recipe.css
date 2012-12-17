@@ -67,16 +67,118 @@ ul {
     text-shadow: none;
 }
 
+#lookForRecipes {
+   
+    float: left;
+    height: 12px;
+    margin-left: 1px;
+    margin-right: 1px;
+    padding-top: 1px;
+    width: 16px;
+}
+
+#recipe-cards, #menuboard-cards {
+    padding: 0 0 0 40px;
+}
+
 .breadcrumbs {
 	display: block;
 	font-size: 13px;
 	margin: 20px 0 20px 40px;
 }
 
+.card-footer {
+    color: #444444;
+    margin: 10px 6px 0;
+    position: relative;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.card-footer .domain {
+    font-size: 1.08em;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.card-footer .byline {
+    line-height: 1.5em;
+    margin-top: 5px;
+}
+
 .inset.dark {
 	border: 1px solid rgba(0, 0, 0, 0.4);
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2), 0px 1px 0px
 		rgba(255, 255, 255, 0.3) inset;
+}
+
+.left {
+    float: left;
+}
+
+.recipe-card img.thumb {
+    border-radius: 3px 3px 3px 3px;
+    height: 250px;
+    width: 250px;
+}
+
+.recipe-card .img-n-overlay, .menuboard-card .img-n-overlay {
+    height: 250px;
+    transition: opacity 0.15s linear 0s;
+    width: 250px;
+}
+.recipe-card a .img-n-title:hover .img-n-overlay{
+    opacity: 0.88;
+}
+.recipe-card .img-n-overlay .overlay {
+    background: none repeat scroll 0 0 #333333;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    bottom: 0;
+    height: 64px;
+    left: 0;
+    position: absolute;
+    width: 250px;
+    z-index: 100;
+}
+
+.recipe-card .title {
+    bottom: 0;
+    color: #FFFFFF;
+    font: 19px/23px Palatino,'Palatino Linotype','URW Palladio L','Book Antiqua',Georgia,serif;
+    height: 46px;
+    left: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 9px 11px;
+    position: absolute;
+    width: 228px;
+    z-index: 101;
+}
+
+.recipe-card .img-n-title {
+    border: medium none;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    height: 250px;
+    position: relative;
+    transition: box-shadow 0.15s linear 0s;
+    width: 250px;
+}
+
+.recipe-card .img-n-overlay .overlay{
+    background: none repeat scroll 0 0 #333333;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    bottom: 0;
+    height: 64px;
+    left: 0;
+    position: absolute;
+    width: 250px;
+    z-index: 100;
+}
+.recipe-card .img-n-overlay .overlay {
+    background: none repeat scroll 0 0 rgba(34, 32, 32, 0.5);
 }
 
 .right {

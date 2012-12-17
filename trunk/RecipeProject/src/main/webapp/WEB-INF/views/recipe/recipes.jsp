@@ -1,44 +1,52 @@
-<table id="recipeList">
-<c:if test="${not empty recipes}">
-	
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Author</th>
-				<th>diet</th>	
-			</tr>
-		</thead>
-				
+<div id="recipe-cards">
+	<c:if test="${not empty recipes}">
 		<c:forEach items="${recipes}" var="recipe">
+			<div class="recipe-card">
+				<c:set var="picture" value="images/${recipe.picture}" />
+				<a href="${recipe.id}"> 
+					<div class="img-n-title">
+						<div class="img-n-overlay">
+							<img class="thumb" src="${picture}"/>
+							<div class="overlay"></div>
+						</div>
+						<div class="title">${recipe.name}</div> 
+					</div>
 					
-			<c:set var="picture" value="images/${recipe.picture}"/>
-		
-			<tr>
-			    <td><img src="${picture}"/></td>			    
-				<td><a href="${recipe.id}">${recipe.name}</a> </td>
-				<td>${recipe.author}</td>
-				<td>${recipe.diet}</td>		
-				<sec:authorize access="isAuthenticated()">	
-				
-				<c:set var="username" value='${sessionScope.RecipeUser.username}'/>
-				<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}'/>
-								
-				<c:if test="${isLikedByUser}">
-				<td><a href="#" title="${recipe.id}" name="unlike">Unlike</a></td>
-				</c:if> 
-				
-				<c:if test="${not isLikedByUser}">
-				<td><a href="#" title="${recipe.id}" name="like">Like</a></td>
-				</c:if>
-								
-				
-				</sec:authorize>		
-			</tr>
-		</c:forEach>
-	
-</c:if>
+					<div class="card-footer">
+						<div class="left">
+							<div class="domain">
+								${recipe.author}
+							</div>
+							
+							<div class="byline">
+								${recipe.diet}
+							</div>
+						</div>					
+					</div>
+					
+					  <sec:authorize
+						access="isAuthenticated()">
 
-<c:if test="${empty recipes}">
-<tr><td>No Recipe found with these Ingredients</td></tr>
+						<c:set var="username" value='${sessionScope.RecipeUser.username}' />
+						<c:set var="isLikedByUser"
+							value='${recipe.isLikedByUser(username)}' />
+
+						<c:if test="${isLikedByUser}">
+							<a href="#" title="${recipe.id}" name="unlike">Unlike</a>
+						</c:if>
+
+						<c:if test="${not isLikedByUser}">
+							<a href="#" title="${recipe.id}" name="like">Like</a>
+						</c:if>
+
+					</sec:authorize>
+				</a>
+			</div>
+		</c:forEach>
+
+	</c:if>
+
+	<c:if test="${empty recipes}">
+No Recipe found with these Ingredient
 </c:if>
-</table>
+</div>

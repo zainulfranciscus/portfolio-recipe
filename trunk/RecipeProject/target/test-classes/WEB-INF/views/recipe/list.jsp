@@ -27,17 +27,12 @@
 
 <div id="page" class="fullscreen">
 	<ul class="breadcrumbs">
-		<li id="search-box" class="nohover clearfix"><input type="text"
-			id="searchText" name="searchInput" /></li>
+		<li id="search-box" class="nohover clearfix">
+		 	<input type="text" id="searchText" name="searchInput" />
+		 	<a href="#" id="lookForRecipes">search</a>
+		 </li>
 	</ul>
 
-	<table>
-
-		<tr>
-			<td></td>
-			<td><a href="#" id="lookForRecipes">search</a></td>
-		</tr>
-	</table>
 
 	<div id="result">
 		<%@include file="recipes.jsp"%>
