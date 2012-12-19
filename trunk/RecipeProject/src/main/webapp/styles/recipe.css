@@ -1,5 +1,5 @@
 body {
-	background: #F5EEE3 url(/images/bgpic.png) color:     black;
+	background: #F5EEE3 url(/images/bgpic.png) color:          black;
 	font: 12px 'Helvetica Neue', Helvetica, Arial, Sans-serif;
 }
 
@@ -13,12 +13,23 @@ a {
 	text-decoration: none;
 }
 
+a,a:visited {
+	color: inherit;
+	cursor: pointer;
+	font-weight: bold;
+	text-decoration: none;
+}
+
 div {
 	display: block;
 }
 
 ul {
 	list-style: none outside none;
+}
+
+img,fieldset {
+	border: 0 none;
 }
 
 #dark-header {
@@ -80,6 +91,12 @@ ul {
 	width: 16px;
 }
 
+#page.center,#inner-header.center {
+	margin: 0 auto;
+	padding: 0 20px;
+	width: 960px;
+}
+
 #recipe-cards,#menuboard-cards {
 	padding: 0 0 0 40px;
 }
@@ -109,6 +126,147 @@ ul {
 	margin-top: 5px;
 }
 
+.card-footer .byline a {
+	font-weight: normal;
+}
+
+.recipe-card .metric,.recipe-card .sprite,.menuboard-card .metric,.menuboard-card .sprite
+	{
+	margin-right: 7px;
+}
+
+.recipe-details h1 {
+	color: #222222;
+	font-size: 25px;
+	font-weight: normal;
+	margin-bottom: 15px;
+}
+
+.recipe-details h1,.recipe-details h2 {
+	font-family: Palatino, 'Palatino Linotype', 'URW Palladio L',
+		'Book Antiqua', Georgia, serif;
+	line-height: 1.1em;
+	margin: 0;
+}
+
+.recipe-details .portrait img {
+    background-color: #FFFFFF;
+    border-radius: 7px 7px 7px 7px;
+    height: 100%;
+    width: 100%;
+}
+
+.recipe-details .ingredients-list {
+    line-height: 1.6em;
+    margin-top: 26px;
+}
+
+.recipe-details a.source {
+    color: #666666;
+    display: block;
+    font-size: 0.9em;
+    font-weight: normal;
+    line-height: normal;
+    margin-top: 1em;
+    white-space: nowrap;
+}
+
+.recipe-details #source-ingredients {
+    color: #444444;
+}
+
+.recipe-details #ingredients-toggle {
+    display: inline;
+}
+
+.recipe-details .ingredients-list ul {
+    margin-top: 0.9em;
+}
+
+.recipe-details #ingredients-toggle li {
+    line-height: 1.4em;
+    vertical-align: middle;
+}
+.recipe-details .ingredients-list .title, .recipe-details #preparation .title {
+    color: #333333;
+    font: 1.4em Palatino,'Palatino Linotype','URW Palladio L','Book Antiqua',Georgia,serif;
+    padding-left: 0;
+}
+.toggle-menu li {
+    border-radius: 10px 10px 10px 10px;
+    display: inline;
+    margin-right: 0.3em;
+    padding: 0.3em 0.5em;
+}
+.recipe-details li {
+    display: block;
+}
+
+ol, ul {
+    list-style: none outside none;
+}
+
+.info-card-wrapper {
+	width: 500px;
+}
+
+.info-card {
+	background-color: #FFFFFF;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.12);
+	padding: 20px 25px 25px;
+}
+
+.metric.svc,.metric.save,.sprite.like {
+	background-position: 0 -80px;
+}
+
+.card-footer a {
+	color: #444444;
+}
+
+.recipe-card a,.menuboard-card a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.recipe-details {
+	color: #555555;
+	font-size: 14px;
+	width: 960px;
+}
+
+.recipe-details .column1 {
+	margin-right: 30px;
+	width: 500px;
+}
+
+.recipe-details .portrait-frame.lg {
+	height: 250px;
+	width: 380px;
+}
+
+.recipe-details .portrait-frame {
+	background-color: #222222;
+	border-radius: 3px 3px 3px 3px;
+	height: 215px;
+	margin: 12px 0 0;
+	padding: 3px;
+	width: 320px;
+}
+
+.column1,.column2 {
+	float: left;
+}
+
+.metric,.sprite {
+	background: url("images/icon-sprite.png") no-repeat scroll 0 0
+		transparent;
+	display: inline-block;
+	height: 16px;
+	padding-left: 20px !important;
+}
+
 .inset.dark {
 	border: 1px solid rgba(0, 0, 0, 0.4);
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2), 0px 1px 0px
@@ -119,14 +277,14 @@ ul {
 	float: left;
 }
 
-.recipe-card{
+.recipe-card {
 	float: left;
 	width: 250px;
 	margin: 0px 25px 25px 0px;
 	border: medium none;
 }
+
 .recipe-card img.thumb {
-	
 	border-radius: 3px 3px 3px 3px;
 	height: 250px;
 	width: 250px;
@@ -193,6 +351,17 @@ ul {
 
 .recipe-card .img-n-overlay .overlay {
 	background: none repeat scroll 0 0 rgba(34, 32, 32, 0.5);
+}
+
+.recipe-card img.diet {
+	padding-right: 2px;
+	vertical-align: top;
+}
+
+img.diet {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
 }
 
 .right {

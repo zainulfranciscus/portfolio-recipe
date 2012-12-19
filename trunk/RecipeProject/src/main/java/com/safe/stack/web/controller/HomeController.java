@@ -68,8 +68,14 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
-
-	uiModel.addAttribute("recipes", recipeService.findAll());
+	
+	List<Recipe> list = new ArrayList<Recipe>();
+	for(int i = 0; i < 10; i++)
+	{
+	    list.add(recipeService.findAll().get(0));
+	}
+	uiModel.addAttribute("recipes", list);
+	//uiModel.addAttribute("recipes", recipeService.findAll());
 	return RECIPE_LIST_PAGE;
     }
 
