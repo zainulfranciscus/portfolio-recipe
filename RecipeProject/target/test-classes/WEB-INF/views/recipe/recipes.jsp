@@ -19,7 +19,12 @@
 							</div>
 							
 							<div class="byline">
-								${recipe.diet}
+							
+							<a href="#" title="${recipe.id}" name="like" class="metric svc clickable">Like</a>
+							
+							<c:if test="${recipe.diet  == 'Vegan'}">
+								<img class="diet" src="images/vegan_icon.png" title="Vegan">
+							</c:if>
 							</div>
 						</div>					
 					</div>

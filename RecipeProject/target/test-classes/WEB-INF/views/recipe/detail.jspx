@@ -6,58 +6,79 @@
 
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
+	<div id="page" class="center">
+		<div class="recipe-details">
 
+			<div class="column1">
+				<div class="info-card-wrapper">
+					<div class="info-card">
+						<h1 class="title">${recipe.name}</h1>
+						<a class="source" href="${recipe.authorLink}">${recipe.author}</a>
+
+						<div class="portrait-frame lg">
+							<div class="portrait">
+								<a href="${recipe.authorLink}"> <img
+									src="images/${recipe.picture}" />
+								</a>
+							</div>
+						</div>
+
+						<div class="ingredients-list">
+							<div id="source-ingredients" class="">
+								<ul id="ingredients-toggle" class="toggle-menu">
+									<li class="title">Ingredients</li>
+								</ul>
+
+								<ul>
+									<c:forEach items="${recipe.ingredients}" var="ingredient">
+										<li><span>${ingredient.ingredientType.name}
+												${ingredient.amount} ${ingredient.metric}</span></li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+
+						<div id="preparation">
+							<span class="title">Preparation</span> <a class="source"
+								href="${recipe.authorLink}">Read Recipe Preparation on <strong>${recipe.author}</strong></a>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
 	<table>
-		<tr>
-			<td>${recipe.name}</td>
-		</tr>
-		<tr>
-			<td>${recipe.author}</td>
-		</tr>
-		<tr>
-			<td>${recipe.authorLink}</td>
-		</tr>
-		<tr>
-			<td><img src="images/${recipe.picture}" /></td>
-		</tr>
-		<tr>
-			<td>Ingredients</td>
-		</tr>
-		<c:forEach items="${recipe.ingredients}" var="ingredient">
-			<tr>
-				<td>${ingredient.ingredientType.name} ${ingredient.amount} ${ingredient.metric}</td>
-			</tr>
-		</c:forEach>
-		
-		<tr>
-			<td>Preparation</td>
-		</tr>
-		<tr>
-			<td>Read Recipe Preparation at <a href="${recipe.authorLink}">${recipe.author}</a></td>
-		</tr>
-		
+
+
+
+
+
+
+
 		<tr>
 			<c:forEach items="${recipe.account}" var="account">
-			
-			<td>${account.userName}</td>
-			
+
+				<td>${account.userName}</td>
+
 			</c:forEach>
 		</tr>
-		
+
 		<tr>
-		
-			
-			<c:set var="username" value='${sessionScope.RecipeUser.username}'/>
-			<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}'/>
-				
+
+
+			<c:set var="username" value='${sessionScope.RecipeUser.username}' />
+			<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
+
 			<c:if test="${isLikedByUser}">
 				<td><a href="#" title="${recipe.id}" name="unlike">Unlike</a></td>
-			</c:if> 
-				
+			</c:if>
+
 			<c:if test="${not isLikedByUser}">
 				<td><a href="#" title="${recipe.id}" name="like">Like</a></td>
 			</c:if>
-				
+
 		</tr>
 	</table>
 
