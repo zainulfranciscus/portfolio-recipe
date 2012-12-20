@@ -21,37 +21,45 @@
 		});
 	</script>
 
-	<div id="signin-inset">
 	
+
+
+	<div id="signin-inset">
+
 		<div id="signin-body">
 
 			<div id="signin-with-email" class="standard-form">
-				<c:if test="${not empty login_failed}">
-					Your login attempt was not successful, try again.<br />
-				</c:if>
-
-				<c:if test="${not empty valdation_errors}">
-					<c:forEach items="${valdation_errors}" var="error">
-						${error.message}
-					</c:forEach>
-				</c:if>
-
+				
+					<c:if test="${not empty login_failed}">
+						<div id="error">
+							Your login attempt was not successful, try again.<br />
+						</div>
+					</c:if>
+	
+					<c:if test="${not empty valdation_errors}">
+					<div id="error">
+						<c:forEach items="${valdation_errors}" var="error">
+							${error.message}
+						</c:forEach>
+					</div>
+					</c:if>
+				
 				<form name='f' action="${loginUrl}" method='POST' id="loginForm">
-					<input id="email" type='text' name='j_username' placeholder="Email"  value='' />
-					<input id="pw" type='password' name='j_password' placeholder="Password" />
-					<input id="SignInBtn" class="logo-btn" name="SignIn" type="submit" value="SignIn" />
-					<input id="SignUpBtn"  name="SignUp" type="submit" value="SignUp"  />					
+					<input id="email" type='text' name='j_username' placeholder="Email"
+						value='' /> <input id="pw" type='password' name='j_password'
+						placeholder="Password" /> <input id="SignInBtn" class="logo-btn"
+						name="SignIn" type="submit" value="SignIn" /> <input
+						id="SignUpBtn" name="SignUp" type="submit" value="SignUp" />
 				</form>
 
 			</div>
-			
+
 			<div class="clear-float"></div>
-			
+
 		</div>
 
-		
-	
-	</div>
-</div>	
 
-	
+
+	</div>
+</div>
+

@@ -1,5 +1,5 @@
 body {
-	background: #F5EEE3 url(/images/bgpic.png) color:                black;
+	background: #F5EEE3 url(/images/bgpic.png) color:                 black;
 	font: 12px 'Helvetica Neue', Helvetica, Arial, Sans-serif;
 }
 
@@ -28,6 +28,25 @@ ul {
 	list-style: none outside none;
 }
 
+form .line:first-child {
+    margin-top: 0;
+}
+form .line {
+    margin-top: 1.4em;
+}
+
+
+form label {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+form label, form input, form textarea {
+    outline: medium none;
+}
+form label, form input, form textarea {
+    display: block;
+}
+
 img,fieldset {
 	border: 0 none;
 }
@@ -53,6 +72,30 @@ img,fieldset {
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
 	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	margin-bottom: 8px;
+}
+
+#email:focus,#pw:focus {
+	border: 1px solid #DD8888;
+	box-shadow: 0 0 4px rgba(220, 128, 128, 0.5), 0 0 2px
+		rgba(0, 0, 0, 0.15) inset;
+}
+
+#error {
+	background-color: #FFEBE8;
+	border: 1px solid #CC0000;
+	border-radius: 3px 3px 3px 3px;
+	color: #F00000;
+	line-height: 1.5em;
+	margin: 0 0 1em;
+	padding: 0.9em;
+}
+
+#email,#pw,#error {
+	width: 220px;
+}
+
+#ingredientsSection {
+    width: 640px;
 }
 
 #inner-header.fullscreen {
@@ -144,50 +187,56 @@ img,fieldset {
 	margin-right: 50px;
 }
 
-#SignInBtn, #SignUpBtn {
-    font-size: 14px;
-    padding: 0.5em 1.1em;
-    text-align: center;
+#SignInBtn,#SignUpBtn {
+	font-size: 14px;
+	padding: 0.5em 1.1em;
+	text-align: center;
 }
+
 #SignInBtn {
-    border: medium none;
-    float: left;
-    font-weight: bold;
-    height: auto;
-    margin: 1px 0 0;
-    width: auto;
+	border: medium none;
+	float: left;
+	font-weight: bold;
+	height: auto;
+	margin: 1px 0 0;
+	width: auto;
 }
 
 #SignUpBtn {
-    border: 1px solid #EAEAEA;
-    border-radius: 5px 5px 5px 5px;
-    color: #D86860;
-    float: right;
-    font-weight: 300;
+	border: 1px solid #EAEAEA;
+	border-radius: 5px 5px 5px 5px;
+	color: #D86860;
+	float: right;
+	font-weight: 300;
 }
-#submit, #SignUpBtn {
-    font-size: 14px;
-    padding: 0.5em 1.1em;
-    text-align: center;
+
+#submit,#SignUpBtn {
+	font-size: 14px;
+	padding: 0.5em 1.1em;
+	text-align: center;
 }
 
 form input[type="submit"] {
-    cursor: pointer;
+	cursor: pointer;
 }
+
 .logo-btn {
-    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAyCAYAAACd+7GKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAClJREFUeNpi/v//vwMTAwPDfzjBgMpFI/7hFSOT9Y8qRuF3JLoHAQIMAHYtMmRA+CugAAAAAElFTkSuQmCC") repeat-x scroll 0 0 #DADADA;
-    border-radius: 5px 5px 5px 5px;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.25), 0 1px 0 rgba(255, 255, 255, 0.5) inset;
-    color: #444444;
-    display: inline-block;
-    float: left;
-    font: 14px Arial,Helvetica,sans-serif;
-    height: 40px;
-    position: relative;
-    text-align: left;
-    text-decoration: none;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
-    width: 230px;
+	background:
+		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAyCAYAAACd+7GKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAClJREFUeNpi/v//vwMTAwPDfzjBgMpFI/7hFSOT9Y8qRuF3JLoHAQIMAHYtMmRA+CugAAAAAElFTkSuQmCC")
+		repeat-x scroll 0 0 #DADADA;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.25), 0
+		1px 0 rgba(255, 255, 255, 0.5) inset;
+	color: #444444;
+	display: inline-block;
+	float: left;
+	font: 14px Arial, Helvetica, sans-serif;
+	height: 40px;
+	position: relative;
+	text-align: left;
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+	width: 230px;
 }
 
 .breadcrumbs {
@@ -224,6 +273,45 @@ form input[type="submit"] {
 	height: 1px;
 	margin: -1px 0 0;
 	overflow: hidden;
+}
+
+.dialog.white {
+	background: none repeat scroll 0 0 #FFFFFF;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dialog.full {
+	width: 910px;
+}
+
+
+.dialog .dialog {
+    font-size: 1em;
+    margin: 0;
+}
+
+.dialog {
+
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(0, 0, 0, 0.12);
+	color: #444444;
+	font-size: 1.1666em;
+	margin: 0 auto;
+	padding: 25px 35px;
+	width: 610px;
+}
+
+.dialog .light-header {
+    border-bottom: 1px solid #F0F0F0;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0 0 0.7em;
+    padding: 0 0 0.7em;
+}
+
+.dialog form label {
+    color: #505048;
 }
 
 .btn {

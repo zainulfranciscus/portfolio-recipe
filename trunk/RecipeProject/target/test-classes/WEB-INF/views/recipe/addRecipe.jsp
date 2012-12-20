@@ -59,52 +59,60 @@
 	<c:forEach items="${ingredientTypes}" var="ingredientType">   
     	<input type="hidden" value="${ingredientType.id}" name="ingredientType" lang="${ingredientType.name}"/>
     </c:forEach>
-	
-    
-	<form:form modelAttribute="recipe" id="addRecipeForm" method="post"
-		action="saveRecipe" enctype="multipart/form-data">
-		<table>
-			<tbody id="ingredientsSection">
-				<tr>
-					<td>Name: <input name="name" type="text" /></td>
-				</tr>
-				
-				<tr>
-					<td>Author: <input name="author" type="text"/></td>
-				</tr>
-				
-				<tr>
-					<td>Link to Author Website: <input name="authorLink" type="text"/></td>
-				</tr>
-				
-				<tr>
-					<td>Diet Type: <input name="diet" type="text"/></td>
-				</tr>
-				
-				<tr>
-					<td>Photo: <input name="picture" type="text"/></td>
-				</tr>
-				
-				<tr>
-					<td>Photo: <input name="file" type="file"/></td>
-				</tr>
-				
-				<tr>				
-						<td>
-						Ingredient: <input name="ingredients[0].ingredientType.name" lang="0" type="text" />
-						<input name='ingredients[0].ingredientType.id' type='hidden'"/>
-						</td>
-						<td>Amount: <input name="ingredients[0].amount" type="text" /></td>
-						<td>Metric: <input name="ingredients[0].metric" type="text" /></td>
-				
-				</tr>
-								
-	        </tbody>
-		</table>
 
-    <input type="submit" value="Save" />
+	<div id="page" class="center">
+		<div class="dialog full white">
+			<h1 class="light-header">Add a Recipe</h1>
+			<div class="right-body">
+				<form:form modelAttribute="recipe" id="addRecipeForm" method="post" action="saveRecipe" enctype="multipart/form-data">
+					
+						<div id="ingredientsSection">
+						
+							<div class="line inline">
+								<label for="Name">Name:</label> 
+								<input name="name" type="text" />
+							</div>
+							
+							<tr>
+								<td>Author: <input name="author" type="text"/></td>
+							</tr>
+							
+							<tr>
+								<td>Link to Author Website: <input name="authorLink" type="text"/></td>
+							</tr>
+							
+							<tr>
+								<td>Diet Type: <input name="diet" type="text"/></td>
+							</tr>
+							
+							<tr>
+								<td>Photo: <input name="picture" type="text"/></td>
+							</tr>
+							
+							<tr>
+								<td>Photo: <input name="file" type="file"/></td>
+							</tr>
+							
+							<tr>				
+									<td>
+									Ingredient: <input name="ingredients[0].ingredientType.name" lang="0" type="text" />
+									<input name='ingredients[0].ingredientType.id' type='hidden'"/>
+									</td>
+									<td>Amount: <input name="ingredients[0].amount" type="text" /></td>
+									<td>Metric: <input name="ingredients[0].metric" type="text" /></td>
+							
+							</tr>
+											
+				        </div>
+					
+			    <input type="submit" value="Save" />
+			
+				</form:form>
+			</div>
+		</div>
+	</div>
 
-	</form:form>
+
 	<a href="#" id="add">add</a>
 	
 	
