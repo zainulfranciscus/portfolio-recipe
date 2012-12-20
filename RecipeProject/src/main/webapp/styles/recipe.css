@@ -1,5 +1,5 @@
 body {
-	background: #F5EEE3 url(/images/bgpic.png) color:            black;
+	background: #F5EEE3 url(/images/bgpic.png) color:                black;
 	font: 12px 'Helvetica Neue', Helvetica, Arial, Sans-serif;
 }
 
@@ -46,6 +46,13 @@ img,fieldset {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+}
+
+#email,#pw {
+	background: none repeat scroll 0 0 #FEFEFE;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
+	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	margin-bottom: 8px;
 }
 
 #inner-header.fullscreen {
@@ -101,6 +108,88 @@ img,fieldset {
 	padding: 0 0 0 40px;
 }
 
+#signin-body,#signin-inset {
+	border-radius: 8px 8px 8px 8px;
+}
+
+#signin-body {
+	background: none repeat scroll 0 0 #FFFFFF;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.08);
+	padding: 18px 25px 12px;
+}
+
+#signin-inset {
+	box-shadow: 0 0 3px rgba(32, 32, 32, 0.4) inset;
+	margin: 140px auto 0;
+	padding: 10px;
+	width: 850px;
+}
+
+#signin-buttons,#signin-with-email {
+	padding-top: 8px;
+}
+
+#signin-buttons {
+	float: left;
+}
+
+#signin-with-email {
+	float: right;
+	margin-right: 10px;
+}
+
+#signin-marquee {
+	display: block;
+	float: left;
+	margin-right: 50px;
+}
+
+#SignInBtn, #SignUpBtn {
+    font-size: 14px;
+    padding: 0.5em 1.1em;
+    text-align: center;
+}
+#SignInBtn {
+    border: medium none;
+    float: left;
+    font-weight: bold;
+    height: auto;
+    margin: 1px 0 0;
+    width: auto;
+}
+
+#SignUpBtn {
+    border: 1px solid #EAEAEA;
+    border-radius: 5px 5px 5px 5px;
+    color: #D86860;
+    float: right;
+    font-weight: 300;
+}
+#submit, #SignUpBtn {
+    font-size: 14px;
+    padding: 0.5em 1.1em;
+    text-align: center;
+}
+
+form input[type="submit"] {
+    cursor: pointer;
+}
+.logo-btn {
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAyCAYAAACd+7GKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAClJREFUeNpi/v//vwMTAwPDfzjBgMpFI/7hFSOT9Y8qRuF3JLoHAQIMAHYtMmRA+CugAAAAAElFTkSuQmCC") repeat-x scroll 0 0 #DADADA;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.25), 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    color: #444444;
+    display: inline-block;
+    float: left;
+    font: 14px Arial,Helvetica,sans-serif;
+    height: 40px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    width: 230px;
+}
+
 .breadcrumbs {
 	display: block;
 	font-size: 13px;
@@ -130,8 +219,86 @@ img,fieldset {
 	font-weight: normal;
 }
 
+.clear-float {
+	clear: both;
+	height: 1px;
+	margin: -1px 0 0;
+	overflow: hidden;
+}
+
+.btn {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background-color: #E0E0E0;
+	background-image: linear-gradient(#FCFCFC, #DADADA);
+	background-repeat: repeat-x;
+	border-color: #CCCCCC #C4C4C4 #B8B8B8;
+	border-image: none;
+	border-radius: 4px 4px 4px 4px;
+	border-style: solid;
+	border-width: 1px;
+	color: #444444;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 16px;
+	margin-right: 3px;
+	overflow: visible;
+	padding: 5px 10px;
+	position: relative;
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.btn span {
+	width: 16px;
+	height: 16px;
+	margin-right: 4px;
+	vertical-align: text-top;
+}
+
 .column1,.column2 {
 	float: left;
+}
+
+.dialog form input:-moz-placeholder,.standard-form form input:-moz-placeholder
+	{
+	color: #BBBBBB;
+}
+
+.dialog form input[type="text"],.dialog form input[type="email"],.dialog form input[type="password"],.dialog form textarea,.standard-form form input[type="text"],.standard-form form input[type="email"],.standard-form form input[type="password"],.standard-form form textarea
+	{
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-color: #CCCCCC #DCDCDC #E4E4E4;
+	border-radius: 5px 5px 5px 5px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.12) inset;
+	color: #404038;
+	font: 1.4em Arial, Helvetica, sans-serif;
+	padding: 0.4em 0.6em;
+	transition: all 0.08s ease-in-out 0s;
+	width: 20em;
+}
+
+input:-moz-placeholder {
+	color: #BBBBBB;
+}
+
+form label,form input,form textarea {
+	outline: medium none;
+}
+
+form label,form input,form textarea {
+	display: block;
+}
+
+input,textarea {
+	font-size: 110%;
+	line-height: 1.1;
 }
 
 img.avatart {
@@ -183,6 +350,10 @@ img,fieldset {
 	line-height: normal;
 	margin-top: 1em;
 	white-space: nowrap;
+}
+
+.recipe-details #action-buttons {
+	margin-top: 16px;
 }
 
 .recipe-details #source-ingredients {
@@ -241,7 +412,6 @@ img,fieldset {
 	position: relative;
 	width: 25px;
 }
-
 
 .recipe-details li {
 	display: block;

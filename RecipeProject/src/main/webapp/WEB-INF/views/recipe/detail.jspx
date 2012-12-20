@@ -5,7 +5,10 @@
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
 
-
+  	<c:set var="username" value='${sessionScope.RecipeUser.username}' />
+	<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
+		
+	
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<div id="page" class="center">
@@ -16,6 +19,27 @@
 					<div class="info-card">
 						<h1 class="title">${recipe.name}</h1>
 						<a class="source" href="${recipe.authorLink}">${recipe.author}</a>
+						
+						<div id="action-buttons">
+							
+							<c:if test="${not empty username}">
+								<c:if test="${isLikedByUser}">
+								
+									<a class="btn like" href="#" title="${recipe.id}" name="unlike">
+										<span>Unlike</span>
+									</a>
+									
+								</c:if>
+					
+								<c:if test="${not isLikedByUser}">
+								
+									<a class="btn like" href="#" title="${recipe.id}" name="like">
+										<span>Like</span>
+									</a>
+									
+								</c:if>
+							</c:if>						
+						</div>
 
 						<div class="portrait-frame lg">
 							<div class="portrait">
@@ -70,30 +94,5 @@
 			</div>
 		</div>
 	</div>
-	<table>
-
-
-
-
-
-
-
-		<tr>
-
-
-			<c:set var="username" value='${sessionScope.RecipeUser.username}' />
-			<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
-
-			<c:if test="${isLikedByUser}">
-				<td><a href="#" title="${recipe.id}" name="unlike">Unlike</a></td>
-			</c:if>
-
-			<c:if test="${not isLikedByUser}">
-				<td><a href="#" title="${recipe.id}" name="like">Like</a></td>
-			</c:if>
-
-		</tr>
-	</table>
-
 
 </div>
