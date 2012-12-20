@@ -2,7 +2,9 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags"
-	xmlns:form="http://www.springframework.org/tags/form" version="2.0">
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+
 
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
@@ -47,6 +49,25 @@
 
 				</div>
 			</div>
+
+			<div class="column2">
+				<div id="who-likes">
+					<p id="who-likes-count" class="gutter">${fn:length(recipe.account)}
+						people saved this recipe.</p>
+				</div>
+
+				<c:forEach items="${recipe.account}" var="account">
+					<div class="tiny-user-card">
+						<a title="${account.userName}" href="/${account.userName}"> <img
+							class="avatart" alt="${account.userName}"
+							src="images/mystery_avatart2.jpg" />
+						</a>
+					</div>
+
+
+				</c:forEach>
+
+			</div>
 		</div>
 	</div>
 	<table>
@@ -56,14 +77,6 @@
 
 
 
-
-		<tr>
-			<c:forEach items="${recipe.account}" var="account">
-
-				<td>${account.userName}</td>
-
-			</c:forEach>
-		</tr>
 
 		<tr>
 
