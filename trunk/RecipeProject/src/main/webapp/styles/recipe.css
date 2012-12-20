@@ -1,5 +1,5 @@
 body {
-	background: #F5EEE3 url(/images/bgpic.png) color:          black;
+	background: #F5EEE3 url(/images/bgpic.png) color:            black;
 	font: 12px 'Helvetica Neue', Helvetica, Arial, Sans-serif;
 }
 
@@ -130,6 +130,20 @@ img,fieldset {
 	font-weight: normal;
 }
 
+.column1,.column2 {
+	float: left;
+}
+
+img.avatart {
+	border-radius: 2px 2px 2px 2px;
+	height: 25px;
+	width: 25px;
+}
+
+img,fieldset {
+	border: 0 none;
+}
+
 .recipe-card .metric,.recipe-card .sprite,.menuboard-card .metric,.menuboard-card .sprite
 	{
 	margin-right: 7px;
@@ -150,60 +164,91 @@ img,fieldset {
 }
 
 .recipe-details .portrait img {
-    background-color: #FFFFFF;
-    border-radius: 7px 7px 7px 7px;
-    height: 100%;
-    width: 100%;
+	background-color: #FFFFFF;
+	border-radius: 7px 7px 7px 7px;
+	height: 100%;
+	width: 100%;
 }
 
 .recipe-details .ingredients-list {
-    line-height: 1.6em;
-    margin-top: 26px;
+	line-height: 1.6em;
+	margin-top: 26px;
 }
 
 .recipe-details a.source {
-    color: #666666;
-    display: block;
-    font-size: 0.9em;
-    font-weight: normal;
-    line-height: normal;
-    margin-top: 1em;
-    white-space: nowrap;
+	color: #666666;
+	display: block;
+	font-size: 0.9em;
+	font-weight: normal;
+	line-height: normal;
+	margin-top: 1em;
+	white-space: nowrap;
 }
 
 .recipe-details #source-ingredients {
-    color: #444444;
+	color: #444444;
 }
 
 .recipe-details #ingredients-toggle {
-    display: inline;
+	display: inline;
 }
 
 .recipe-details .ingredients-list ul {
-    margin-top: 0.9em;
+	margin-top: 0.9em;
 }
 
 .recipe-details #ingredients-toggle li {
-    line-height: 1.4em;
-    vertical-align: middle;
-}
-.recipe-details .ingredients-list .title, .recipe-details #preparation .title {
-    color: #333333;
-    font: 1.4em Palatino,'Palatino Linotype','URW Palladio L','Book Antiqua',Georgia,serif;
-    padding-left: 0;
-}
-.toggle-menu li {
-    border-radius: 10px 10px 10px 10px;
-    display: inline;
-    margin-right: 0.3em;
-    padding: 0.3em 0.5em;
-}
-.recipe-details li {
-    display: block;
+	line-height: 1.4em;
+	vertical-align: middle;
 }
 
-ol, ul {
-    list-style: none outside none;
+.recipe-details .ingredients-list .title,.recipe-details #preparation .title
+	{
+	color: #333333;
+	font: 1.4em Palatino, 'Palatino Linotype', 'URW Palladio L',
+		'Book Antiqua', Georgia, serif;
+	padding-left: 0;
+}
+
+.recipe-details .column2 {
+	text-shadow: 0 1px 0 #FFFFFF;
+	width: 430px;
+}
+
+.recipe-details #who-likes-count.gutter {
+	margin-bottom: 0.66em;
+}
+
+.recipe-details p {
+	margin: 1.1em 0 0;
+}
+
+.recipe-details h3,.recipe-details p {
+	font-size: 0.9em;
+}
+
+.toggle-menu li {
+	border-radius: 10px 10px 10px 10px;
+	display: inline;
+	margin-right: 0.3em;
+	padding: 0.3em 0.5em;
+}
+
+.tiny-user-card {
+	float: left;
+	height: 25px;
+	margin: 0 3px 3px 0;
+	position: relative;
+	width: 25px;
+}
+
+
+.recipe-details li {
+	display: block;
+}
+
+ol,ul {
+	list-style: none outside none;
 }
 
 .info-card-wrapper {
