@@ -73,46 +73,53 @@
 								<input name="name" type="text" />
 							</div>
 							
-							<tr>
-								<td>Author: <input name="author" type="text"/></td>
-							</tr>
+							<div class="line inline">
+								<label for="Author">Author:</label> 
+							    <input name="author" type="text"/>
+							</div>
+						
 							
-							<tr>
-								<td>Link to Author Website: <input name="authorLink" type="text"/></td>
-							</tr>
+							<div class="line inline">
+								<label for="Author Website">Link to Author Website:</label> 
+								<input name="authorLink" type="text"/>
+							</div>
 							
-							<tr>
-								<td>Diet Type: <input name="diet" type="text"/></td>
-							</tr>
+							<div class="line inline">
+								<label for="Diet">Diet:</label> 
+								<input name="diet" type="text"/>
+							</div>
 							
-							<tr>
-								<td>Photo: <input name="picture" type="text"/></td>
-							</tr>
+							<div class="line inline">
+								<label for="Photo">Photo:</label>
+								<input name="file" type="file"/>
+							</div>													
 							
-							<tr>
-								<td>Photo: <input name="file" type="file"/></td>
-							</tr>
+							<label class="ingredientLabel">
+								<span class="ingredientSpan">Ingredient:</span>
+								<input class="ingredientField" name="ingredients[0].ingredientType.name" lang="0" type="text" />
+								<input name='ingredients[0].ingredientType.id' type='hidden'"/>
+							</label>
 							
-							<tr>				
-									<td>
-									Ingredient: <input name="ingredients[0].ingredientType.name" lang="0" type="text" />
-									<input name='ingredients[0].ingredientType.id' type='hidden'"/>
-									</td>
-									<td>Amount: <input name="ingredients[0].amount" type="text" /></td>
-									<td>Metric: <input name="ingredients[0].metric" type="text" /></td>
-							
-							</tr>
+							<label class="ingredientLabel">
+								<span class="ingredientSpan">Amount:</span> 
+								<input class="ingredientField" name="ingredients[0].amount" type="text"  />
+							</label>
+									
+							<label class="ingredientLabel">		
+								 <span class="ingredientSpan">Metric:</span> 
+								 <input class="ingredientField" name="ingredients[0].metric" type="text"  />						
+							</label>
 											
 				        </div>
 					
-			    <input type="submit" value="Save" />
+			    
 			
 				</form:form>
 			</div>
 		</div>
 	</div>
 
-
+	<!-- <input type="submit" value="Save" />
 	<a href="#" id="add">add</a>
 	
 	
@@ -127,5 +134,5 @@
 			${ingredient_error.message}
 		</c:forEach> 
 	</c:if>
-	
-	<img src="file:///C:/source/Pictures/vegan_spicy_pinto_bean.jpg"></img>
+-->	
+
