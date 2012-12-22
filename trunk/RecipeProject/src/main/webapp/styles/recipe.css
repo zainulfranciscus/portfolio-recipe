@@ -1,5 +1,6 @@
 body {
-	background: #F5EEE3 url(/images/bgpic.png) color:                  black;
+	background: #F5EEE3 url("/images/bgtile.png") repeat;
+	color: black;
 	font: 12px 'Helvetica Neue', Helvetica, Arial, Sans-serif;
 }
 
@@ -22,7 +23,6 @@ a,a:visited {
 
 div {
 	display: block;
-	outline: 1px dashed red;
 }
 
 ul {
@@ -103,7 +103,8 @@ img,fieldset {
 }
 
 #ingredientsSection {
-	width: 800px;
+	width: 100%;
+	overflow: auto;
 }
 
 #inner-header.fullscreen {
@@ -260,6 +261,10 @@ form input[type="submit"] {
 	text-shadow: 0 1px 0 #FFFFFF;
 }
 
+.card-footer a {
+	color: #444444;
+}
+
 .card-footer .domain {
 	font-size: 1.08em;
 	font-weight: bold;
@@ -283,20 +288,6 @@ form input[type="submit"] {
 	overflow: hidden;
 }
 
-.dialog.white {
-	background: none repeat scroll 0 0 #FFFFFF;
-	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.12);
-}
-
-.dialog.full {
-	width: 910px;
-}
-
-.dialog .dialog {
-	font-size: 1em;
-	margin: 0;
-}
-
 .dialog {
 	border-radius: 5px 5px 5px 5px;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(0, 0, 0, 0.12);
@@ -305,6 +296,20 @@ form input[type="submit"] {
 	margin: 0 auto;
 	padding: 25px 35px;
 	width: 610px;
+}
+
+.dialog.white {
+	background: url("images/diagonal-gray.png") repeat #F7F6F4;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dialog.full {
+	width: 1040px;
+}
+
+.dialog .dialog {
+	font-size: 1em;
+	margin: 0;
 }
 
 .dialog .light-header {
@@ -375,7 +380,6 @@ form input[type="submit"] {
 	font: 1.4em Arial, Helvetica, sans-serif;
 	padding: 0.4em 0.6em;
 	transition: all 0.08s ease-in-out 0s;
-
 }
 
 input:-moz-placeholder {
@@ -515,6 +519,27 @@ ol,ul {
 	list-style: none outside none;
 }
 
+.awesome {
+	background: url("images/base.png") repeat-x scroll 0 0 #E33110;
+	border: 0 none;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	line-height: 1.29em;
+	margin-top: 15px;
+	padding: 10px 16px;
+	position: relative;
+	text-align: left;
+	text-decoration: none;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.awesome.large {
+	font-size: 12px;
+}
+
 .info-card-wrapper {
 	width: 500px;
 }
@@ -535,7 +560,6 @@ ol,ul {
 }
 
 .recipe-card a,.menuboard-card a {
-	color: #FFFFFF;
 	text-decoration: none;
 }
 
@@ -689,16 +713,97 @@ img.diet {
 .ingredientLabel {
 	width: 200px;
 	float: left;
-	margin: 0 30px 0 0;
+	margin: 0 60px 0 0;
 }
 
 .ingredientSpan {
-	display: block;
 	margin: 0 0 3px;
 }
 
-.ingredientField {
-	width: 10em;	
+input .ingredientField {
+	width: 10em;
 	border: 1px solid #000;
 	padding: 5px;
+}
+
+input[class="recipeField"] {
+	width: 20em;
+}
+
+#nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	height: 37px;
+	color: #DDDDDD;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+#nav li {
+	float: right;
+	display: block;
+	width: 124px;
+	position: relative;
+	z-index: 500;
+	text-decoration: none;
+}
+
+#nav li a {
+	display: block;
+	height: 37px;
+	line-height: 37px;
+	text-decoration: none;
+	text-align: center;
+	
+}
+
+
+
+#nav a.selected {
+	color: #000;
+}
+
+#nav ul {
+	position: absolute;
+	right: 0;
+	display: none;
+	padding: 0;
+	list-style: none;
+	background-color: #383830;	
+	-moz-border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 10px;
+}
+
+#nav ul li {
+	width: 124px;
+	float: right;
+	
+}
+
+#nav ul ul {
+	width: 124px;
+	float: right;
+	margin: 0px 124px 0px 0px;
+	display: block;
+	border-radius: 10px 0 0 10px;
+}
+
+#nav ul a {
+	display: block;
+	height: 30px;
+	color: #DDDDDD;
+	line-height: 30px;
+	text-decoration: none;
+}
+
+#nav li ul ul {
+	margin: 0px 124px 0 10px;
+}
+
+#nav ul a:hover {
+	text-decoration: none;
+}
+
+* html #nav ul {
+	margin: 0 0 0 -2px;
 }
