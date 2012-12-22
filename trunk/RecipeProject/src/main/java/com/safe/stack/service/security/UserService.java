@@ -71,6 +71,8 @@ public class UserService extends JdbcDaoImpl {
 		userDetails.getPassword(), userDetails.isEnabled(),
 		userDetails.isAccountNonExpired(), userDetails.isCredentialsNonExpired(),
 		userDetails.isAccountNonLocked(), userDetails.getAuthorities());
+	
+	recipeUser.setUserAlias(recipeUserFromQuery.getUserAlias());
 
 	return recipeUser;
 
