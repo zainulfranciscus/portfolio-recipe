@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 
 import org.hibernate.validator.engine.ConstraintViolationImpl;
@@ -24,11 +25,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.safe.stack.domain.Account;
@@ -318,5 +321,29 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	assertNotNull(errors);
 	assertEquals("Please specify an ingredient", errors.iterator().next().getMessage());
+    }
+    
+    @Test
+    public void testEditProfile()
+    {
+	ExtendedModelMap uiModel = new ExtendedModelMap();
+	HttpServletRequest request = new MockHttpServletRequest();
+	RecipeUser recipeUser = new RecipeUser("a@email.com", "password", true, true, true, true,new ArrayList<GrantedAuthority>());
+	AccountService mockAccountService = mock(AccountService.class);
+	
+	Account userAccount = new Account();
+	userAccount.setEmail("a@email.com");
+	when(mockAccountService.findByEmail("a@email.com")).thenReturn(userAccount);
+	request.getSession().setAttribute("RecipeUser", recipeUser);
+	
+	HomeController homeController = new HomeController();	
+	
+	ReflectionTestUtils.setField(homeController, "accountService", mockAccountService);
+	
+	String result = homeController.editProfile(uiModel, request);
+	
+	Account acc = (Account)uiModel.get("account");
+	assertEquals("a@email.com", acc.getEmail());
+	assertEquals(HomeController.RECIPE_EDIT_PROFILE_PAGE, result);
     }
 }
