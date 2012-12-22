@@ -20,4 +20,9 @@
         <put-attribute name="body"
             value="/WEB-INF/views/recipe/addRecipe.jsp" />
     </definition>
+    
+    <definition extends="default" name="recipe/editProfile">
+        <put-attribute name="body"
+            value="/WEB-INF/views/recipe/editProfile.jsp" />
+    </definition>
 </tiles-definitions>

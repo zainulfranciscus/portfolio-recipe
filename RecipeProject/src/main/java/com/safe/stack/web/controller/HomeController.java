@@ -50,6 +50,7 @@ public class HomeController {
     protected static final String RECIPE_LOGIN_PAGE = "recipe/login";
     protected static final String RECIPE_DETAILS_PAGE = "recipe/detail";
     protected static final String RECIPE_ADD_RECIPE_PAGE = "recipe/addRecipe";
+    protected static final String RECIPE_EDIT_PROFILE_PAGE = "recipe/editProfile";
 
     @Autowired
     private MessageSource messageSource;
@@ -236,6 +237,16 @@ public class HomeController {
 
 	return RECIPE_LIST_PAGE;
 
+    }
+    
+    @RequestMapping(value = "/editProfile", method = RequestMethod.POST, params = "SignUp")
+    public String editProfile(Model uiModel, HttpServletRequest request)
+    {
+	RecipeUser recipeUser = (RecipeUser)request.getSession().getAttribute("RecipeUser");
+	Account acc = accountService.findByEmail(recipeUser.getUsername());
+	
+	uiModel.addAttribute("account", acc);
+	return RECIPE_EDIT_PROFILE_PAGE;
     }
 
 }
