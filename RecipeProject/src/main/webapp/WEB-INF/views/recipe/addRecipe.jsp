@@ -19,15 +19,18 @@
 			
 			 $('#add').click(function() {	
 				 
-				 var ingredientsElement = "<tr id='row" + counter + "'>"+
-				 "<td>Ingredient: <input name='ingredients[" + counter + "].ingredientType.name' type='text' lang='" + counter + "'/>" +
-				 "<input name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></td>" +
-				 "<td>Amount: <input name='ingredients[" + counter + "].amount' type='text' /></td>" +
-				 "<td>Metric: <input name='ingredients[" + counter + "].metric' type='text' /></td>" +
-				 "<td><input value='remove' name='removeBtn' lang=" + counter + " type='button' /></td>" +
-				 "</tr>"
+				 var ingredientsElement = "<div lang='row" + counter + "' class='line inline'>" +
+				 "<label class='ingredientLabel'>"+
+				 "<span class='ingredientSpan'>Ingredient:</span>" + 
+				 "<input class= 'ingredientField' name='ingredients[" + counter + "].ingredientType.name' type='text' lang='" + counter + "'/>" +
+				 "<input class= 'ingredientField' name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></label></div>" +
+				 "<div lang='row" + counter + "' class='line inline'><label class='ingredientLabel'><span class='ingredientSpan'>Amount:</span>" + 
+				 "<input  class= 'ingredientField' name='ingredients[" + counter + "].amount' type='text' /></label></div>" +
+				 "<div lang='row" + counter + "' class='line inline'><label class='ingredientLabel'><span class='ingredientSpan'>Metric:</span>" +
+				 "<input   class= 'ingredientField' name='ingredients[" + counter + "].metric' type='text' /></label></div>" +
+				 "<div lang='row" + counter + "' class='line inline'><span class='ingredientSpan'><label class='ingredientLabel'><input value='remove' name='removeBtn' lang=" + counter + " type='button' class='awesome' />" + "</span></label></div>";
 				 
-				 $(ingredientsElement).appendTo('#ingredientsSection');
+				 $(ingredientsElement).appendTo('#ingredientList');
 				 
 				 counter +=1;
   		     });
@@ -49,7 +52,7 @@
 			 $('input[name="removeBtn"]').live('click', function() {
 				 
 				 var rowToBeDeletedIndex = $(this).attr("lang");
-				 $("#row" + rowToBeDeletedIndex).remove();
+				 $("div[lang='row" + rowToBeDeletedIndex + "']").remove();
 				 
 			 });
 
@@ -70,58 +73,79 @@
 						
 							<div class="line inline">
 								<label for="Name">Name:</label> 
-								<input name="name" type="text" />
+								<input class="recipeField" name="name" type="text" />
 							</div>
 							
 							<div class="line inline">
 								<label for="Author">Author:</label> 
-							    <input name="author" type="text"/>
+							    <input class="recipeField"  name="author" type="text"/>
 							</div>
 						
 							
 							<div class="line inline">
 								<label for="Author Website">Link to Author Website:</label> 
-								<input name="authorLink" type="text"/>
+								<input class="recipeField"  name="authorLink" type="text"/>
 							</div>
 							
 							<div class="line inline">
 								<label for="Diet">Diet:</label> 
-								<input name="diet" type="text"/>
+								<input class="recipeField"  name="diet" type="text"/>
 							</div>
 							
 							<div class="line inline">
 								<label for="Photo">Photo:</label>
-								<input name="file" type="file"/>
+								<input class="recipeField"  name="file" type="file"/>
 							</div>													
 							
-							<label class="ingredientLabel">
-								<span class="ingredientSpan">Ingredient:</span>
-								<input class="ingredientField" name="ingredients[0].ingredientType.name" lang="0" type="text" />
-								<input name='ingredients[0].ingredientType.id' type='hidden'"/>
-							</label>
 							
-							<label class="ingredientLabel">
-								<span class="ingredientSpan">Amount:</span> 
-								<input class="ingredientField" name="ingredients[0].amount" type="text"  />
-							</label>
+							<div id="ingredientList">
+							
+								<div class="line inline">
+									<label class="ingredientLabel">
+										<span class="ingredientSpan">Ingredient:</span>
+										<input class="ingredientField" name="ingredients[0].ingredientType.name" lang="0" type="text" />
+										<input name='ingredients[0].ingredientType.id' type='hidden'/>
+									</label>
+								</div>	
+								
+								<div class="line inline">
+									<label class="ingredientLabel">
+										<span class="ingredientSpan">Amount:</span> 
+										<input class="ingredientField" name="ingredients[0].amount" type="text"  />
+									</label>
+								</div>
+								
+								<div class="line inline">		
+									<label class="ingredientLabel">		
+										 <span class="ingredientSpan">Metric:</span> 
+										 <input class="ingredientField" name="ingredients[0].metric" type="text"  />						
+									</label>
+								</div>
+															
+								<div class="clear-float"/>
+						
+							</div>
+							
+							
 									
-							<label class="ingredientLabel">		
-								 <span class="ingredientSpan">Metric:</span> 
-								 <input class="ingredientField" name="ingredients[0].metric" type="text"  />						
-							</label>
-											
 				        </div>
-					
-			    
-			
+
 				</form:form>
 			</div>
 		</div>
 	</div>
 
-	<!-- <input type="submit" value="Save" />
-	<a href="#" id="add">add</a>
 	
+	
+							<div class="line inline">
+								<label class="ingredientLabel">	
+									<input class="awesome large" type="submit" value="Save"/>
+								</label>
+							</div>	
+							
+								
+							
+							<a href="#" id="add">add</a>
 	
 	<c:if test="${not empty recipe_errors}">
 			<c:forEach items="${recipe_errors}" var="recipe_error">
@@ -134,5 +158,5 @@
 			${ingredient_error.message}
 		</c:forEach> 
 	</c:if>
--->	
+
 

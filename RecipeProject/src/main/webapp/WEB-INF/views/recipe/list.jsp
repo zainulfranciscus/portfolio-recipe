@@ -5,6 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <script type="text/javascript">
+
 	$(document).ready(function() {
 
 		$('#lookForRecipes').click(function() {
@@ -32,9 +33,18 @@
 		 	<a href="#" id="lookForRecipes">search</a>
 		 </li>
 	</ul>
-
-
+	
 	<div id="result">
 		<%@include file="recipes.jsp"%>
 	</div>
+	
+	<script type="text/javascript">
+
+	(function () {
+	    $("#menu").menu({
+	        menuIcon: true,
+	        buttons: true
+	    })
+	} (jQuery));
+	</script>
 </div>
