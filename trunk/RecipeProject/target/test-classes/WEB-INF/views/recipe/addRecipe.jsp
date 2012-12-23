@@ -17,6 +17,23 @@
 				
 			}
 			
+			 $('input[name*=".ingredientType.name"]').autocomplete({
+				 source: ingredientArray
+			 });
+			 
+			 $('ul.ui-autocomplete').css({
+				 'background': 'none repeat scroll 0 0 #FFFFFF',
+			     'border-color': '#CCCCCC #DCDCDC #E4E4E4',
+			     'border-radius': '5px 5px 5px 5px',
+			     'border-style': 'solid',
+			     'border-width': '1px',
+			     'box-shadow' : '0 0 1px rgba(0, 0, 0, 0.12) inset',
+			     'color': '#404038',
+			     'font': '1.4em Arial,Helvetica,sans-serif',
+			     'padding': '0.4em 0.6em',
+			     'transition' : 'all 0.08s ease-in-out 0s'			    			    
+			 });
+			 
 			 $('#add').click(function() {	
 				 
 				 var ingredientsElement = "<div lang='row" + counter + "' class='line inline'>" +
@@ -32,12 +49,29 @@
 				 
 				 $(ingredientsElement).appendTo('#ingredientList');
 				 
+				 $('input[name*=".ingredientType.name"]').autocomplete({
+					 source: ingredientArray
+				 });
+				 
+				 $('ul.ui-autocomplete').css({
+					 'background': 'none repeat scroll 0 0 #FFFFFF',
+				     'border-color': '#CCCCCC #DCDCDC #E4E4E4',
+				     'border-radius': '5px 5px 5px 5px',
+				     'border-style': 'solid',
+				     'border-width': '1px',
+				     'box-shadow' : '0 0 1px rgba(0, 0, 0, 0.12) inset',
+				     'color': '#404038',
+				     'font': '1.4em Arial,Helvetica,sans-serif',
+				     'padding': '0.4em 0.6em',
+				     'transition' : 'all 0.08s ease-in-out 0s'			    			    
+				 });
+				 
 				 counter +=1;
   		     });
 			 
-			 $('input[name*=".ingredientType.name"]').autocomplete({
-				 source: ingredientArray
-			 });
+			
+			
+			
 			 
 			 $('input[name*=".ingredientType.name"]').live('blur',function(){
 				 
@@ -55,6 +89,8 @@
 				 $("div[lang='row" + rowToBeDeletedIndex + "']").remove();
 				 
 			 });
+			 
+			 
 
 		  });
 	</script>
@@ -106,6 +142,8 @@
 										<input class="ingredientField" name="ingredients[0].ingredientType.name" lang="0" type="text" />
 										<input name='ingredients[0].ingredientType.id' type='hidden'/>
 									</label>
+									<div id="menu-container" style="position:absolute; width: 249px;">
+									</div>
 								</div>	
 								
 								<div class="line inline">
