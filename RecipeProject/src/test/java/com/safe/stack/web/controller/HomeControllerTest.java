@@ -162,7 +162,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	homeController.likeARecipe(String.valueOf(recipeId),"like");
+	homeController.likeARecipe(String.valueOf(recipeId), "like");
 	Mockito.verify(accountService).likeARecipe(userName, recipeId);
 
     }
@@ -322,28 +322,74 @@ public class HomeControllerTest extends AbstractControllerTest {
 	assertNotNull(errors);
 	assertEquals("Please specify an ingredient", errors.iterator().next().getMessage());
     }
-    
+
     @Test
-    public void testEditProfile()
-    {
+    public void testEditProfile() {
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 	HttpServletRequest request = new MockHttpServletRequest();
-	RecipeUser recipeUser = new RecipeUser("a@email.com", "password", true, true, true, true,new ArrayList<GrantedAuthority>());
+	RecipeUser recipeUser = new RecipeUser("a@email.com", "password", true, true, true, true,
+		new ArrayList<GrantedAuthority>());
 	AccountService mockAccountService = mock(AccountService.class);
-	
+
 	Account userAccount = new Account();
 	userAccount.setEmail("a@email.com");
 	when(mockAccountService.findByEmail("a@email.com")).thenReturn(userAccount);
 	request.getSession().setAttribute("RecipeUser", recipeUser);
-	
-	HomeController homeController = new HomeController();	
-	
+
+	HomeController homeController = new HomeController();
+
 	ReflectionTestUtils.setField(homeController, "accountService", mockAccountService);
-	
+
 	String result = homeController.editProfile(uiModel, request);
-	
-	Account acc = (Account)uiModel.get("account");
+
+	Account acc = (Account) uiModel.get("account");
 	assertEquals("a@email.com", acc.getEmail());
 	assertEquals(HomeController.RECIPE_EDIT_PROFILE_PAGE, result);
+    }
+
+    @Test
+    public void testSaveInvalidProfile() {
+	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
+	MessageSource mockMessageSource = mock(MessageSource.class);
+
+	when(
+		mockMessageSource.getMessage("{validation.password.invalid.format}",
+			new Object[] {}, Locale.UK))
+		.thenReturn(
+			"A password must be at least 6 characters with at least a number and a capital letter");
+
+	ConstraintViolation<Account> violation = new ConstraintViolationImpl<Account>(
+		"{validation.password.invalid.format}",
+		"A password must be at least 6 characters with at least a number and a capital letter",
+		Account.class, new Account(), new Object(), new Object(), null, null,
+		ElementType.ANNOTATION_TYPE);
+
+	Set<ConstraintViolation<Account>> violations = new HashSet<ConstraintViolation<Account>>();
+	violations.add(violation);
+
+	when(mockValidator.validate(Mockito.isA(Account.class))).thenReturn(violations);
+	
+	Account account = new Account();	
+	account.setEmail("email@email.com");
+	account.setPassword("invalidpassword");
+	account.setUserName("userName");
+	
+	HomeController homeController = new HomeController();
+
+	ReflectionTestUtils.setField(homeController, "messageSource", mockMessageSource);
+	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
+	
+	ExtendedModelMap uiModel = new ExtendedModelMap();
+	String result = homeController.saveProfile(account, uiModel, null);
+	
+	assertNotNull(result);
+	assertEquals(result, HomeController.RECIPE_EDIT_PROFILE_PAGE);
+
+	Set<ConstraintViolation<Account>> errors = (Set<ConstraintViolation<Account>>) uiModel
+		.get("account_errors");
+
+	assertNotNull(errors);
+	assertEquals("A password must be at least 6 characters with at least a number and a capital letter", errors.iterator().next().getMessage());
+
     }
 }

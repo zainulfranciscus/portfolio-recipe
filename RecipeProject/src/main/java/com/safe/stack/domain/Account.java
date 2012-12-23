@@ -30,7 +30,7 @@ public class Account implements Serializable {
     private String password;
     private String userName;
     private Blob picture;
-    private Blob bio;
+    private String bio;
     private String location;
     private String twitter;
     private int version;
@@ -129,7 +129,7 @@ public class Account implements Serializable {
      * @return the bio
      */
     @Column(name = "bio")
-    public Blob getBio() {
+    public String getBio() {
 	return bio;
     }
 
@@ -137,7 +137,7 @@ public class Account implements Serializable {
      * @param bio
      *            the bio to set
      */
-    public void setBio(Blob bio) {
+    public void setBio(String bio) {
 	this.bio = bio;
     }
 

@@ -8,7 +8,7 @@ CREATE  TABLE Account (
   password VARCHAR(50) NOT NULL ,
   username VARCHAR(50) NULL ,
   picture LONGBLOB NULL ,
-  bio BLOB NULL ,
+  bio longtext NULL ,
   location VARCHAR(45) NULL ,
   twitter VARCHAR(45) NULL ,
   enabled TINYINT default 1 ,
