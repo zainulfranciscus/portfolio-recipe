@@ -69,14 +69,13 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
-	
+
 	List<Recipe> list = new ArrayList<Recipe>();
-	for(int i = 0; i < 10; i++)
-	{
+	for (int i = 0; i < 10; i++) {
 	    list.add(recipeService.findAll().get(0));
 	}
 	uiModel.addAttribute("recipes", list);
-	//uiModel.addAttribute("recipes", recipeService.findAll());
+	// uiModel.addAttribute("recipes", recipeService.findAll());
 	return RECIPE_LIST_PAGE;
     }
 
@@ -153,7 +152,6 @@ public class HomeController {
 	}
 	return RECIPE_LIST_PAGE;
     }
-    
 
     @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST)
     public String searchRecipes(@RequestParam("ingredient") String ingredient, Model uiModel) {
@@ -238,14 +236,31 @@ public class HomeController {
 	return RECIPE_LIST_PAGE;
 
     }
-    
-    @RequestMapping(value = "/editProfile", method = RequestMethod.POST, params = "SignUp")
-    public String editProfile(Model uiModel, HttpServletRequest request)
-    {
-	RecipeUser recipeUser = (RecipeUser)request.getSession().getAttribute("RecipeUser");
+
+    @RequestMapping(value = "/editProfile", method = RequestMethod.GET)
+    public String editProfile(Model uiModel, HttpServletRequest request) {
+	RecipeUser recipeUser = (RecipeUser) request.getSession().getAttribute("RecipeUser");
 	Account acc = accountService.findByEmail(recipeUser.getUsername());
-	
+
 	uiModel.addAttribute("account", acc);
+	return RECIPE_EDIT_PROFILE_PAGE;
+    }
+
+    @RequestMapping(value = "/saveProfile", method = RequestMethod.POST)
+    public String saveProfile(Account account, Model uiModel,
+	    @RequestParam(value = "file", required = false) Part file) {
+
+	Set<ConstraintViolation<Account>> violations = validator.validate(account);
+
+	if (violations.size() > 0) {
+
+	    uiModel.addAttribute("account_errors", violations);
+	    return RECIPE_EDIT_PROFILE_PAGE;
+
+	}
+
+	accountService.save(account);
+
 	return RECIPE_EDIT_PROFILE_PAGE;
     }
 
