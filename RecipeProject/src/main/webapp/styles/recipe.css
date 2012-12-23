@@ -75,6 +75,10 @@ img,fieldset {
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
 }
 
+#edit-profile-form {
+	width: 640px;
+}
+
 #email,#pw {
 	background: none repeat scroll 0 0 #FEFEFE;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
@@ -96,9 +100,10 @@ img,fieldset {
 	line-height: 1.5em;
 	margin: 0 0 1em;
 	padding: 0.9em;
+	width: 400px;
 }
 
-#email,#pw,#error {
+#email,#pw {
 	width: 220px;
 }
 
@@ -305,6 +310,7 @@ form input[type="submit"] {
 
 .dialog.full {
 	width: 1040px;
+	height: 100%;
 }
 
 .dialog .dialog {
@@ -363,13 +369,18 @@ form input[type="submit"] {
 	float: left;
 }
 
+.dialog form textarea,.standard-form form textarea {
+	resize: none;
+}
+
 .dialog form input:-moz-placeholder,.standard-form form input:-moz-placeholder
-	{
+{
 	color: #BBBBBB;
 }
 
+
 .dialog form input[type="text"],.dialog form input[type="email"],.dialog form input[type="password"],.dialog form textarea,.standard-form form input[type="text"],.standard-form form input[type="email"],.standard-form form input[type="password"],.standard-form form textarea
-	{
+{
 	background: none repeat scroll 0 0 #FFFFFF;
 	border-color: #CCCCCC #DCDCDC #E4E4E4;
 	border-radius: 5px 5px 5px 5px;
@@ -538,6 +549,12 @@ ol,ul {
 
 .awesome.large {
 	font-size: 12px;
+}
+
+.awesome:hover {
+	background-color: #CB2C0E;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 .info-card-wrapper {
@@ -730,13 +747,16 @@ input[class="recipeField"] {
 	width: 20em;
 }
 
+textarea[class="recipeField"]{
+	width: 20em;
+}
 #nav {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	height: 37px;
 	color: #DDDDDD;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 #nav li {
@@ -754,10 +774,7 @@ input[class="recipeField"] {
 	line-height: 37px;
 	text-decoration: none;
 	text-align: center;
-	
 }
-
-
 
 #nav a.selected {
 	color: #000;
@@ -769,7 +786,7 @@ input[class="recipeField"] {
 	display: none;
 	padding: 0;
 	list-style: none;
-	background-color: #383830;	
+	background-color: #383830;
 	-moz-border-radius: 0 0 10px 10px;
 	border-radius: 0 0 10px 10px;
 }
@@ -777,7 +794,6 @@ input[class="recipeField"] {
 #nav ul li {
 	width: 124px;
 	float: right;
-	
 }
 
 #nav ul ul {

@@ -35,9 +35,9 @@ public class RecipeServiceImpl implements RecipeService {
      * 
      * @see
      * com.safe.stack.service.RecipeService#save(com.safe.stack.domain.Recipe)
-     */
+     */  
     public void save(Recipe recipe) {
-	recipeRepository.save(recipe);
+	entityManager.merge(recipe);
     }
 
     /*

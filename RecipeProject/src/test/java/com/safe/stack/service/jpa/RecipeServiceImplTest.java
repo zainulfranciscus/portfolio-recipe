@@ -39,8 +39,19 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	ingr.setMetric("g");
 
 	
+	IngredientType ingredientType2 = new IngredientType();
+	ingredientType2.setName("Beef");
+	
+	Ingredient ingr2 = new Ingredient();
+	ingr2.setAmount("120");
+	ingr2.setIngredientType(ingredientType2);
+	ingr2.setMetric("g");
+
+	
 	List<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ingredients.add(ingr);
+	ingredients.add(ingr2);
+	
 	
 	r.setIngredients(ingredients);
 	
@@ -56,11 +67,15 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("caserolle_pic", recipeFromDB.getPicture());
 	
 	ingredients = recipeFromDB.getIngredients();
-	assertEquals(1,ingredients.size());
+	assertEquals(2,ingredients.size());
 	
 	assertEquals("250", ingredients.get(0).getAmount());
 	assertEquals("Pasta", ingredients.get(0).getIngredientType().getName());
 	assertEquals("g", ingredients.get(0).getMetric());
+	
+	assertEquals("120", ingredients.get(1).getAmount());
+	assertEquals("Beef", ingredients.get(1).getIngredientType().getName());
+	assertEquals("g", ingredients.get(1).getMetric());
 
     }
     

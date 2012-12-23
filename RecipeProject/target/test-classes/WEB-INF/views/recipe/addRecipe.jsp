@@ -28,7 +28,7 @@
 				 "<input  class= 'ingredientField' name='ingredients[" + counter + "].amount' type='text' /></label></div>" +
 				 "<div lang='row" + counter + "' class='line inline'><label class='ingredientLabel'><span class='ingredientSpan'>Metric:</span>" +
 				 "<input   class= 'ingredientField' name='ingredients[" + counter + "].metric' type='text' /></label></div>" +
-				 "<div lang='row" + counter + "' class='line inline'><span class='ingredientSpan'><label class='ingredientLabel'><input value='remove' name='removeBtn' lang=" + counter + " type='button' class='awesome' />" + "</span></label></div>";
+				 "<div lang='row" + counter + "' class='line inline'><span class='ingredientSpan'><label class='ingredientLabel'><input value='remove' name='removeBtn' lang=" + counter + " type='button' class='awesome' />" + "</span></label></div><div class='clear-float'/>";
 				 
 				 $(ingredientsElement).appendTo('#ingredientList');
 				 
@@ -121,7 +121,9 @@
 										 <input class="ingredientField" name="ingredients[0].metric" type="text"  />						
 									</label>
 								</div>
-															
+								
+								 <input id="add" value="add" type="button" type="button" class="awesome"  />	
+											
 								<div class="clear-float"/>
 						
 							</div>
@@ -129,24 +131,19 @@
 							
 									
 				        </div>
+				        
+				        
+							<div class="line inline">
+								<label class="ingredientLabel">	
+									<input class="awesome large" type="submit" value="Save"/>
+								</label>
+							</div>	
 
 				</form:form>
 			</div>
 		</div>
 	</div>
 
-	
-	
-							<div class="line inline">
-								<label class="ingredientLabel">	
-									<input class="awesome large" type="submit" value="Save"/>
-								</label>
-							</div>	
-							
-								
-							
-							<a href="#" id="add">add</a>
-	
 	<c:if test="${not empty recipe_errors}">
 			<c:forEach items="${recipe_errors}" var="recipe_error">
 			${recipe_error.message}
