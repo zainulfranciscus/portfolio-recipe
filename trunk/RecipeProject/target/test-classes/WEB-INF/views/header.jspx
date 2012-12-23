@@ -46,6 +46,7 @@
 							<sec:authorize access="hasRole('admin')">
 								<li><a href="addRecipe">Add Recipe</a></li>
 							</sec:authorize>
+							<li><a href="editProfile">Edit Profile</a></li>
 							<li><a href="j_spring_security_logout">Sign Out</a></li>
 						</ul></li>
 				</ul>
