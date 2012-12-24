@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +15,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,12 +74,7 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
 
-	List<Recipe> list = new ArrayList<Recipe>();
-	for (int i = 0; i < 10; i++) {
-	    list.add(recipeService.findAll().get(0));
-	}
-	uiModel.addAttribute("recipes", list);
-	// uiModel.addAttribute("recipes", recipeService.findAll());
+	uiModel.addAttribute("recipes", recipeService.findAll());
 	return RECIPE_LIST_PAGE;
     }
 
@@ -122,12 +121,24 @@ public class HomeController {
 	List<Ingredient> ingredients = recipe.getIngredients();
 
 	Set<ConstraintViolation<Ingredient>> ingredientViolations = new HashSet<ConstraintViolation<Ingredient>>();
+	
+	Set<ConstraintViolation<IngredientType>> ingredientTypeViolations = new HashSet<ConstraintViolation<IngredientType>>();
 
 	for (Ingredient ingr : ingredients) {
 	    ingredientViolations = validator.validate(ingr);
 
+	    IngredientType ingrType = ingr.getIngredientType();
+	    
+	    ingredientTypeViolations = validator.validate(ingrType);
+	    
 	    if (ingredientViolations.size() > 0) {
 		uiModel.addAttribute("ingredient_errors", ingredientViolations);
+		break;
+	    }
+	    
+	    if(ingredientTypeViolations.size() > 0)
+	    {
+		uiModel.addAttribute("ingredientType_errors", ingredientTypeViolations);
 		break;
 	    }
 	}
@@ -136,20 +147,37 @@ public class HomeController {
 	    return RECIPE_ADD_RECIPE_PAGE;
 	}
 
-	recipeService.save(recipe);
+	 String imgFileName = "";
 
 	if (file != null) {
-	    File f = new File(
+
+	    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy-hhmmss");
+	    imgFileName = "recipe" + sdf.format(Calendar.getInstance().getTime()) + ".png";
+	    String thumbnailFileName = "recipethumb" + sdf.format(Calendar.getInstance().getTime())
+		    + ".png";
+
+	    File imgFile = new File(
 		    "C:/springsource/vfabric-tc-server-developer-2.7.2.RELEASE/base-instance/wtpwebapps/RecipeProject/images/"
-			    + recipe.getPicture());
-	    if (f.exists()) {
-		f.createNewFile();
-	    }
-	    OutputStream out = new FileOutputStream(f);
+			    + imgFileName);
+	    imgFile.createNewFile();
+
+	    OutputStream out = new FileOutputStream(imgFile);
 	    IOUtils.copy(file.getInputStream(), out);
 	    out.flush();
 	    out.close();
+
+	    File thumbnailFile = new File(
+		    "C:/springsource/vfabric-tc-server-developer-2.7.2.RELEASE/base-instance/wtpwebapps/RecipeProject/images/"
+			    + thumbnailFileName);
+	    thumbnailFile.createNewFile();
+
+	    Thumbnails.of(imgFile).size(250, 250).toFile(thumbnailFile);
+
 	}
+
+	recipe.setPicture(imgFileName);
+	recipeService.save(recipe);
+	
 	return RECIPE_LIST_PAGE;
     }
 

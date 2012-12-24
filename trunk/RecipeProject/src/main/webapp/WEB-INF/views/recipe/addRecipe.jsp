@@ -18,7 +18,7 @@
 			}
 			
 			 $('input[name*=".ingredientType.name"]').autocomplete({
-				 source: ingredientArray
+				 source: ingredientArray, appendTo: '#menu-container'
 			 });
 			 
 			 $('ul.ui-autocomplete').css({
@@ -40,7 +40,9 @@
 				 "<label class='ingredientLabel'>"+
 				 "<span class='ingredientSpan'>Ingredient:</span>" + 
 				 "<input class= 'ingredientField' name='ingredients[" + counter + "].ingredientType.name' type='text' lang='" + counter + "'/>" +
+				 "<div id='menu-container"+ counter + "' style='position:absolute; width: 249px;'></div>" +
 				 "<input class= 'ingredientField' name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></label></div>" +
+				 "<input name='ingredients[" + counter + "].ingredientType.version' type='hidden' value='0'/>" +
 				 "<div lang='row" + counter + "' class='line inline'><label class='ingredientLabel'><span class='ingredientSpan'>Amount:</span>" + 
 				 "<input  class= 'ingredientField' name='ingredients[" + counter + "].amount' type='text' /></label></div>" +
 				 "<div lang='row" + counter + "' class='line inline'><label class='ingredientLabel'><span class='ingredientSpan'>Metric:</span>" +
@@ -50,7 +52,7 @@
 				 $(ingredientsElement).appendTo('#ingredientList');
 				 
 				 $('input[name*=".ingredientType.name"]').autocomplete({
-					 source: ingredientArray
+					 source: ingredientArray, appendTo: '#menu-container' + counter
 				 });
 				 
 				 $('ul.ui-autocomplete').css({
@@ -76,10 +78,14 @@
 			 $('input[name*=".ingredientType.name"]').live('blur',function(){
 				 
 				 var ingredientTypeFieldName = "ingredients[" +  $(this).attr("lang") + "].ingredientType.id";
+				 var ingredientTypeVersion = "ingredients[" +  $(this).attr("lang") + "].ingredientType.version";
+				 
 				 var ingredientTypeValue = $(this).val();				 
 				 var idForThisIngredient = $('input[lang="' + ingredientTypeValue + '"]').val();
+				 var versionForThisIngredient = $('input[lang="' + ingredientTypeValue + '"]').attr("accept");
 				 
 				 $('input[name="' + ingredientTypeFieldName + '"]').attr("value",idForThisIngredient);
+				 $('input[name="' + ingredientTypeVersion + '"]').attr("value",versionForThisIngredient);
 				 
 			 });
 			 
@@ -96,11 +102,45 @@
 	</script>
 	
 	<c:forEach items="${ingredientTypes}" var="ingredientType">   
-    	<input type="hidden" value="${ingredientType.id}" name="ingredientType" lang="${ingredientType.name}"/>
+    	<input type="hidden" value="${ingredientType.id}" name="ingredientType" lang="${ingredientType.name}" accept="${ingredientType.version}"/>
     </c:forEach>
 
+	
+	
 	<div id="page" class="center">
 		<div class="dialog full white">
+		
+			
+				<c:if test="${not empty recipe_errors}">
+				<div id="error">
+				<ul>
+						<c:forEach items="${recipe_errors}" var="recipe_error">
+						<li>${recipe_error.message}</li>
+					</c:forEach> 
+				</ul>
+				</div>
+				</c:if>
+				
+				<c:if test="${not empty ingredient_errors}">
+				<div id="error">
+				<ul>
+						<c:forEach items="${ingredient_errors}" var="ingredient_error">
+						<li>${ingredient_error.message}</li>
+					</c:forEach>
+				</ul>
+				</div> 
+				</c:if>
+				
+				<c:if test="${not empty ingredientType_errors}">
+				<div id="error">
+				<ul>
+					<c:forEach items="${ingredientType_errors}" var="ingredientType_error">
+						<li>${ingredientType_errors.message}</li>
+					</c:forEach>
+				</ul>
+				</div>  
+				</c:if>
+			
 			<h1 class="light-header">Add a Recipe</h1>
 			<div class="right-body">
 				<form:form modelAttribute="recipe" id="addRecipeForm" method="post" action="saveRecipe" enctype="multipart/form-data">
@@ -134,13 +174,14 @@
 							</div>													
 							
 							
-							<div id="ingredientList">
+							<div id="ingredientList">													
 							
 								<div class="line inline">
 									<label class="ingredientLabel">
 										<span class="ingredientSpan">Ingredient:</span>
 										<input class="ingredientField" name="ingredients[0].ingredientType.name" lang="0" type="text" />
 										<input name='ingredients[0].ingredientType.id' type='hidden'/>
+										<input name='ingredients[0].ingredientType.version' type='hidden' value="0"/>
 									</label>
 									<div id="menu-container" style="position:absolute; width: 249px;">
 									</div>
@@ -168,8 +209,7 @@
 							
 							
 									
-				        </div>
-				        
+				        </div>				        
 				        
 							<div class="line inline">
 								<label class="ingredientLabel">	
@@ -182,16 +222,6 @@
 		</div>
 	</div>
 
-	<c:if test="${not empty recipe_errors}">
-			<c:forEach items="${recipe_errors}" var="recipe_error">
-			${recipe_error.message}
-		</c:forEach> 
-	</c:if>
 	
-	<c:if test="${not empty ingredient_errors}">
-			<c:forEach items="${ingredient_errors}" var="ingredient_error">
-			${ingredient_error.message}
-		</c:forEach> 
-	</c:if>
 
 
