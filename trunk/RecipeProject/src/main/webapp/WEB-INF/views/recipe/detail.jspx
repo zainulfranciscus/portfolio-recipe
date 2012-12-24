@@ -7,7 +7,11 @@
 
   	<c:set var="username" value='${sessionScope.RecipeUser.username}' />
 	<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
-		
+	
+	
+	<spring:message code="icon.${recipe.authorNameWithoutSpace}" var="author_icon"/>
+	<spring:message code="url.${recipe.authorNameWithoutSpace}" var="author_url"/>
+	
 	
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
@@ -43,8 +47,7 @@
 
 						<div class="portrait-frame lg">
 							<div class="portrait">
-								<a href="${recipe.authorLink}"> <img
-									src="images/${recipe.picture}" />
+								<a href="${recipe.authorLink}"> <img src="images/${recipe.picture}" />
 								</a>
 							</div>
 						</div>
@@ -65,8 +68,7 @@
 						</div>
 
 						<div id="preparation">
-							<span class="title">Preparation</span> <a class="source"
-								href="${recipe.authorLink}">Read Recipe Preparation on <strong>${recipe.author}</strong></a>
+							<span class="title">Preparation</span> <a class="source" href="${recipe.authorLink}">Read Recipe Preparation on <strong>${recipe.author}</strong></a>
 						</div>
 
 					</div>
@@ -75,21 +77,39 @@
 			</div>
 
 			<div class="column2">
+			
+				<div id="publisher-card">
+					<div class="profile-photo">
+					<img src="images/${author_icon}"/>
+					</div>
+					
+					<a class="profile-name" href="">Author</a>
+					
+					<div class="profile-details">
+						<a href="${author_url}">${author_url}</a>
+					</div>
+					
+					<div class="clear-float"></div>
+				</div>
+				<hr/>
 				<div id="who-likes">
-					<p id="who-likes-count" class="gutter">${fn:length(recipe.account)}
-						people saved this recipe.</p>
+					<h3>Recipe Stats</h3>
+					<p id="who-likes-count" class="gutter">${fn:length(recipe.account)} people saved this recipe.</p>
+					
+					<c:forEach items="${recipe.account}" var="account">
+						<div class="tiny-user-card">
+							<a title="${account.userName}" href="/${account.userName}"> <img
+								class="avatart" alt="${account.userName}"
+								src="images/mystery_avatart2.jpg" />
+							</a>
+						</div>
+
+					</c:forEach>
+					<div class="clear-float"></div>
+					
 				</div>
 
-				<c:forEach items="${recipe.account}" var="account">
-					<div class="tiny-user-card">
-						<a title="${account.userName}" href="/${account.userName}"> <img
-							class="avatart" alt="${account.userName}"
-							src="images/mystery_avatart2.jpg" />
-						</a>
-					</div>
-
-
-				</c:forEach>
+				
 
 			</div>
 		</div>
