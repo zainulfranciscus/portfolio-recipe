@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.apache.commons.collections.Predicate;
@@ -194,20 +195,25 @@ public class Recipe {
 	this.version = version;
     }
 
-    public boolean isLikedByUser(String userEmail)
-    {
+    public boolean isLikedByUser(String userEmail) {
 	AccountPredicate accPredicate = new AccountPredicate();
 	accPredicate.email = userEmail;
-	
+
 	Iterator accountIterator = new FilterIterator(account.iterator(), accPredicate);
 	return accountIterator.hasNext();
+    }
+    
+    @Transient
+    public String getAuthorNameWithoutSpace()
+    {
+	return this.author.toLowerCase().replaceAll("\\s+", "").replaceAll("[^\\dA-Za-z ]", "");
     }
 }
 
 class AccountPredicate implements Predicate {
 
     String email = "";
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -215,14 +221,13 @@ class AccountPredicate implements Predicate {
      */
     @Override
     public boolean evaluate(Object obj) {
-	
-	if(obj instanceof Account)
-	{
+
+	if (obj instanceof Account) {
 	    Account acc = (Account) obj;
-	    
+
 	    return acc.getEmail().equalsIgnoreCase(email);
 	}
-	
+
 	return false;
     }
 

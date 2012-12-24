@@ -1,9 +1,9 @@
 package com.safe.stack.domain;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -63,5 +63,21 @@ public class RecipeTest extends AbstractServiceImplTest {
 	assertTrue(r.isLikedByUser("sandra"));
 	assertFalse(r.isLikedByUser("adrian"));
 
+    }
+    
+    @Test
+    public void testGetAuthorNameWithoutSpace()
+    {
+	Recipe r = new Recipe();
+	r.setAuthor("Martha Stewart");
+	
+	assertEquals("marthastewart", r.getAuthorNameWithoutSpace());
+	
+	r = new Recipe();
+	r.setAuthor("What's She's Cooking !");
+	
+	assertEquals("whatsshescooking", r.getAuthorNameWithoutSpace());
+	
+	
     }
 }

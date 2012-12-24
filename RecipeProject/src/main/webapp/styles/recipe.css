@@ -161,6 +161,55 @@ img,fieldset {
 	width: 960px;
 }
 
+#publisher-card {
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.35);
+	border-bottom: medium double rgba(0, 0, 0, 0.15);
+	border-top: medium double rgba(0, 0, 0, 0.15);
+	line-height: 1;
+	margin-bottom: 20px;
+	padding: 15px 0;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#publisher-card .profile-photo {
+	background-color: #FFFFFF;
+	border-radius: 2px 2px 2px 2px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+	float: left;
+	height: 64px;
+	margin: 0 12px;
+	padding: 4px;
+	transition: opacity 0.15s linear 0s, box-shadow 0.15s linear 0s;
+	width: 64px;
+}
+
+#publisher-card a {
+	color: #555555;
+	font-weight: normal;
+}
+
+#publisher-card a.profile-name {
+	color: #404038;
+	display: block;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+#publisher-card .profile-photo img {
+	border-radius: 2px 2px 2px 2px;
+	float: left;
+	height: 100%;
+	width: 100%;
+}
+
+#publisher-card .profile-details {
+	margin-top: 9px;
+}
+
+publisher-card .profile-details a.sprite {
+    line-height: 16px;
+}
+
 #recipe-cards,#menuboard-cards {
 	padding: 0 0 0 40px;
 }
@@ -374,13 +423,12 @@ form input[type="submit"] {
 }
 
 .dialog form input:-moz-placeholder,.standard-form form input:-moz-placeholder
-{
+	{
 	color: #BBBBBB;
 }
 
-
 .dialog form input[type="text"],.dialog form input[type="email"],.dialog form input[type="password"],.dialog form textarea,.standard-form form input[type="text"],.standard-form form input[type="email"],.standard-form form input[type="password"],.standard-form form textarea
-{
+	{
 	background: none repeat scroll 0 0 #FFFFFF;
 	border-color: #CCCCCC #DCDCDC #E4E4E4;
 	border-radius: 5px 5px 5px 5px;
@@ -495,9 +543,7 @@ img,fieldset {
 	width: 430px;
 }
 
-.recipe-details #who-likes-count.gutter {
-	margin-bottom: 0.66em;
-}
+
 
 .recipe-details p {
 	margin: 1.1em 0 0;
@@ -708,6 +754,30 @@ ol,ul {
 	vertical-align: top;
 }
 
+.recipe-details .column2 hr {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color -moz-use-text-color rgba(0, 0, 0, 0.1);
+    border-image: none;
+    border-style: none none solid;
+    border-width: 0 0 1px;
+    clear: both;
+    display: block;
+    height: 0;
+    margin: 20px 0;
+}
+
+.recipe-details h3 {
+    color: #404040;
+    font-weight: bold;
+    margin: -4px 0 12px;
+}
+
+.recipe-details #who-likes-count.gutter {
+    margin-bottom: 0.66em;
+}
 img.diet {
 	display: inline-block;
 	height: 16px;
@@ -747,9 +817,10 @@ input[class="recipeField"] {
 	width: 20em;
 }
 
-textarea[class="recipeField"]{
+textarea[class="recipeField"] {
 	width: 20em;
 }
+
 #nav {
 	margin: 0;
 	padding: 0;
