@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
@@ -13,6 +14,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 import com.thoughtworks.selenium.SeleneseTestBase;
 
+@Ignore
 public class UIRecipeListTest extends SeleneseTestBase {
 
     @Before
@@ -30,8 +32,8 @@ public class UIRecipeListTest extends SeleneseTestBase {
 	assertTrue(selenium.isTextPresent("search"));
 	assertTrue(selenium.isElementPresent("searchText"));
 
-//	selenium.waitForPageToLoad("90000");
-//	selenium.type("searchText", "salt");
+	// selenium.waitForPageToLoad("90000");
+	// selenium.type("searchText", "salt");
     }
 
     @Test

@@ -17,18 +17,22 @@ public class IngredientTest extends AbstractServiceImplTest {
 
     @Autowired
     private LocalValidatorFactoryBean validator;
-
+    
     @Test
     public void testIngredientValidation() {
 	Ingredient ingr = new Ingredient();
 	ingr.setAmount("20");
 	ingr.setMetric("g");
 
-	Set<ConstraintViolation<Ingredient>> violations = validator.validate(ingr);
+	IngredientType ingredientType = new IngredientType();
+	ingredientType.setName("");
+	ingr.setIngredientType(ingredientType);
+	
+	Set<ConstraintViolation<IngredientType>> violations = validator.validate(ingredientType);
 
 	assertNotNull(violations);
 	assertEquals(1, violations.size());
-	assertEquals("Please specify an ingredient", violations.iterator().next().getMessage());
+	assertEquals("Please specify an ingredient.", violations.iterator().next().getMessage());
 
     }
 

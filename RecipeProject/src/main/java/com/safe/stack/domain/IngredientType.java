@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "IngredientType", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
@@ -43,6 +45,8 @@ public class IngredientType {
      * @return the name
      */
     @Column(name = "name")   
+    @NotNull(message="{validation.ingredient.NotEmpty.message}")
+    @Pattern(regexp="\\w.*", message="{validation.ingredient.NotEmpty.message}")
     public String getName() {
 	return name;
     }

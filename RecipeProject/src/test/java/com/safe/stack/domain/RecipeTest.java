@@ -25,24 +25,26 @@ public class RecipeTest extends AbstractServiceImplTest {
     public void testRecipeName() {
 	Recipe recipe = new Recipe();
 	recipe.setAuthor("me");
+	recipe.setPicture("pic");
 	Set<ConstraintViolation<Recipe>> violations = validator.validate(recipe);
 
 	assertNotNull(violations);
 	assertEquals(1, violations.size());
-	assertEquals("Please specify the name of this recipe", violations.iterator().next()
+	assertEquals("Please specify the name of this recipe.", violations.iterator().next()
 		.getMessage());
     }
 
+    
     @Test
     public void testRecipeAuthor() {
 	Recipe recipe = new Recipe();
 	recipe.setName("rice rolls");
-
+	recipe.setPicture("pic");
 	Set<ConstraintViolation<Recipe>> violations = validator.validate(recipe);
 
 	assertNotNull(violations);
 	assertEquals(1, violations.size());
-	assertEquals("Please specify the publisher of this recipe", violations.iterator().next()
+	assertEquals("Please specify the publisher of this recipe.", violations.iterator().next()
 		.getMessage());
     }
 
