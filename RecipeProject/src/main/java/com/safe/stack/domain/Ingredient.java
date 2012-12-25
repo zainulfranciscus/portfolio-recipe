@@ -64,8 +64,7 @@ public class Ingredient {
     /**
      * @return the amount
      */
-    @Column(name = "amount")
-    @NotNull(message = "{validation.amount.NotEmpty.message}")
+    @Column(name = "amount")    
     public String getAmount() {
 	return amount;
     }

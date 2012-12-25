@@ -225,6 +225,12 @@ public class Recipe {
 	
 	return strBuilder.toString();
     }
+    
+    @Transient
+    public int getNumberOfLikes()
+    {
+	return this.account.size();
+    }
 }
 
 class AccountPredicate implements Predicate {
