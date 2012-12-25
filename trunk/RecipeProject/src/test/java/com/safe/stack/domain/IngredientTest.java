@@ -55,31 +55,6 @@ public class IngredientTest extends AbstractServiceImplTest {
 
     }
 
-    @Test
-    public void testAmountValidation() {
-	
-	IngredientType ingredientType = new IngredientType();
-	ingredientType.setName("Pasta");
-	
-	Ingredient ingr = new Ingredient();
-	ingr.setIngredientType(ingredientType);
-	ingr.setMetric("g");
-
-	Set<ConstraintViolation<Ingredient>> violations = validator.validate(ingr);
-
-	assertNotNull(violations);
-	assertEquals(1, violations.size());
-	assertEquals("Please specify the amount for each ingredient.", violations.iterator().next()
-		.getMessage());
-	
-	ingr = new Ingredient();
-	ingr.setIngredientType(ingredientType);
-	ingr.setMetric("g");
-	ingr.setAmount("2 2/3");
-
-	violations = validator.validate(ingr);
-	assertEquals(0, violations.size());
-
-    }
+   
 
 }

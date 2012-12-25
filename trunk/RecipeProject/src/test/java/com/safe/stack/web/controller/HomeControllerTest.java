@@ -28,14 +28,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
-import org.springframework.ui.Model;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.safe.stack.domain.Account;
 import com.safe.stack.domain.Ingredient;
+import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
@@ -266,7 +265,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel, null);
+	String result = homeController.saveRecipe(recipe, uiModel, null,null);
 
 	Mockito.verify(mockRecipeService).save(recipe);
 
@@ -274,6 +273,53 @@ public class HomeControllerTest extends AbstractControllerTest {
 	assertEquals(result, HomeController.RECIPE_LIST_PAGE);
     }
 
+    @Test
+    public void testSavingDuplicateIngredient() throws IOException
+    {
+	HomeController homeController = new HomeController();
+
+	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
+	MessageSource mockMessageSource = mock(MessageSource.class);
+	
+
+	Recipe recipe = new Recipe();
+	recipe.setAuthor("me");
+	recipe.setName("fried rice");
+
+	IngredientType type1 = new IngredientType();
+	type1.setName("salt");
+	
+	IngredientType type2 = new IngredientType();
+	type2.setName("salt");
+	
+	Ingredient ingr1 = new Ingredient();
+	ingr1.setIngredientType(type1);
+	
+	Ingredient ingr2 = new Ingredient();
+	ingr2.setIngredientType(type2);
+
+	List<Ingredient> ingredients = new ArrayList<Ingredient>();
+	ingredients.add(ingr1);
+	ingredients.add(ingr2);
+
+	recipe.setIngredients(ingredients);
+
+	ReflectionTestUtils.setField(homeController, "messageSource", mockMessageSource);
+	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
+
+	ExtendedModelMap uiModel = new ExtendedModelMap();
+	String result = homeController.saveRecipe(recipe, uiModel, null,null);
+
+	
+	assertNotNull(result);
+	assertEquals(result, HomeController.RECIPE_ADD_RECIPE_PAGE);
+
+	Set<ConstraintViolation<Ingredient>> errors = (Set<ConstraintViolation<Ingredient>>) uiModel.get("ingredientType_errors");
+
+	assertNotNull(errors);
+	assertEquals("A recipe can't have duplicate ingredients", errors.iterator().next().getMessage());
+    }
+    
     @Test
     public void testSaveInvalidRecipe() throws IOException {
 	HomeController homeController = new HomeController();
@@ -299,9 +345,13 @@ public class HomeControllerTest extends AbstractControllerTest {
 	recipe.setAuthor("me");
 	recipe.setName("fried rice");
 
+	IngredientType ingrType = new IngredientType();
+	ingrType.setName("salt");
+	
 	Ingredient ingr = new Ingredient();
 	ingr.setAmount("5");
-
+	ingr.setIngredientType(ingrType);
+	
 	List<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ingredients.add(ingr);
 
@@ -311,7 +361,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel, null);
+	String result = homeController.saveRecipe(recipe, uiModel, null,null);
 
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_ADD_RECIPE_PAGE);

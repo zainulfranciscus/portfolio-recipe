@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.annotation.ElementType;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,7 +19,9 @@ import javax.validation.ConstraintViolation;
 
 import net.coobird.thumbnailator.Thumbnails;
 
+import org.apache.commons.collections.Predicate;
 import org.apache.commons.io.IOUtils;
+import org.hibernate.validator.engine.ConstraintViolationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -108,7 +111,7 @@ public class HomeController {
 
     @RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
     public String saveRecipe(Recipe recipe, Model uiModel,
-	    @RequestParam(value = "file", required = false) Part file) throws IOException {
+	    @RequestParam(value = "recipePicture", required = false) Part recipePicture, @RequestParam(value = "thumbnail", required = false) Part thumbnail) throws IOException {
 
 	Set<ConstraintViolation<Recipe>> recipeViolations = validator.validate(recipe);
 
@@ -124,49 +127,71 @@ public class HomeController {
 
 	Set<ConstraintViolation<IngredientType>> ingredientTypeViolations = new HashSet<ConstraintViolation<IngredientType>>();
 
+	Set<String> ingredientNames = new HashSet<String>();
+
 	for (Ingredient ingr : ingredients) {
-	    ingredientViolations = validator.validate(ingr);
+
+	    ingredientNames.add(ingr.getIngredientType().getName());
+
+	    if (ingredientViolations.size() == 0) {
+		ingredientViolations = validator.validate(ingr);
+	    }
 
 	    IngredientType ingrType = ingr.getIngredientType();
 
-	    ingredientTypeViolations = validator.validate(ingrType);
-
-	    if (ingredientViolations.size() > 0) {
-		uiModel.addAttribute("ingredient_errors", ingredientViolations);
-		break;
+	    if (ingredientTypeViolations.size() == 0) {
+		ingredientTypeViolations = validator.validate(ingrType);
 	    }
 
-	    if (ingredientTypeViolations.size() > 0) {
-		uiModel.addAttribute("ingredientType_errors", ingredientTypeViolations);
-		break;
-	    }
 	}
 
-	if (recipeViolations.size() > 0 || ingredientViolations.size() > 0 || ingredientTypeViolations.size() > 0) {
+	if (ingredientNames.size() > 0 && ingredientNames.size() < ingredients.size()) {
+	    ConstraintViolation<IngredientType> violation = new ConstraintViolationImpl<IngredientType>(
+		    "{validation.ingredient.duplicate.message}",
+		    "A recipe can't have duplicate ingredients", IngredientType.class,
+		    new IngredientType(), new Object(), new Object(), null, null,
+		    ElementType.ANNOTATION_TYPE);
+	    ingredientTypeViolations.add(violation);
+	}
+
+	if (ingredientViolations.size() > 0) {
+	    uiModel.addAttribute("ingredient_errors", ingredientViolations);
+
+	}
+
+	if (ingredientTypeViolations.size() > 0) {
+	    uiModel.addAttribute("ingredientType_errors", ingredientTypeViolations);
+
+	}
+
+	if (recipeViolations.size() > 0 || ingredientViolations.size() > 0
+		|| ingredientTypeViolations.size() > 0) {
 	    return RECIPE_ADD_RECIPE_PAGE;
 	}
 
 	String imgFileName = "";
 
-	if (file != null) {
+	if (recipePicture != null) {
 
 	    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy-hhmmss");
-	    imgFileName = "recipe" + sdf.format(Calendar.getInstance().getTime()) + ".png";
-	    String thumbnailFileName = "recipethumb" + sdf.format(Calendar.getInstance().getTime())
-		    + ".png";
+	    imgFileName = sdf.format(Calendar.getInstance().getTime()) + ".png";
+	   
 
 	    File imgFile = new File("C:/source/Pictures/" + imgFileName);
 	    imgFile.createNewFile();
 
 	    OutputStream out = new FileOutputStream(imgFile);
-	    IOUtils.copy(file.getInputStream(), out);
+	    IOUtils.copy(recipePicture.getInputStream(), out);
 	    out.flush();
 	    out.close();
 
-	    File thumbnailFile = new File("C:/source/Pictures/" + thumbnailFileName);
+	    File thumbnailFile = new File("C:/source/Pictures/thumb" + imgFileName);
 	    thumbnailFile.createNewFile();
 
-	    Thumbnails.of(imgFile).size(250, 250).toFile(thumbnailFile);
+	    out = new FileOutputStream(thumbnailFile);
+	    IOUtils.copy(thumbnail.getInputStream(), out);
+	    out.flush();
+	    out.close();
 
 	}
 

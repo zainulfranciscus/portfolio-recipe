@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<% System.out.println("1"); %>
 	<script type="text/javascript">
 	
  		$(document).ready(function(){
@@ -41,8 +42,8 @@
 				 "<span class='ingredientSpan'>Ingredient:</span>" + 
 				 "<input class= 'ingredientField' name='ingredients[" + counter + "].ingredientType.name' type='text' lang='" + counter + "'/>" +
 				 "<div id='menu-container"+ counter + "' style='position:absolute; width: 249px;'></div>" +
-				 "<input class= 'ingredientField' name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></label></div>" +
-				 "<input name='ingredients[" + counter + "].ingredientType.version' type='hidden' value='0'/>" +
+				 "<input class= 'ingredientField' name='ingredients[" + counter + "].ingredientType.id' type='hidden' /></label>" +
+				 "<input name='ingredients[" + counter + "].ingredientType.version' type='hidden' value='0'/></div>" +
 				 "<div lang='row" + counter + "' class='line inline'><label class='ingredientLabel'><span class='ingredientSpan'>Amount:</span>" + 
 				 "<input  class= 'ingredientField' name='ingredients[" + counter + "].amount' type='text' /></label></div>" +
 				 "<div lang='row" + counter + "' class='line inline'><label class='ingredientLabel'><span class='ingredientSpan'>Metric:</span>" +
@@ -70,17 +71,13 @@
 				 
 				 counter +=1;
   		     });
-			 
-			
-			
-			
-			 
+
 			 $('input[name*=".ingredientType.name"]').live('blur',function(){
 				 
 				 var ingredientTypeFieldName = "ingredients[" +  $(this).attr("lang") + "].ingredientType.id";
 				 var ingredientTypeVersion = "ingredients[" +  $(this).attr("lang") + "].ingredientType.version";
 				 
-				 var ingredientTypeValue = $(this).val();				 
+				 var ingredientTypeValue = jQuery.trim($(this).val());	
 				 var idForThisIngredient = $('input[lang="' + ingredientTypeValue + '"]').val();
 				 var versionForThisIngredient = $('input[lang="' + ingredientTypeValue + '"]').attr("accept");
 				 
@@ -101,15 +98,17 @@
 		  });
 	</script>
 	
+	<% System.out.println("2"); %>
+	
 	<c:forEach items="${ingredientTypes}" var="ingredientType">   
     	<input type="hidden" value="${ingredientType.id}" name="ingredientType" lang="${ingredientType.name}" accept="${ingredientType.version}"/>
     </c:forEach>
 
-	
+	<% System.out.println("3"); %>
 	
 	<div id="page" class="center">
 		<div class="dialog full white">
-		
+		<% System.out.println("3a"); %>
 			
 				<c:if test="${not empty recipe_errors}">
 				<div id="error">
@@ -120,7 +119,7 @@
 				</ul>
 				</div>
 				</c:if>
-				
+		<% System.out.println("3b"); %>		
 				<c:if test="${not empty ingredient_errors}">
 				<div id="error">
 				<ul>
@@ -130,16 +129,23 @@
 				</ul>
 				</div> 
 				</c:if>
-				
+		<% System.out.println("3c"); %>	
 				<c:if test="${not empty ingredientType_errors}">
+				<% System.out.println("3c1"); %>	
 				<div id="error">
+				<% System.out.println("3c2"); %>
 				<ul>
-					<c:forEach items="${ingredientType_errors}" var="ingredientType_error">
+				${ingredientType_errors}
+				<% System.out.println("3c3"); %>
+				
+					<!--<c:forEach items="${ingredientType_errors}" var="ingredientType_error">
 						<li>${ingredientType_errors.message}</li>
-					</c:forEach>
+					</c:forEach>-->
 				</ul>
 				</div>  
 				</c:if>
+			
+			<% System.out.println("4"); %>
 			
 			<h1 class="light-header">Add a Recipe</h1>
 			<div class="right-body">
@@ -169,8 +175,13 @@
 							</div>
 							
 							<div class="line inline">
-								<label for="Photo">Photo:</label>
-								<input class="recipeField"  name="file" type="file"/>
+								<label for="Photo">Recipe Picture:</label>
+								<input class="recipeField"  name="recipePicture" type="file"/>
+							</div>	
+							
+							<div class="line inline">
+								<label for="Photo">Recipe Thumbnail:</label>
+								<input class="recipeField"  name="thumbnail" type="file"/>
 							</div>													
 							
 							
@@ -210,7 +221,7 @@
 							
 									
 				        </div>				        
-				        
+				 <% System.out.println("5"); %>       
 							<div class="line inline">
 								<label class="ingredientLabel">	
 									<input class="awesome large" type="submit" value="Save"/>

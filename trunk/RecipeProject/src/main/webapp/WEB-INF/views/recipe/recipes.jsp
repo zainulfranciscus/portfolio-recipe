@@ -1,3 +1,5 @@
+<c:set var="username" value='${sessionScope.RecipeUser.username}' />
+
 <div id="recipe-cards">
 	<c:if test="${not empty recipes}">
 		<c:forEach items="${recipes}" var="recipe">
@@ -6,7 +8,8 @@
 				<a href="${recipe.id}"> 
 					<div class="img-n-title">
 						<div class="img-n-overlay">
-							<img class="thumb" src="${picture}"/>
+							<spring:url value='/img_resources/thumb${recipe.picture}' var="recipe_picture"/>							
+							<img src="${recipe_picture}"/>
 							<div class="overlay"></div>
 						</div>
 						<div class="title">${recipe.name}</div> 
@@ -19,9 +22,28 @@
 							</div>
 							
 							<div class="byline">
-							
-							<a href="#" title="${recipe.id}" name="like" class="metric svc clickable">Like</a>
-							
+							 <sec:authorize access="isAuthenticated()">
+							<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
+								
+								<c:if test="${not empty username}">
+									<c:if test="${isLikedByUser}">
+									
+										<a class="btn like" href="#" title="${recipe.id}" name="unlike">
+											<span>Unlike</span>
+										</a>
+										
+									</c:if>
+						
+									<c:if test="${not isLikedByUser}">
+									
+										<a class="btn like" href="#" title="${recipe.id}" name="like">
+											<span>Like</span>
+										</a>
+										
+									</c:if>
+									<span class="metric svc clickable">${recipe.numberOfLikes}</span>
+								</c:if>		
+							 </sec:authorize>
 							<c:if test="${recipe.diet  == 'Vegan'}">
 								<img class="diet" src="images/vegan_icon.png" title="Vegan">
 							</c:if>
@@ -29,22 +51,7 @@
 						</div>					
 					</div>
 					
-					  <sec:authorize
-						access="isAuthenticated()">
-
-						<c:set var="username" value='${sessionScope.RecipeUser.username}' />
-						<c:set var="isLikedByUser"
-							value='${recipe.isLikedByUser(username)}' />
-
-						<c:if test="${isLikedByUser}">
-							<a href="#" title="${recipe.id}" name="unlike">Unlike</a>
-						</c:if>
-
-						<c:if test="${not isLikedByUser}">
-							<a href="#" title="${recipe.id}" name="like">Like</a>
-						</c:if>
-
-					</sec:authorize>
+					 
 				</a>
 			</div>
 		</c:forEach>
@@ -52,6 +59,6 @@
 	</c:if>
 
 	<c:if test="${empty recipes}">
-No Recipe found with these Ingredient
-</c:if>
+		No Recipe found with these Ingredient
+	</c:if>
 </div>
