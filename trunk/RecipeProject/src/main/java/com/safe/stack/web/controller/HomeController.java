@@ -121,33 +121,32 @@ public class HomeController {
 	List<Ingredient> ingredients = recipe.getIngredients();
 
 	Set<ConstraintViolation<Ingredient>> ingredientViolations = new HashSet<ConstraintViolation<Ingredient>>();
-	
+
 	Set<ConstraintViolation<IngredientType>> ingredientTypeViolations = new HashSet<ConstraintViolation<IngredientType>>();
 
 	for (Ingredient ingr : ingredients) {
 	    ingredientViolations = validator.validate(ingr);
 
 	    IngredientType ingrType = ingr.getIngredientType();
-	    
+
 	    ingredientTypeViolations = validator.validate(ingrType);
-	    
+
 	    if (ingredientViolations.size() > 0) {
 		uiModel.addAttribute("ingredient_errors", ingredientViolations);
 		break;
 	    }
-	    
-	    if(ingredientTypeViolations.size() > 0)
-	    {
+
+	    if (ingredientTypeViolations.size() > 0) {
 		uiModel.addAttribute("ingredientType_errors", ingredientTypeViolations);
 		break;
 	    }
 	}
 
-	if (recipeViolations.size() > 0 || ingredientViolations.size() > 0) {
+	if (recipeViolations.size() > 0 || ingredientViolations.size() > 0 || ingredientTypeViolations.size() > 0) {
 	    return RECIPE_ADD_RECIPE_PAGE;
 	}
 
-	 String imgFileName = "";
+	String imgFileName = "";
 
 	if (file != null) {
 
@@ -156,9 +155,7 @@ public class HomeController {
 	    String thumbnailFileName = "recipethumb" + sdf.format(Calendar.getInstance().getTime())
 		    + ".png";
 
-	    File imgFile = new File(
-		    "C:/springsource/vfabric-tc-server-developer-2.7.2.RELEASE/base-instance/wtpwebapps/RecipeProject/images/"
-			    + imgFileName);
+	    File imgFile = new File("C:/source/Pictures/" + imgFileName);
 	    imgFile.createNewFile();
 
 	    OutputStream out = new FileOutputStream(imgFile);
@@ -166,9 +163,7 @@ public class HomeController {
 	    out.flush();
 	    out.close();
 
-	    File thumbnailFile = new File(
-		    "C:/springsource/vfabric-tc-server-developer-2.7.2.RELEASE/base-instance/wtpwebapps/RecipeProject/images/"
-			    + thumbnailFileName);
+	    File thumbnailFile = new File("C:/source/Pictures/" + thumbnailFileName);
 	    thumbnailFile.createNewFile();
 
 	    Thumbnails.of(imgFile).size(250, 250).toFile(thumbnailFile);
@@ -177,7 +172,7 @@ public class HomeController {
 
 	recipe.setPicture(imgFileName);
 	recipeService.save(recipe);
-	
+
 	return RECIPE_LIST_PAGE;
     }
 

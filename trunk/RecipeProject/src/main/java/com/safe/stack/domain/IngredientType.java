@@ -12,7 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "IngredientType", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
@@ -46,8 +48,8 @@ public class IngredientType {
      */
     @Column(name = "name")   
     @NotNull(message="{validation.ingredient.NotEmpty.message}")
-    @Pattern(regexp="\\w.*", message="{validation.ingredient.NotEmpty.message}")
-    public String getName() {
+    @NotEmpty(message="{validation.ingredient.NotEmpty.message}")    
+    public String getName() {	
 	return name;
     }
 
@@ -56,7 +58,10 @@ public class IngredientType {
      *            the name to set
      */
     public void setName(String name) {
-	this.name = name;
+	if(!StringUtils.isEmpty(name))
+	{
+	    this.name = name.trim();
+	}
     }
 
     /**

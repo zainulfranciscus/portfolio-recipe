@@ -24,6 +24,7 @@ import javax.persistence.Version;
 
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.iterators.FilterIterator;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.AutoPopulatingList;
 
@@ -33,6 +34,8 @@ import org.springframework.util.AutoPopulatingList;
 public class Recipe {
 
     public static final String PICTURE_DIR = "file:///C:/source/Pictures/";
+    
+    private static final int MAX_LENGTH_AUTHOR_LINK = 69;
 
     private Long id;
     private String name;
@@ -207,6 +210,20 @@ public class Recipe {
     public String getAuthorNameWithoutSpace()
     {
 	return this.author.toLowerCase().replaceAll("\\s+", "").replaceAll("[^\\dA-Za-z ]", "");
+    }
+    
+    @Transient
+    public String getFormattedAuthorURL()
+    {
+	if(StringUtils.isNotEmpty(authorLink) && authorLink.length() <= MAX_LENGTH_AUTHOR_LINK)
+	{
+	    return authorLink;
+	}
+	
+	StringBuilder strBuilder = new StringBuilder();
+	strBuilder.append(authorLink.substring(0, MAX_LENGTH_AUTHOR_LINK - 3)).append("...");
+	
+	return strBuilder.toString();
     }
 }
 

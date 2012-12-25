@@ -7,10 +7,12 @@
 
   	<c:set var="username" value='${sessionScope.RecipeUser.username}' />
 	<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
-	
-	
+		
 	<spring:message code="icon.${recipe.authorNameWithoutSpace}" var="author_icon"/>
 	<spring:message code="url.${recipe.authorNameWithoutSpace}" var="author_url"/>
+	
+	<spring:url value='/img_resources/${recipe.picture}' var="recipe_picture"/>
+	
 	
 	
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
@@ -22,7 +24,7 @@
 				<div class="info-card-wrapper">
 					<div class="info-card">
 						<h1 class="title">${recipe.name}</h1>
-						<a class="source" href="${recipe.authorLink}">${recipe.author}</a>
+						<a class="source" href="${recipe.authorLink}">${recipe.formattedAuthorURL}</a>
 						
 						<div id="action-buttons">
 							
@@ -44,10 +46,11 @@
 								</c:if>
 							</c:if>						
 						</div>
-
+		
 						<div class="portrait-frame lg">
 							<div class="portrait">
-								<a href="${recipe.authorLink}"> <img src="images/${recipe.picture}" />
+								<a href="${recipe.authorLink}"> 
+									<img src="${recipe_picture}"></img> 
 								</a>
 							</div>
 						</div>
