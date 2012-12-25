@@ -80,4 +80,18 @@ public class RecipeTest extends AbstractServiceImplTest {
 	
 	
     }
+    
+    @Test
+    public void testGetFormattedAuthorLink()
+    {
+	Recipe r = new Recipe();
+	r.setAuthorLink("http://www.lafujimama.com/2010/07/japanese-strawberry-shortcake/");
+	
+	assertEquals("http://www.lafujimama.com/2010/07/japanese-strawberry-shortcake/", r.getFormattedAuthorURL());
+	
+	r.setAuthorLink("http://ohmyveggies.com/a-change-of-holiday-plans-a-cranberry-orange-spritzer-recipe/");
+	
+	assertEquals("http://ohmyveggies.com/a-change-of-holiday-plans-a-cranberry-orang...", r.getFormattedAuthorURL());
+	
+    }
 }

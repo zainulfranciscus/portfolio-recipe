@@ -26,13 +26,32 @@ public class IngredientTest extends AbstractServiceImplTest {
 
 	IngredientType ingredientType = new IngredientType();
 	ingredientType.setName("");
-	ingr.setIngredientType(ingredientType);
+	
 	
 	Set<ConstraintViolation<IngredientType>> violations = validator.validate(ingredientType);
 
 	assertNotNull(violations);
 	assertEquals(1, violations.size());
 	assertEquals("Please specify an ingredient.", violations.iterator().next().getMessage());
+	
+	ingredientType = new IngredientType();
+	ingredientType.setName(" ");
+	
+	
+	violations = validator.validate(ingredientType);
+	
+	assertNotNull(violations);
+	assertEquals(1, violations.size());
+	assertEquals("Please specify an ingredient.", violations.iterator().next().getMessage());
+	
+	ingredientType = new IngredientType();
+	ingredientType.setName("arecipe");
+	
+	
+	violations = validator.validate(ingredientType);
+	
+	assertEquals(0, violations.size());
+	
 
     }
 
@@ -52,6 +71,14 @@ public class IngredientTest extends AbstractServiceImplTest {
 	assertEquals(1, violations.size());
 	assertEquals("Please specify the amount for each ingredient.", violations.iterator().next()
 		.getMessage());
+	
+	ingr = new Ingredient();
+	ingr.setIngredientType(ingredientType);
+	ingr.setMetric("g");
+	ingr.setAmount("2 2/3");
+
+	violations = validator.validate(ingr);
+	assertEquals(0, violations.size());
 
     }
 
