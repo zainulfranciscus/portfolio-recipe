@@ -28,7 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select r from Recipe as r join r.ingredients as i join i.ingredientType as t where ";
+    private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select distinct(r) from Recipe as r join r.ingredients as i join i.ingredientType as t where ";
 
     /*
      * (non-Javadoc)

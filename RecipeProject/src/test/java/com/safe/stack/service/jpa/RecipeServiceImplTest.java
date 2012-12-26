@@ -163,10 +163,10 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("egg", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
 
 	recipeFromDB = recipes.get(1);
-	assertEquals("rice", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
+	assertEquals("potato", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
 
 	recipeFromDB = recipes.get(2);
-	assertEquals("potato", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
+	assertEquals("rice", recipeFromDB.getIngredients().iterator().next().getIngredientType().getName());
 
     }
 
