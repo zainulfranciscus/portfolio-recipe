@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 
@@ -27,6 +28,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -73,9 +76,9 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
-	
+
 	uiModel.addAttribute("recipes", recipeService.findAll());
-	
+
 	return RECIPE_LIST_PAGE;
     }
 
@@ -91,6 +94,9 @@ public class HomeController {
 
 	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+	String referrer = request.getHeader("Referer");
+	
+	request.getSession().setAttribute("url_prior_login", referrer);
 	if (principal != null && principal instanceof RecipeUser) {
 	    request.getSession().setAttribute("RecipeUser", (RecipeUser) principal);
 	}
@@ -240,6 +246,15 @@ public class HomeController {
 
 	return RECIPE_LIST_PAGE;
 
+    }
+
+    @RequestMapping("/redirectLogin")
+    public String redirectLogin(HttpServletRequest request, HttpServletResponse response) {
+	SavedRequest savedRequest = 
+		    new HttpSessionRequestCache().getRequest(request, response);
+	String url = savedRequest.getRedirectUrl();
+	
+	return url;
     }
 
     @RequestMapping("/loginfail")
