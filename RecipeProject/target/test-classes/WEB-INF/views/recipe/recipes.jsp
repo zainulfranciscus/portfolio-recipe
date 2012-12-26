@@ -11,7 +11,7 @@
 					<div class="img-n-title">
 						<div class="img-n-overlay">
 							<spring:url value='/img_resources/thumb${recipe.picture}' var="recipe_picture"/>							
-							<img class="lazy-load" data-src="${recipe_picture}" src="images/blank.gif"/>
+							<img class="lazy" src="images/blank.gif" data-original="${recipe_picture}"/>
 							<noscript><img src="${recipe_picture}" /></noscript>
 							<div class="overlay"></div>
 						</div>
@@ -54,7 +54,6 @@
 						</div>					
 					</div>
 					
-					 
 				</a>
 			</div>
 		</c:forEach>

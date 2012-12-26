@@ -4,27 +4,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
-<script type="text/javascript">
 
-	$(document).ready(function() {
-
-		$('#lookForRecipes').click(function() {
-
-			var ingredients = $('#searchText').attr("value");
-
-			$.ajax({
-				type : "POST",
-				url : "searchRecipeByIngredient",
-				data : 'ingredient=' + ingredients,
-				success : function(data) {
-					$("#result").html($(data).find("#recipe-cards"));
-				},
-				dataType : 'html'
-			});
-			return false;
-		});
-	});
-</script>
 
 <div id="page" class="fullscreen">
 	<ul class="breadcrumbs dropdown-menu light clearfix">
@@ -46,5 +26,50 @@
 	        buttons: true
 	    })
 	} (jQuery));
+	
+	
+	$("img.lazy").lazyload({
+		effect : "fadeIn"
+	})
+
+	$(document).on('ajaxStop', function() {
+		
+		$("img.lazy");
+				
+		$("img.lazy").lazyload({
+			effect : "fadeIn"
+		}).resize(); // resizing triggers the lazy load.
+		
+		
+
+		
+	});
+
+		$(document).ready(function() {
+			
+			$("img.lazy").lazyload({
+				effect : "fadeIn"
+			});
+
+			$('#lookForRecipes').click(function() {
+
+				var ingredients = $('#searchText').attr("value");
+
+				$.ajax({
+					type : "POST",
+					url : "searchRecipeByIngredient",
+					data : 'ingredient=' + ingredients,
+					success : function(data) {
+						$("#result").html($(data).find("#recipe-cards"));
+						
+						
+					},
+					dataType : 'html'
+				});
+				return false;
+			});
+		});
+		
 	</script>
 </div>
+
