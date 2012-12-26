@@ -1,5 +1,7 @@
 <c:set var="username" value='${sessionScope.RecipeUser.username}' />
 
+
+
 <div id="recipe-cards">
 	<c:if test="${not empty recipes}">
 		<c:forEach items="${recipes}" var="recipe">
@@ -9,7 +11,8 @@
 					<div class="img-n-title">
 						<div class="img-n-overlay">
 							<spring:url value='/img_resources/thumb${recipe.picture}' var="recipe_picture"/>							
-							<img src="${recipe_picture}"/>
+							<img class="lazy-load" data-src="${recipe_picture}" src="images/blank.gif"/>
+							<noscript><img src="${recipe_picture}" /></noscript>
 							<div class="overlay"></div>
 						</div>
 						<div class="title">${recipe.name}</div> 
@@ -41,7 +44,7 @@
 										</a>
 										
 									</c:if>
-									<span class="metric svc clickable">${recipe.numberOfLikes}</span>
+									<span class="svc clickable">${recipe.numberOfLikes}</span>
 								</c:if>		
 							 </sec:authorize>
 							<c:if test="${recipe.diet  == 'Vegan'}">

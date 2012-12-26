@@ -71,16 +71,16 @@ public class RecipeServiceImpl implements RecipeService {
 
 	for (int i = 0; i < ingredients.size(); i++) {
 	    if (i == 0) {
-		builder.append("t.name = :arg0");
+		builder.append("t.name LIKE :arg0");
 		continue;
 	    }
 
-	    builder.append(" or t.name = :arg").append(i);
+	    builder.append(" or t.name LIKE :arg").append(i);
 	}
 
 	Query query = entityManager.createQuery(builder.toString());
 	for (int i = 0; i < ingredients.size(); i++) {
-	    query.setParameter("arg" + i, ingredients.get(i));
+	    query.setParameter("arg" + i, "%" + ingredients.get(i) + "%");
 	}
 	return query.getResultList();
     }

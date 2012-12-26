@@ -17,9 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 
-import net.coobird.thumbnailator.Thumbnails;
-
-import org.apache.commons.collections.Predicate;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.validator.engine.ConstraintViolationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,13 +73,15 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
-
+	
 	uiModel.addAttribute("recipes", recipeService.findAll());
+	
 	return RECIPE_LIST_PAGE;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showRecipe(@PathVariable("id") Long id, Model uiModel) {
+
 	uiModel.addAttribute("recipe", recipeService.findRecipe(id));
 	return RECIPE_DETAILS_PAGE;
     }
@@ -111,7 +110,8 @@ public class HomeController {
 
     @RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
     public String saveRecipe(Recipe recipe, Model uiModel,
-	    @RequestParam(value = "recipePicture", required = false) Part recipePicture, @RequestParam(value = "thumbnail", required = false) Part thumbnail) throws IOException {
+	    @RequestParam(value = "recipePicture", required = false) Part recipePicture,
+	    @RequestParam(value = "thumbnail", required = false) Part thumbnail) throws IOException {
 
 	Set<ConstraintViolation<Recipe>> recipeViolations = validator.validate(recipe);
 
@@ -175,7 +175,6 @@ public class HomeController {
 
 	    SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy-hhmmss");
 	    imgFileName = sdf.format(Calendar.getInstance().getTime()) + ".png";
-	   
 
 	    File imgFile = new File("C:/source/Pictures/" + imgFileName);
 	    imgFile.createNewFile();

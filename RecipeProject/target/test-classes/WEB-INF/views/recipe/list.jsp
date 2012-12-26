@@ -17,7 +17,7 @@
 				url : "searchRecipeByIngredient",
 				data : 'ingredient=' + ingredients,
 				success : function(data) {
-					$("#result").html($(data).find("#recipeList"));
+					$("#result").html($(data).find("#recipe-cards"));
 				},
 				dataType : 'html'
 			});
@@ -27,11 +27,11 @@
 </script>
 
 <div id="page" class="fullscreen">
-	<ul class="breadcrumbs">
-		<li id="search-box" class="nohover clearfix">
-		 	<input type="text" id="searchText" name="searchInput" />
-		 	<a href="#" id="lookForRecipes">search</a>
-		 </li>
+	<ul class="breadcrumbs dropdown-menu light clearfix">
+		<li id="search-box" class="nohover clearfix">			
+		 	<input type="text" id="searchText" name="searchInput"  class="acInput" alt="Search recipes" placeholder="Search recipes" autocomplete="off"/>
+		 	<a href="#" id="lookForRecipes" class="btn">Search</a>		 	
+		 </li>		 
 	</ul>
 	
 	<div id="result">
