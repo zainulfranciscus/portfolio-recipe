@@ -92,15 +92,12 @@ public class HomeController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String openLoginPage(Model uiModel, HttpServletRequest request) {
 
-	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	
 
 	String referrer = request.getHeader("Referer");
 	
 	request.getSession().setAttribute("url_prior_login", referrer);
-	if (principal != null && principal instanceof RecipeUser) {
-	    request.getSession().setAttribute("RecipeUser", (RecipeUser) principal);
-	}
-
+	
 	return RECIPE_LOGIN_PAGE;
     }
 
@@ -302,6 +299,7 @@ public class HomeController {
     @RequestMapping(value = "/editProfile", method = RequestMethod.GET)
     public String editProfile(Model uiModel, HttpServletRequest request) {
 	RecipeUser recipeUser = (RecipeUser) request.getSession().getAttribute("RecipeUser");
+	
 	Account acc = accountService.findByEmail(recipeUser.getUsername());
 
 	uiModel.addAttribute("account", acc);
