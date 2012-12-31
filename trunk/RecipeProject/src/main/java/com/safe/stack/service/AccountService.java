@@ -4,7 +4,7 @@ import com.safe.stack.domain.Account;
 
 public interface AccountService {
 
-	void save(Account acc);
+	Account save(Account acc);
 
 	Account findByEmail(String name);
 

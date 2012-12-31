@@ -13,7 +13,18 @@
 		 	<a href="#" id="lookForRecipes" class="btn">Search</a>		 	
 		 </li>		 
 	</ul>
-	
+
+	<c:if test="${show_liked_recipes == true}">
+		<div id="marquee">
+			<div id="marquee-title">
+				<h1>
+					<a href="editProfile">${sessionScope.RecipeUser.userAlias}</a>
+				</h1>				
+			</div>
+		</div>
+	</c:if>
+
+
 	<div id="result">
 		<%@include file="recipes.jsp"%>
 	</div>

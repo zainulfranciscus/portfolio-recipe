@@ -19,6 +19,7 @@ import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.engine.ConstraintViolationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -92,12 +93,14 @@ public class HomeController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String openLoginPage(Model uiModel, HttpServletRequest request) {
 
-	
-
 	String referrer = request.getHeader("Referer");
-	
+
+	if (StringUtils.isEmpty(referrer)) {
+	    referrer = "/login";
+	}
+
 	request.getSession().setAttribute("url_prior_login", referrer);
-	
+
 	return RECIPE_LOGIN_PAGE;
     }
 
@@ -216,11 +219,18 @@ public class HomeController {
 	return RECIPE_LIST_PAGE;
     }
 
-    @RequestMapping(value = "/searchLikedRecipe", method = RequestMethod.POST)
-    public String showLikedRecipe(@RequestParam("userName") String userName, Model uiModel) {
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/searchLikedRecipe", method = RequestMethod.GET)
+    public String showLikedRecipe(Model uiModel) {
+
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	String userName = ((RecipeUser) principal).getUsername();
+
 	Account account = accountService.findByEmail(userName);
 	uiModel.addAttribute("account", account);
-	return "account";
+	uiModel.addAttribute("recipes", account.getLikedRecipes());
+	uiModel.addAttribute("show_liked_recipes",new Boolean(true));
+	return RECIPE_LIST_PAGE;
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -247,10 +257,9 @@ public class HomeController {
 
     @RequestMapping("/redirectLogin")
     public String redirectLogin(HttpServletRequest request, HttpServletResponse response) {
-	SavedRequest savedRequest = 
-		    new HttpSessionRequestCache().getRequest(request, response);
+	SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
 	String url = savedRequest.getRedirectUrl();
-	
+
 	return url;
     }
 
@@ -271,6 +280,8 @@ public class HomeController {
 	Account acc = new Account();
 	acc.setEmail(userName);
 	acc.setPassword(password);
+	acc.setUserName("user" + userName.hashCode());
+	acc.setAuthority("user");
 
 	Set<ConstraintViolation<Account>> violations = validator.validate(acc);
 
@@ -287,19 +298,24 @@ public class HomeController {
 		userName, password);
 
 	Authentication auth = authManager.authenticate(token);
+	Object principal = auth.getPrincipal();
 	SecurityContextHolder.getContext().setAuthentication(auth);
 	request.getSession().setAttribute(
 		HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
 		SecurityContextHolder.getContext());
 
-	return RECIPE_LIST_PAGE;
+	if (principal != null && principal instanceof RecipeUser) {
+	    request.getSession().setAttribute("RecipeUser", (RecipeUser) principal);
+	}
+
+	return "redirect:/editProfile";
 
     }
 
     @RequestMapping(value = "/editProfile", method = RequestMethod.GET)
     public String editProfile(Model uiModel, HttpServletRequest request) {
 	RecipeUser recipeUser = (RecipeUser) request.getSession().getAttribute("RecipeUser");
-	
+
 	Account acc = accountService.findByEmail(recipeUser.getUsername());
 
 	uiModel.addAttribute("account", acc);
@@ -319,7 +335,8 @@ public class HomeController {
 
 	}
 
-	accountService.save(account);
+	account = accountService.save(account);
+	uiModel.addAttribute("account", account);
 
 	return RECIPE_EDIT_PROFILE_PAGE;
     }

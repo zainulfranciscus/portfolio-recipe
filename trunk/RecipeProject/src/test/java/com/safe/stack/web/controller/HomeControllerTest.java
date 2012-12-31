@@ -24,6 +24,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -132,7 +133,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "accountService", accountService);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.showLikedRecipe(userName, uiModel);
+	String result = homeController.showLikedRecipe(uiModel);
 
 	assertNotNull(result);
 	assertEquals(result, "account");
@@ -188,11 +189,15 @@ public class HomeControllerTest extends AbstractControllerTest {
 	HomeController homeController = new HomeController();
 	AccountService mockAccountService = mock(AccountService.class);
 	AuthenticationManager mockAuthManager = mock(AuthenticationManager.class);
+	Authentication mockAuthentication = mock(Authentication.class);
 
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
 
 	when(mockValidator.validate(Mockito.isA(Account.class))).thenReturn(
 		new HashSet<ConstraintViolation<Account>>());
+	when(mockAuthManager.authenticate(Mockito.isA(UsernamePasswordAuthenticationToken.class)))
+		.thenReturn(mockAuthentication);
+	when(mockAuthentication.getPrincipal()).thenReturn(new Object());
 
 	ReflectionTestUtils.setField(homeController, "accountService", mockAccountService);
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
@@ -206,7 +211,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	Mockito.verify(mockAuthManager).authenticate(Mockito.isA(Authentication.class));
 	assertNotNull(result);
 	assertNull(uiModel.get("message"));
-	assertEquals(result, HomeController.RECIPE_LIST_PAGE);
+	assertEquals("redirect:/editProfile", result);
     }
 
     @Test
@@ -265,7 +270,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel, null,null);
+	String result = homeController.saveRecipe(recipe, uiModel, null, null);
 
 	Mockito.verify(mockRecipeService).save(recipe);
 
@@ -274,13 +279,11 @@ public class HomeControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testSavingDuplicateIngredient() throws IOException
-    {
+    public void testSavingDuplicateIngredient() throws IOException {
 	HomeController homeController = new HomeController();
 
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
 	MessageSource mockMessageSource = mock(MessageSource.class);
-	
 
 	Recipe recipe = new Recipe();
 	recipe.setAuthor("me");
@@ -288,13 +291,13 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	IngredientType type1 = new IngredientType();
 	type1.setName("salt");
-	
+
 	IngredientType type2 = new IngredientType();
 	type2.setName("salt");
-	
+
 	Ingredient ingr1 = new Ingredient();
 	ingr1.setIngredientType(type1);
-	
+
 	Ingredient ingr2 = new Ingredient();
 	ingr2.setIngredientType(type2);
 
@@ -308,18 +311,19 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel, null,null);
+	String result = homeController.saveRecipe(recipe, uiModel, null, null);
 
-	
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_ADD_RECIPE_PAGE);
 
-	Set<ConstraintViolation<Ingredient>> errors = (Set<ConstraintViolation<Ingredient>>) uiModel.get("ingredientType_errors");
+	Set<ConstraintViolation<Ingredient>> errors = (Set<ConstraintViolation<Ingredient>>) uiModel
+		.get("ingredientType_errors");
 
 	assertNotNull(errors);
-	assertEquals("A recipe can't have duplicate ingredients", errors.iterator().next().getMessage());
+	assertEquals("A recipe can't have duplicate ingredients", errors.iterator().next()
+		.getMessage());
     }
-    
+
     @Test
     public void testSaveInvalidRecipe() throws IOException {
 	HomeController homeController = new HomeController();
@@ -347,11 +351,11 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	IngredientType ingrType = new IngredientType();
 	ingrType.setName("salt");
-	
+
 	Ingredient ingr = new Ingredient();
 	ingr.setAmount("5");
 	ingr.setIngredientType(ingrType);
-	
+
 	List<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ingredients.add(ingr);
 
@@ -361,7 +365,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
-	String result = homeController.saveRecipe(recipe, uiModel, null,null);
+	String result = homeController.saveRecipe(recipe, uiModel, null, null);
 
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_ADD_RECIPE_PAGE);
@@ -418,20 +422,20 @@ public class HomeControllerTest extends AbstractControllerTest {
 	violations.add(violation);
 
 	when(mockValidator.validate(Mockito.isA(Account.class))).thenReturn(violations);
-	
-	Account account = new Account();	
+
+	Account account = new Account();
 	account.setEmail("email@email.com");
 	account.setPassword("invalidpassword");
 	account.setUserName("userName");
-	
+
 	HomeController homeController = new HomeController();
 
 	ReflectionTestUtils.setField(homeController, "messageSource", mockMessageSource);
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
-	
+
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 	String result = homeController.saveProfile(account, uiModel, null);
-	
+
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_EDIT_PROFILE_PAGE);
 
@@ -439,7 +443,9 @@ public class HomeControllerTest extends AbstractControllerTest {
 		.get("account_errors");
 
 	assertNotNull(errors);
-	assertEquals("A password must be at least 6 characters with at least a number and a capital letter", errors.iterator().next().getMessage());
+	assertEquals(
+		"A password must be at least 6 characters with at least a number and a capital letter",
+		errors.iterator().next().getMessage());
 
     }
 }

@@ -8,7 +8,9 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<form-login login-page="/login" authentication-failure-url="/loginfail"
 			default-target-url="/login"
-			authentication-success-handler-ref="successHandler" />
+			authentication-success-handler-ref="successHandler" 
+			always-use-default-target="false"
+			/>
 		<logout logout-success-url="/" />		
 	</http>
 

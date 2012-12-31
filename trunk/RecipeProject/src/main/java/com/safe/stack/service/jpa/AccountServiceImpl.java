@@ -36,8 +36,8 @@ public class AccountServiceImpl implements AccountService {
      * @see
      * com.safe.stack.service.AccountService#save(com.safe.stack.domain.Account)
      */
-    public void save(Account acc) {
-	accountRepository.save(acc);
+    public Account save(Account acc) {
+	return accountRepository.save(acc);
     }
 
     /*

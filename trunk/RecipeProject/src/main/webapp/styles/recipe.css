@@ -842,7 +842,7 @@ textarea[class="recipeField"] {
 	width: 20em;
 }
 
-#nav {
+.nav {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -851,7 +851,7 @@ textarea[class="recipeField"] {
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 }
 
-#nav li {
+.nav li {
 	float: right;
 	display: block;
 	width: 124px;
@@ -860,7 +860,7 @@ textarea[class="recipeField"] {
 	text-decoration: none;
 }
 
-#nav li a {
+.nav li a {
 	display: block;
 	height: 37px;
 	line-height: 37px;
@@ -868,11 +868,11 @@ textarea[class="recipeField"] {
 	text-align: center;
 }
 
-#nav a.selected {
+.nav a.selected {
 	color: #000;
 }
 
-#nav ul {
+.nav ul {
 	position: absolute;
 	right: 0;
 	display: none;
@@ -883,12 +883,12 @@ textarea[class="recipeField"] {
 	border-radius: 0 0 10px 10px;
 }
 
-#nav ul li {
+.nav ul li {
 	width: 124px;
 	float: right;
 }
 
-#nav ul ul {
+.nav ul ul {
 	width: 124px;
 	float: right;
 	margin: 0px 124px 0px 0px;
@@ -896,7 +896,7 @@ textarea[class="recipeField"] {
 	border-radius: 10px 0 0 10px;
 }
 
-#nav ul a {
+.nav ul a {
 	display: block;
 	height: 30px;
 	color: #DDDDDD;
@@ -904,11 +904,11 @@ textarea[class="recipeField"] {
 	text-decoration: none;
 }
 
-#nav li ul ul {
+.nav li ul ul {
 	margin: 0px 124px 0 10px;
 }
 
-#nav ul a:hover {
+.nav ul a:hover {
 	text-decoration: none;
 }
 
@@ -947,6 +947,50 @@ ul.dropdown-menu > li {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-* html #nav ul {
+* html .nav ul {
 	margin: 0 0 0 -2px;
+}
+
+#marquee {
+width: 650px;
+color: #555;
+margin: 30px auto;
+text-align: center;
+text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+position: relative;
+}
+
+#marquee-title {
+display: inline-block;
+position: relative;
+height: 66px;
+margin-left: 76px;
+}
+
+#marquee h1 {
+display: inline-block;
+color: #282820;
+font: normal 36px Palatino,'Palatino Linotype','URW Palladio L','Book Antiqua',Georgia,serif;
+margin: 0;
+padding: 14px 0 0;
+}
+
+#marquee a {
+font-weight: normal;
+}
+
+#marquee .publisher-avatar {
+    left: -76px;
+    position: absolute;
+    top: 0;
+}
+.publisher-avatar.medium {
+    height: 56px;
+    width: 56px;
+}
+.publisher-avatar {
+    background-color: #FFFFFF;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    padding: 4px;
 }

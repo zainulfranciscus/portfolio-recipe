@@ -25,6 +25,7 @@ public class SuccessHandler extends SavedRequestAwareAuthenticationSuccessHandle
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 	    Authentication authentication) throws ServletException, IOException {
 
+	
 	String url = (String) request.getSession().getAttribute("url_prior_login");
 	
 	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
