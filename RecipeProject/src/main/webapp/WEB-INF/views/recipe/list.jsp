@@ -71,6 +71,7 @@
 					url : "searchRecipeByIngredient",
 					data : 'ingredient=' + ingredients,
 					success : function(data) {
+						
 						$("#result").html($(data).find("#recipe-cards"));
 						
 						

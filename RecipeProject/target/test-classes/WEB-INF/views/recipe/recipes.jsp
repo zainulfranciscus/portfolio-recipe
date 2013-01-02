@@ -1,7 +1,5 @@
 <c:set var="username" value='${sessionScope.RecipeUser.username}' />
 
-
-
 <div id="recipe-cards">
 	<c:if test="${not empty recipes}">
 		<c:forEach items="${recipes}" var="recipe">
@@ -44,7 +42,7 @@
 										</a>
 										
 									</c:if>
-									<span class="svc clickable">${recipe.numberOfLikes}</span>
+									<span id="like${recipe.id}" class="svc clickable"><%@include file="numOfLikes.jsp"%></span>																	
 								</c:if>		
 							 </sec:authorize>
 							<c:if test="${recipe.diet  == 'Vegan'}">

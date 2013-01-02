@@ -59,6 +59,7 @@ public class HomeController {
     protected static final String RECIPE_DETAILS_PAGE = "recipe/detail";
     protected static final String RECIPE_ADD_RECIPE_PAGE = "recipe/addRecipe";
     protected static final String RECIPE_EDIT_PROFILE_PAGE = "recipe/editProfile";
+    protected static final String NUM_OF_LIKE_PAGE = "recipe/numOfLikes";
 
     @Autowired
     private MessageSource messageSource;
@@ -236,7 +237,7 @@ public class HomeController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/likeARecipe", method = RequestMethod.POST)
     public String likeARecipe(@RequestParam("recipeId") String recipeId,
-	    @RequestParam("operation") String operation) {
+	    @RequestParam("operation") String operation, Model uiModel) {
 
 	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	String userName = ((RecipeUser) principal).getUsername();
@@ -250,8 +251,10 @@ public class HomeController {
 	    accountService.unlikeARecipe(userName, Long.parseLong(recipeId));
 
 	}
+	
+	uiModel.addAttribute("recipe", recipeService.findRecipe(Long.parseLong(recipeId)));
 
-	return RECIPE_LIST_PAGE;
+	return NUM_OF_LIKE_PAGE;
 
     }
 
