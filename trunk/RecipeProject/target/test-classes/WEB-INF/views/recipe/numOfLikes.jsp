@@ -1,0 +1,1 @@
+<span>${recipe.numberOfLikes}</span>

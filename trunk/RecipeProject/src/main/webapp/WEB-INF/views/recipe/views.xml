@@ -25,4 +25,9 @@
         <put-attribute name="body"
             value="/WEB-INF/views/recipe/editProfile.jsp" />
     </definition>
+    
+    <definition extends="numOfLikes" name="recipe/numOfLikes">
+    <put-attribute name="body"
+            value="/WEB-INF/views/recipe/numOfLikes.jsp" />    
+    </definition>
 </tiles-definitions>

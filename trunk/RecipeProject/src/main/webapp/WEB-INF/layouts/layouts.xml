@@ -9,5 +9,7 @@
     <put-attribute name="header" value="/WEB-INF/views/header.jspx" />
     <put-attribute name="footer" value="/WEB-INF/views/footer.jspx" />
   </definition> 
+  
+  <definition name="numOfLikes" template="/WEB-INF/layouts/numOfLikes.jsp"/>
 
 </tiles-definitions>
