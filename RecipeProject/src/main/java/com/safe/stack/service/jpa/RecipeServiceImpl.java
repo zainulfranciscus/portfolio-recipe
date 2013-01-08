@@ -1,6 +1,7 @@
 package com.safe.stack.service.jpa;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
+import com.safe.stack.domain.RecipeSummary;
 import com.safe.stack.repository.RecipeRepository;
 import com.safe.stack.service.RecipeService;
 
@@ -30,12 +32,16 @@ public class RecipeServiceImpl implements RecipeService {
 
     private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select distinct(r) from Recipe as r join r.ingredients as i join i.ingredientType as t where ";
 
+    private static final String NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES = "select new com.safe.stack.domain.RecipeSummary(r.name, r.author, r.diet, "
+	    + "cast((select count(*) from LikedRecipe l where r.id = l.recipeId) as integer), r.authorLink, r.picture) "
+	    + "from Recipe r";
+
     /*
      * (non-Javadoc)
      * 
      * @see
      * com.safe.stack.service.RecipeService#save(com.safe.stack.domain.Recipe)
-     */  
+     */
     public void save(Recipe recipe) {
 	entityManager.merge(recipe);
     }
@@ -53,11 +59,10 @@ public class RecipeServiceImpl implements RecipeService {
 	return (List<Recipe>) entityManager.createNamedQuery("Recipe.findAll", Recipe.class)
 		.getResultList();
     }
-    
-    public List<IngredientType> findAllIngredientTypes()
-    {
-	return (List<IngredientType>) entityManager.createNamedQuery("IngredientType.findAll", IngredientType.class)
-		.getResultList();
+
+    public List<IngredientType> findAllIngredientTypes() {
+	return (List<IngredientType>) entityManager.createNamedQuery("IngredientType.findAll",
+		IngredientType.class).getResultList();
     }
 
     public List<Recipe> findByIngredients(List<String> ingredients) {
@@ -83,6 +88,17 @@ public class RecipeServiceImpl implements RecipeService {
 	    query.setParameter("arg" + i, "%" + ingredients.get(i) + "%");
 	}
 	return query.getResultList();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.safe.stack.service.RecipeService#findRecipesWithNumOfLikes()
+     */
+    @Override
+    public List<RecipeSummary> findRecipesWithNumOfLikes() {
+
+	return entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES).getResultList();
     }
 
 }

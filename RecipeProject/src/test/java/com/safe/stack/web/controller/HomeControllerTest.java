@@ -132,11 +132,16 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ReflectionTestUtils.setField(homeController, "accountService", accountService);
 
+	RecipeUser userDetails = new RecipeUser("user1", "123456", true, false, false, false,
+		AuthorityUtils.NO_AUTHORITIES);
+	Authentication authentication = new TestingAuthenticationToken(userDetails, new Object());
+	SecurityContextHolder.getContext().setAuthentication(authentication);
+	
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 	String result = homeController.showLikedRecipe(uiModel);
 
 	assertNotNull(result);
-	assertEquals(result, "account");
+	assertEquals(HomeController.RECIPE_LIST_PAGE, result);
 
 	assertEquals(account, uiModel.get("account"));
 
@@ -144,9 +149,12 @@ public class HomeControllerTest extends AbstractControllerTest {
 
     @Test
     public void testLikeARecipe() {
+	
 	AccountService accountService = mock(AccountService.class);
+	RecipeService recipeService = mock(RecipeService.class);
+	
 	HomeController homeController = new HomeController();
-
+	
 	String userName = "user1";
 	Long recipeId = 1l;
 
@@ -154,6 +162,10 @@ public class HomeControllerTest extends AbstractControllerTest {
 	recipe.setId(recipeId);
 
 	ReflectionTestUtils.setField(homeController, "accountService", accountService);
+	
+	when(recipeService.findRecipe(recipeId)).thenReturn(recipe);
+	
+	ReflectionTestUtils.setField(homeController, "recipeService", recipeService);
 
 	RecipeUser userDetails = new RecipeUser("user1", "123456", true, false, false, false,
 		AuthorityUtils.NO_AUTHORITIES);
@@ -162,7 +174,10 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	homeController.likeARecipe(String.valueOf(recipeId), "like");
+	homeController.likeARecipe(String.valueOf(recipeId), "like",uiModel);
+	
+	assertEquals(recipe, uiModel.get("recipe"));
+	
 	Mockito.verify(accountService).likeARecipe(userName, recipeId);
 
     }
