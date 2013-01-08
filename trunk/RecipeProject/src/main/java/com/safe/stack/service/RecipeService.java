@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
+import com.safe.stack.domain.RecipeSummary;
 
 public interface RecipeService {
 
@@ -16,5 +17,7 @@ public interface RecipeService {
     List<Recipe> findByIngredients(List<String> ingredients);
 
     List<IngredientType> findAllIngredientTypes();
+    
+    List<RecipeSummary> findRecipesWithNumOfLikes();
 
 }

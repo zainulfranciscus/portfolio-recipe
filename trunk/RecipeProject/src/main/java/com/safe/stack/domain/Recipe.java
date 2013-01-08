@@ -33,7 +33,7 @@ import org.springframework.util.AutoPopulatingList;
 @NamedQueries({ @NamedQuery(name = "Recipe.findAll", query = "select r from Recipe r") })
 public class Recipe {
 
-    public static final String PICTURE_DIR = "file:///C:/source/Pictures/";
+    
     
     private static final int MAX_LENGTH_AUTHOR_LINK = 69;
 

@@ -22,16 +22,16 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
     @Autowired
     RecipeService recipeService;
 
-    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/accountTestData.xls")
+    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
     @Test
     public void testSave() {
 
-	Account account = accountService.findByEmail("mycompany@company");
+	Account account = accountService.findByEmail("user@recipe.com");
 
 	assertNotNull(account);
 	assertEquals("user1", account.getUserName());
 	assertEquals("password", account.getPassword());
-	assertEquals("mycompany@company", account.getEmail());
+	assertEquals("user@recipe.com", account.getEmail());
 	assertEquals("twitter", account.getTwitter());
 	assertEquals("user", account.getAuthority());
     }
@@ -41,9 +41,9 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
     public void testLikedRecipe() {
 
 	Recipe recipe = recipeService.findAll().get(0);
-	accountService.likeARecipe("mycompany@company", recipe.getId());
+	accountService.likeARecipe("user@recipe.com", recipe.getId());
 
-	Account account = accountService.findByEmail("mycompany@company");
+	Account account = accountService.findByEmail("user@recipe.com");
 	Set<Recipe> recipes = account.getLikedRecipes();
 
 	assertEquals(1, recipes.size());
@@ -58,17 +58,17 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
     {
 
 	Recipe recipe = recipeService.findAll().get(0);
-	accountService.likeARecipe("mycompany@company", recipe.getId());
+	accountService.likeARecipe("user@recipe.com", recipe.getId());
 
-	Account account = accountService.findByEmail("mycompany@company");
+	Account account = accountService.findByEmail("user@recipe.com");
 	Set<Recipe> recipes = account.getLikedRecipes();
 
 	assertEquals(1, recipes.size());
 
 	Recipe likedRecipe = recipes.iterator().next();
-	accountService.unlikeARecipe("mycompany@company", recipe.getId());
+	accountService.unlikeARecipe("user@recipe.com", recipe.getId());
 	
-	account = accountService.findByEmail("mycompany@company");
+	account = accountService.findByEmail("user@recipe.com");
 	recipes = account.getLikedRecipes();
 
 	assertEquals(0, recipes.size());
