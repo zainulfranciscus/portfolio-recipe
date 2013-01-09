@@ -37,6 +37,7 @@ import com.safe.stack.domain.Account;
 import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
+import com.safe.stack.domain.RecipeSummary;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
 import com.safe.stack.service.security.RecipeUser;
@@ -48,10 +49,10 @@ public class HomeControllerTest extends AbstractControllerTest {
 	RecipeService recipeService = mock(RecipeService.class);
 	HomeController homeController = new HomeController();
 
-	List<Recipe> recipeList = new ArrayList<Recipe>();
-	recipeList.add(new Recipe());
+	List<RecipeSummary> recipeList = new ArrayList<RecipeSummary>();
+	recipeList.add(new RecipeSummary(1l,"Lamb Stew","Jamie Oliver","definitely not vegetarian", 100L,"www.jamieoliver.com","stew_boiling.jpg"));
 
-	when(recipeService.findAll()).thenReturn(recipeList);
+	when(recipeService.findRecipesWithNumOfLikes()).thenReturn(recipeList);
 	ReflectionTestUtils.setField(homeController, "recipeService", recipeService);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();

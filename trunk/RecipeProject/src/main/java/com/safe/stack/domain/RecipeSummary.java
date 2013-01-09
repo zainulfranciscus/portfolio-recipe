@@ -3,6 +3,8 @@ package com.safe.stack.domain;
 import java.io.Serializable;
 
 public class RecipeSummary implements Serializable{
+    
+    private Long id;
 
     private String name;
 
@@ -10,15 +12,16 @@ public class RecipeSummary implements Serializable{
 
     private String diet;
 
-    private int numOfLikes;
+    private Long numOfLikes;
 
     private String authorLink;
 
     private String picture;
     
-    public RecipeSummary(String name, String author, String diet, int numOfLikes,
+    public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes,
 	    String authorLink, String picture) {
 	super();
+	this.id = id;
 	this.name = name;
 	this.author = author;
 	this.diet = diet;
@@ -89,7 +92,7 @@ public class RecipeSummary implements Serializable{
     /**
      * @return the numOfLikes
      */
-    public int getNumOfLikes() {
+    public Long getNumOfLikes() {
 	return numOfLikes;
     }
 
@@ -97,7 +100,7 @@ public class RecipeSummary implements Serializable{
      * @param numOfLikes
      *            the numOfLikes to set
      */
-    public void setNumOfLikes(int numOfLikes) {
+    public void setNumOfLikes(Long numOfLikes) {
 	this.numOfLikes = numOfLikes;
     }
 
@@ -115,5 +118,21 @@ public class RecipeSummary implements Serializable{
     public void setAuthorLink(String authorLink) {
 	this.authorLink = authorLink;
     }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    
 
 }

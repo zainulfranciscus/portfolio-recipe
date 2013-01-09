@@ -32,8 +32,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select distinct(r) from Recipe as r join r.ingredients as i join i.ingredientType as t where ";
 
-    private static final String NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES = "select new com.safe.stack.domain.RecipeSummary(r.name, r.author, r.diet, "
-	    + "cast((select count(*) from LikedRecipe l where r.id = l.recipeId) as integer), r.authorLink, r.picture) "
+    private static final String NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES = "select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
+	    + "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture) "
 	    + "from Recipe r";
 
     /*
