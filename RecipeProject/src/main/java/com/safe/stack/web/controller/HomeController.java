@@ -79,7 +79,7 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
 
-	uiModel.addAttribute("recipes", recipeService.findAll());
+	uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
 
 	return RECIPE_LIST_PAGE;
     }

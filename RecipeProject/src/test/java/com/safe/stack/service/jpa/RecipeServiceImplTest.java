@@ -176,9 +176,9 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	List<RecipeSummary> recipeSummaryList = recipeService.findRecipesWithNumOfLikes();
 	
 	assertEquals(3, recipeSummaryList.size());
-	assertEquals(2, recipeSummaryList.get(0).getNumOfLikes());
-	assertEquals(1, recipeSummaryList.get(1).getNumOfLikes());
-	assertEquals(0, recipeSummaryList.get(2).getNumOfLikes());
+	assertEquals(2, recipeSummaryList.get(0).getNumOfLikes().intValue());
+	assertEquals(1, recipeSummaryList.get(1).getNumOfLikes().intValue());
+	assertEquals(0, recipeSummaryList.get(2).getNumOfLikes().intValue());
 
     }
 
