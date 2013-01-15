@@ -18,6 +18,8 @@ public class RecipeSummary implements Serializable{
 
     private String picture;
     
+    private Long likedByUser = new Long(0);
+    
     public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes,
 	    String authorLink, String picture) {
 	super();
@@ -27,8 +29,42 @@ public class RecipeSummary implements Serializable{
 	this.diet = diet;
 	this.numOfLikes = numOfLikes;
 	this.authorLink = authorLink;
-	this.picture = picture;
+	this.picture = picture;	
     }
+    
+    public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes,
+	    String authorLink, String picture, Long likedByUser) {
+	super();
+	this.id = id;
+	this.name = name;
+	this.author = author;
+	this.diet = diet;
+	this.numOfLikes = numOfLikes;
+	this.authorLink = authorLink;
+	this.picture = picture;
+	this.likedByUser = likedByUser;
+    }
+
+    
+    public boolean isLikedByThisUser()
+    {
+	return likedByUser.intValue() > 0;
+    }
+    /**
+     * @return the likedByAUser
+     */
+    public Long getLikedByAUser() {
+        return likedByUser;
+    }
+
+
+    /**
+     * @param likedByAUser the likedByAUser to set
+     */
+    public void setLikedByAUser(Long likedByUser) {
+        this.likedByUser = likedByUser;
+    }
+
 
     /**
      * @return the picture

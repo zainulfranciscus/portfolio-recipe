@@ -1,7 +1,6 @@
 package com.safe.stack.service.jpa;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -34,6 +33,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     private static final String NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES = "select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
 	    + "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture) "
+	    + "from Recipe r";
+    
+    private static final String NATIVEQUERY_RECIPES_WITH_LIKED_INDICATOR = "select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
+	    + "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture,"
+	    + "(select count(*) from LikedRecipe l where r.id = l.recipeId and l.email =:arg0) as likedByUser) "
 	    + "from Recipe r";
 
     /*
@@ -100,5 +104,17 @@ public class RecipeServiceImpl implements RecipeService {
 
 	return entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES).getResultList();
     }
+
+    /* (non-Javadoc)
+     * @see com.safe.stack.service.RecipeService#findRecipesWithLlikedIndicator(java.lang.String)
+     */
+    @Override
+    public List<RecipeSummary> findRecipesWithLlikedIndicator(String userName) {
+	Query q = entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_LIKED_INDICATOR);
+	q.setParameter("arg0",userName);
+	return q.getResultList();
+    }
+    
+    
 
 }

@@ -19,5 +19,7 @@ public interface RecipeService {
     List<IngredientType> findAllIngredientTypes();
     
     List<RecipeSummary> findRecipesWithNumOfLikes();
+    
+    List<RecipeSummary> findRecipesWithLlikedIndicator(String userName);
 
 }

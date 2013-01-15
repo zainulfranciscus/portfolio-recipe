@@ -37,7 +37,7 @@
 		<div id="inner-header" class="fullscreen">
 			<ul class="right dark">
 				<sec:authorize access="not isAuthenticated()">
-					<a class="menu signin inset dark" href="login">SignIn</a>
+					<a id="signin" class="menu signin inset dark" href="login">SignIn</a>
 				</sec:authorize>
 			</ul>
 			<sec:authorize access="isAuthenticated()">
