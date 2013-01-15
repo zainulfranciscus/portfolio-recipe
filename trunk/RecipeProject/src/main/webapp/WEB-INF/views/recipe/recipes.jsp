@@ -24,7 +24,7 @@
 							
 							<div class="byline">
 							 <sec:authorize access="isAuthenticated()">
-							<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
+							<c:set var="isLikedByUser" value='${recipe.isLikedByThisUser()}' />
 								
 								<c:if test="${not empty username}">
 									<c:if test="${isLikedByUser}">

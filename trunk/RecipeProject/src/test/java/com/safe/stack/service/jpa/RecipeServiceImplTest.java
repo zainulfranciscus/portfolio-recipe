@@ -176,9 +176,76 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	List<RecipeSummary> recipeSummaryList = recipeService.findRecipesWithNumOfLikes();
 	
 	assertEquals(3, recipeSummaryList.size());
-	assertEquals(2, recipeSummaryList.get(0).getNumOfLikes().intValue());
-	assertEquals(1, recipeSummaryList.get(1).getNumOfLikes().intValue());
-	assertEquals(0, recipeSummaryList.get(2).getNumOfLikes().intValue());
+	
+	RecipeSummary rs1 = recipeSummaryList.get(0);
+	assertEquals(1, rs1.getNumOfLikes().intValue());
+	assertEquals("pie lover", rs1.getAuthor());
+	assertEquals("url", rs1.getAuthorLink());
+	assertEquals("vegan", rs1.getDiet());
+	assertEquals(0, rs1.getId().intValue());
+	assertEquals("pie", rs1.getName());
+	assertEquals("pie_pic", rs1.getPicture());
+	assertEquals(0, rs1.getLikedByAUser().intValue());
+	
+	RecipeSummary rs2  = recipeSummaryList.get(1);
+	assertEquals(1, rs2.getNumOfLikes().intValue());
+	assertEquals("caserolle lover", rs2.getAuthor());
+	assertEquals("url", rs2.getAuthorLink());
+	assertEquals("vegan", rs2.getDiet());
+	assertEquals(1, rs2.getId().intValue());
+	assertEquals(0, rs2.getLikedByAUser().intValue());
+	assertEquals("caserolle", rs2.getName());
+	assertEquals("caserolle_pic", rs2.getPicture());
+	
+	RecipeSummary rs3 = recipeSummaryList.get(2);
+	assertEquals(0, rs3.getNumOfLikes().intValue());
+	assertEquals("fries lover", rs3.getAuthor());
+	assertEquals("url", rs3.getAuthorLink());
+	assertEquals("vegan", rs3.getDiet());
+	assertEquals(2, rs3.getId().intValue());
+	assertEquals(0, rs3.getLikedByAUser().intValue());
+	assertEquals("fries", rs3.getName());
+	assertEquals("fries_pic", rs3.getPicture());
+
+    }
+    
+    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @Test
+    public void testFindRecipesWithLikedInd() {
+
+	List<RecipeSummary> recipeSummaryList = recipeService.findRecipesWithLlikedIndicator("user@recipe.com");
+	
+	assertEquals(3, recipeSummaryList.size());
+	
+	RecipeSummary rs1 = recipeSummaryList.get(0);
+	assertEquals(1, rs1.getNumOfLikes().intValue());
+	assertEquals("pie lover", rs1.getAuthor());
+	assertEquals("url", rs1.getAuthorLink());
+	assertEquals("vegan", rs1.getDiet());
+	assertEquals(0, rs1.getId().intValue());
+	assertEquals("pie", rs1.getName());
+	assertEquals("pie_pic", rs1.getPicture());
+	assertEquals(1, rs1.getLikedByAUser().intValue());
+	
+	RecipeSummary rs2  = recipeSummaryList.get(1);
+	assertEquals(1, rs2.getNumOfLikes().intValue());
+	assertEquals("caserolle lover", rs2.getAuthor());
+	assertEquals("url", rs2.getAuthorLink());
+	assertEquals("vegan", rs2.getDiet());
+	assertEquals(1, rs2.getId().intValue());
+	assertEquals(0, rs2.getLikedByAUser().intValue());
+	assertEquals("caserolle", rs2.getName());
+	assertEquals("caserolle_pic", rs2.getPicture());
+	
+	RecipeSummary rs3 = recipeSummaryList.get(2);
+	assertEquals(0, rs3.getNumOfLikes().intValue());
+	assertEquals("fries lover", rs3.getAuthor());
+	assertEquals("url", rs3.getAuthorLink());
+	assertEquals("vegan", rs3.getDiet());
+	assertEquals(2, rs3.getId().intValue());
+	assertEquals(0, rs3.getLikedByAUser().intValue());
+	assertEquals("fries", rs3.getName());
+	assertEquals("fries_pic", rs3.getPicture());
 
     }
 

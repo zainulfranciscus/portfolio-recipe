@@ -79,7 +79,16 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
 
-	uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	
+	if(principal.toString().equals("anonymousUser"))
+	{
+	    uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
+	}else
+	{
+	    String userName = ((RecipeUser) principal).getUsername();
+	    uiModel.addAttribute("recipes", recipeService.findRecipesWithLlikedIndicator(userName));
+	}
 
 	return RECIPE_LIST_PAGE;
     }
