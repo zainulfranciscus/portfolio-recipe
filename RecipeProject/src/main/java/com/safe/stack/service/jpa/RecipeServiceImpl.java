@@ -1,5 +1,9 @@
 package com.safe.stack.service.jpa;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +11,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.domain.RecipeSummary;
@@ -34,11 +44,27 @@ public class RecipeServiceImpl implements RecipeService {
     private static final String NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES = "select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
 	    + "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture) "
 	    + "from Recipe r";
-    
+
     private static final String NATIVEQUERY_RECIPES_WITH_LIKED_INDICATOR = "select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
 	    + "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture,"
 	    + "(select count(*) from LikedRecipe l where r.id = l.recipeId and l.email =:arg0) as likedByUser) "
 	    + "from Recipe r";
+
+    private static final int NAME_COL = 0;
+
+    private static final int AUTHOR_COL = 1;
+
+    private static final int DIET_COL = 2;
+
+    private static final int AUTHOR_LINK_COL = 3;
+
+    private static final int PICTURE_COL = 4;
+
+    private static final int INGREDIENT_COL = 5;
+
+    private static final int AMOUNT_COL = 6;
+
+    private static final int METRIC_COL = 7;
 
     /*
      * (non-Javadoc)
@@ -105,16 +131,94 @@ public class RecipeServiceImpl implements RecipeService {
 	return entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES).getResultList();
     }
 
-    /* (non-Javadoc)
-     * @see com.safe.stack.service.RecipeService#findRecipesWithLlikedIndicator(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.safe.stack.service.RecipeService#findRecipesWithLlikedIndicator(java
+     * .lang.String)
      */
     @Override
     public List<RecipeSummary> findRecipesWithLlikedIndicator(String userName) {
 	Query q = entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_LIKED_INDICATOR);
-	q.setParameter("arg0",userName);
+	q.setParameter("arg0", userName);
 	return q.getResultList();
     }
-    
-    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.safe.stack.service.RecipeService#importData()
+     */
+    @Override
+    public void importData() throws BiffException, IOException {
+	URL fileURL = this.getClass().getClassLoader().getResource("recipe.xls");
+	File excelFile;
+	try {
+	    excelFile = new File(fileURL.toURI());
+	} catch (URISyntaxException e) {
+	    excelFile = new File(fileURL.getPath());
+	}
+	Workbook workbook = Workbook.getWorkbook(excelFile);
+	Sheet sheet = workbook.getSheet(0);
+	int numOfRow = sheet.getRows();
+
+	List<IngredientType> ingredientTypes = findAllIngredientTypes();
+	List<Recipe> recipeList = new ArrayList<Recipe>();
+
+	for (int i = 1; i < numOfRow; i++) {
+
+	    String recipeName = sheet.getCell(NAME_COL, i).getContents();
+	    Recipe r = new Recipe();
+
+	    if (!StringUtils.isEmpty(recipeName)) {
+		String authorName = sheet.getCell(AUTHOR_COL, i).getContents();
+		String recipePicture = sheet.getCell(PICTURE_COL, i).getContents();
+		String authorURL = sheet.getCell(AUTHOR_LINK_COL, i).getContents();
+		String diet = sheet.getCell(DIET_COL, i).getContents();
+
+		r.setAuthor(authorName);
+		r.setAuthorLink(authorURL);
+		r.setDiet(diet);
+
+		r.setName(recipeName);
+		r.setPicture(recipePicture);
+
+	    } else {
+		r = recipeList.get(recipeList.size() - 1);
+	    }
+
+	    String ingredientName = sheet.getCell(INGREDIENT_COL, i).getContents();
+	    String ingredientAmt = sheet.getCell(AMOUNT_COL, i).getContents();
+	    String ingredientMetric = sheet.getCell(METRIC_COL, i).getContents();
+
+	    Ingredient ingr = new Ingredient();
+	    ingr.setAmount(ingredientAmt);
+	    ingr.setMetric(ingredientMetric);
+
+	    IngredientType t = new IngredientType();
+	    t.setName(ingredientName);
+
+	    for (IngredientType type : ingredientTypes) {
+		if (type.getName().equalsIgnoreCase(ingredientName))		    
+		{
+		    t = type;
+		    break;
+		}
+	    }
+
+	    ingr.setIngredientType(t);
+
+	    r.getIngredients().add(ingr);
+
+	    if (!StringUtils.isEmpty(recipeName)) {
+		recipeList.add(r);
+	    }
+
+	}
+
+	recipeRepository.save(recipeList);
+
+    }
 
 }

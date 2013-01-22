@@ -2,18 +2,27 @@ package com.safe.stack.service.jpa;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jxl.read.biff.BiffException;
+
 import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.safe.stack.annotation.DataSets;
 import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.domain.RecipeSummary;
+import com.safe.stack.repository.RecipeRepository;
 import com.safe.stack.service.RecipeService;
 
 public class RecipeServiceImplTest extends AbstractServiceImplTest {
@@ -174,9 +183,9 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
     public void testFindRecipesWithNumOfLikes() {
 
 	List<RecipeSummary> recipeSummaryList = recipeService.findRecipesWithNumOfLikes();
-	
+
 	assertEquals(3, recipeSummaryList.size());
-	
+
 	RecipeSummary rs1 = recipeSummaryList.get(0);
 	assertEquals(1, rs1.getNumOfLikes().intValue());
 	assertEquals("pie lover", rs1.getAuthor());
@@ -186,8 +195,8 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("pie", rs1.getName());
 	assertEquals("pie_pic", rs1.getPicture());
 	assertEquals(0, rs1.getLikedByAUser().intValue());
-	
-	RecipeSummary rs2  = recipeSummaryList.get(1);
+
+	RecipeSummary rs2 = recipeSummaryList.get(1);
 	assertEquals(1, rs2.getNumOfLikes().intValue());
 	assertEquals("caserolle lover", rs2.getAuthor());
 	assertEquals("url", rs2.getAuthorLink());
@@ -196,7 +205,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(0, rs2.getLikedByAUser().intValue());
 	assertEquals("caserolle", rs2.getName());
 	assertEquals("caserolle_pic", rs2.getPicture());
-	
+
 	RecipeSummary rs3 = recipeSummaryList.get(2);
 	assertEquals(0, rs3.getNumOfLikes().intValue());
 	assertEquals("fries lover", rs3.getAuthor());
@@ -208,15 +217,16 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("fries_pic", rs3.getPicture());
 
     }
-    
+
     @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
     @Test
     public void testFindRecipesWithLikedInd() {
 
-	List<RecipeSummary> recipeSummaryList = recipeService.findRecipesWithLlikedIndicator("user@recipe.com");
-	
+	List<RecipeSummary> recipeSummaryList = recipeService
+		.findRecipesWithLlikedIndicator("user@recipe.com");
+
 	assertEquals(3, recipeSummaryList.size());
-	
+
 	RecipeSummary rs1 = recipeSummaryList.get(0);
 	assertEquals(1, rs1.getNumOfLikes().intValue());
 	assertEquals("pie lover", rs1.getAuthor());
@@ -226,8 +236,8 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("pie", rs1.getName());
 	assertEquals("pie_pic", rs1.getPicture());
 	assertEquals(1, rs1.getLikedByAUser().intValue());
-	
-	RecipeSummary rs2  = recipeSummaryList.get(1);
+
+	RecipeSummary rs2 = recipeSummaryList.get(1);
 	assertEquals(1, rs2.getNumOfLikes().intValue());
 	assertEquals("caserolle lover", rs2.getAuthor());
 	assertEquals("url", rs2.getAuthorLink());
@@ -236,7 +246,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(0, rs2.getLikedByAUser().intValue());
 	assertEquals("caserolle", rs2.getName());
 	assertEquals("caserolle_pic", rs2.getPicture());
-	
+
 	RecipeSummary rs3 = recipeSummaryList.get(2);
 	assertEquals(0, rs3.getNumOfLikes().intValue());
 	assertEquals("fries lover", rs3.getAuthor());
@@ -246,6 +256,27 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(0, rs3.getLikedByAUser().intValue());
 	assertEquals("fries", rs3.getName());
 	assertEquals("fries_pic", rs3.getPicture());
+
+    }
+
+    @Test
+    public void testImportData() throws IOException, BiffException {
+	
+	Recipe r = new Recipe();
+	r.setName("x");
+	
+	List<Recipe> recipes = new ArrayList<Recipe>();
+	recipes.add(r);
+	
+	RecipeRepository mockRecipeRepository =  mock(RecipeRepository.class);
+	
+	when(mockRecipeRepository.save(recipes)).thenReturn(recipes);
+	
+	RecipeServiceImpl recipeServiceImpl = new RecipeServiceImpl();
+	ReflectionTestUtils.setField(recipeServiceImpl, "recipeRepository", mockRecipeRepository);
+	recipeService.importData();
+
+	
 
     }
 
