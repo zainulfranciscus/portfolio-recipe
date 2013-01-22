@@ -1,6 +1,9 @@
 package com.safe.stack.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import jxl.read.biff.BiffException;
 
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
@@ -21,5 +24,7 @@ public interface RecipeService {
     List<RecipeSummary> findRecipesWithNumOfLikes();
     
     List<RecipeSummary> findRecipesWithLlikedIndicator(String userName);
+    
+    void importData()  throws BiffException, IOException;
 
 }

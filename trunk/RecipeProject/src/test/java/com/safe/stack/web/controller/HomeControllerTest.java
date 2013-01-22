@@ -48,11 +48,16 @@ public class HomeControllerTest extends AbstractControllerTest {
     public void testShowAllRecipe() {
 	RecipeService recipeService = mock(RecipeService.class);
 	HomeController homeController = new HomeController();
+	
+	RecipeUser userDetails = new RecipeUser("user1", "123456", true, false, false, false,
+		AuthorityUtils.NO_AUTHORITIES);
+	Authentication authentication = new TestingAuthenticationToken(userDetails, new Object());
+	SecurityContextHolder.getContext().setAuthentication(authentication);
 
 	List<RecipeSummary> recipeList = new ArrayList<RecipeSummary>();
 	recipeList.add(new RecipeSummary(1l,"Lamb Stew","Jamie Oliver","definitely not vegetarian", 100L,"www.jamieoliver.com","stew_boiling.jpg"));
 
-	when(recipeService.findRecipesWithNumOfLikes()).thenReturn(recipeList);
+	when(recipeService.findRecipesWithLlikedIndicator("user1")).thenReturn(recipeList);
 	ReflectionTestUtils.setField(homeController, "recipeService", recipeService);
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
