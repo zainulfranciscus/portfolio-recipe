@@ -7,13 +7,12 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import jxl.read.biff.BiffException;
 
 import org.junit.Test;
-import org.mockito.Matchers;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -261,22 +260,65 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 
     @Test
     public void testImportData() throws IOException, BiffException {
-	
+
 	Recipe r = new Recipe();
 	r.setName("x");
-	
+
 	List<Recipe> recipes = new ArrayList<Recipe>();
 	recipes.add(r);
-	
-	RecipeRepository mockRecipeRepository =  mock(RecipeRepository.class);
-	
+
+	RecipeRepository mockRecipeRepository = mock(RecipeRepository.class);
+
 	when(mockRecipeRepository.save(recipes)).thenReturn(recipes);
-	
+
 	RecipeServiceImpl recipeServiceImpl = new RecipeServiceImpl();
 	ReflectionTestUtils.setField(recipeServiceImpl, "recipeRepository", mockRecipeRepository);
-	recipeService.importData();
+	Iterable<Recipe> savedRecipes = recipeService.importData();
+	Iterator<Recipe> savedRecipesIt = savedRecipes.iterator();
 
-	
+	Recipe r1 = savedRecipesIt.next();
+
+	assertEquals("recipe1", r1.getName());
+	assertEquals("seriouseat.com", r1.getAuthor());
+	assertEquals("vegan", r1.getDiet());
+	assertEquals("http://seriouseat.com", r1.getAuthorLink());
+	assertEquals("pic1.jpg", r1.getPicture());
+
+	List<Ingredient> ingrList1 = r1.getIngredients();
+	assertNotNull(ingrList1);
+	assertEquals(1, ingrList1.size());
+
+	Ingredient i1 = ingrList1.get(0);
+	assertEquals("cardamom", i1.getIngredientType().getName());
+	assertEquals("10", i1.getAmount());
+	assertEquals("g", i1.getMetric());
+
+	Recipe r2 = savedRecipesIt.next();
+
+	assertEquals("recipe2", r2.getName());
+	assertEquals("martha stewart", r2.getAuthor());
+	assertEquals("", r2.getDiet());
+	assertEquals("http://marthastewart.com", r2.getAuthorLink());
+	assertEquals("pic2.jpg", r2.getPicture());
+
+	List<Ingredient> ingrList2 = r2.getIngredients();
+	assertNotNull(ingrList2);
+	assertEquals(3, ingrList2.size());
+
+	Ingredient i2 = ingrList2.get(0);
+	assertEquals("chocolate", i2.getIngredientType().getName());
+	assertEquals("250", i2.getAmount());
+	assertEquals("g", i2.getMetric());
+
+	Ingredient i3 = ingrList2.get(1);
+	assertEquals("butter", i3.getIngredientType().getName());
+	assertEquals("4", i3.getAmount());
+	assertEquals("tbsp", i3.getMetric());
+
+	Ingredient i4 = ingrList2.get(2);
+	assertEquals("flour", i4.getIngredientType().getName());
+	assertEquals("3", i4.getAmount());
+	assertEquals("cups", i4.getMetric());
 
     }
 
