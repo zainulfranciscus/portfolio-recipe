@@ -12,7 +12,7 @@ public class RecipeSummary implements Serializable{
 
     private String diet;
 
-    private Long numOfLikes;
+    private Long numberOfLikes;
 
     private String authorLink;
 
@@ -27,7 +27,7 @@ public class RecipeSummary implements Serializable{
 	this.name = name;
 	this.author = author;
 	this.diet = diet;
-	this.numOfLikes = numOfLikes;
+	this.numberOfLikes = numOfLikes;
 	this.authorLink = authorLink;
 	this.picture = picture;	
     }
@@ -39,7 +39,7 @@ public class RecipeSummary implements Serializable{
 	this.name = name;
 	this.author = author;
 	this.diet = diet;
-	this.numOfLikes = numOfLikes;
+	this.numberOfLikes = numOfLikes;
 	this.authorLink = authorLink;
 	this.picture = picture;
 	this.likedByUser = likedByUser;
@@ -128,16 +128,16 @@ public class RecipeSummary implements Serializable{
     /**
      * @return the numOfLikes
      */
-    public Long getNumOfLikes() {
-	return numOfLikes;
+    public Long getNumberOfLikes() {
+	return numberOfLikes;
     }
 
     /**
      * @param numOfLikes
      *            the numOfLikes to set
      */
-    public void setNumOfLikes(Long numOfLikes) {
-	this.numOfLikes = numOfLikes;
+    public void setNumberOfLikes(Long numOfLikes) {
+	this.numberOfLikes = numOfLikes;
     }
 
     /**

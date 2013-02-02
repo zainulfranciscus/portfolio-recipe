@@ -186,7 +186,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(3, recipeSummaryList.size());
 
 	RecipeSummary rs1 = recipeSummaryList.get(0);
-	assertEquals(1, rs1.getNumOfLikes().intValue());
+	assertEquals(1, rs1.getNumberOfLikes().intValue());
 	assertEquals("pie lover", rs1.getAuthor());
 	assertEquals("url", rs1.getAuthorLink());
 	assertEquals("vegan", rs1.getDiet());
@@ -196,7 +196,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(0, rs1.getLikedByAUser().intValue());
 
 	RecipeSummary rs2 = recipeSummaryList.get(1);
-	assertEquals(1, rs2.getNumOfLikes().intValue());
+	assertEquals(1, rs2.getNumberOfLikes().intValue());
 	assertEquals("caserolle lover", rs2.getAuthor());
 	assertEquals("url", rs2.getAuthorLink());
 	assertEquals("vegan", rs2.getDiet());
@@ -206,7 +206,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("caserolle_pic", rs2.getPicture());
 
 	RecipeSummary rs3 = recipeSummaryList.get(2);
-	assertEquals(0, rs3.getNumOfLikes().intValue());
+	assertEquals(0, rs3.getNumberOfLikes().intValue());
 	assertEquals("fries lover", rs3.getAuthor());
 	assertEquals("url", rs3.getAuthorLink());
 	assertEquals("vegan", rs3.getDiet());
@@ -227,7 +227,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(3, recipeSummaryList.size());
 
 	RecipeSummary rs1 = recipeSummaryList.get(0);
-	assertEquals(1, rs1.getNumOfLikes().intValue());
+	assertEquals(1, rs1.getNumberOfLikes().intValue());
 	assertEquals("pie lover", rs1.getAuthor());
 	assertEquals("url", rs1.getAuthorLink());
 	assertEquals("vegan", rs1.getDiet());
@@ -237,7 +237,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals(1, rs1.getLikedByAUser().intValue());
 
 	RecipeSummary rs2 = recipeSummaryList.get(1);
-	assertEquals(1, rs2.getNumOfLikes().intValue());
+	assertEquals(1, rs2.getNumberOfLikes().intValue());
 	assertEquals("caserolle lover", rs2.getAuthor());
 	assertEquals("url", rs2.getAuthorLink());
 	assertEquals("vegan", rs2.getDiet());
@@ -247,7 +247,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("caserolle_pic", rs2.getPicture());
 
 	RecipeSummary rs3 = recipeSummaryList.get(2);
-	assertEquals(0, rs3.getNumOfLikes().intValue());
+	assertEquals(0, rs3.getNumberOfLikes().intValue());
 	assertEquals("fries lover", rs3.getAuthor());
 	assertEquals("url", rs3.getAuthorLink());
 	assertEquals("vegan", rs3.getDiet());
