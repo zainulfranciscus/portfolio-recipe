@@ -41,7 +41,7 @@ public class Account implements Serializable {
     /**
      * @return the likedRecipes
      */
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "email"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
     public Set<Recipe> getLikedRecipes() {
 	return likedRecipes;
