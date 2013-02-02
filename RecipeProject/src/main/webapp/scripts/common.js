@@ -13,22 +13,17 @@
 					  type: "POST",  
 					  url: "likeARecipe",  
 					  data: 'recipeId=' + $(this).attr("title") + '&operation=' + $(this).attr("name"),  
-					  success: function(data) {  
-						  
-						  alert(data);
-						  alert(numOfLikes);
-						  alert(currentNumOfLikes);
-						  alert("data a: " + $(data).find("span").attr("id"));
+					  success: function(data) {  						
 						  
 						 $(numOfLikes).html($(data));
 						
 						  if(hrefName == 'unlike')
 						  {
 							  $(href).attr("name","like");
-							  $(href).text("like");
+							  $(href).text("Like");
 						  }else {
 							  $(href).attr("name","unlike");
-							  $(href).text("unlike");
+							  $(href).text("Unlike");
 						  } 
 					  },
 					  dataType : 'html'
