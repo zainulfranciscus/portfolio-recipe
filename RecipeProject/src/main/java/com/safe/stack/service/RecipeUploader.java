@@ -1,13 +1,10 @@
 package com.safe.stack.service;
 
 import java.io.IOException;
-import java.util.List;
 
 import jxl.read.biff.BiffException;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
-
-import com.safe.stack.domain.Recipe;
 
 public class RecipeUploader {
 

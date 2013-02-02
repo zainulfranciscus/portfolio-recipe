@@ -57,7 +57,7 @@
 		</c:forEach>
 
 	</c:if>
-
+	
 	<c:if test="${empty recipes}">
 		No Recipe found with these Ingredient
 	</c:if>

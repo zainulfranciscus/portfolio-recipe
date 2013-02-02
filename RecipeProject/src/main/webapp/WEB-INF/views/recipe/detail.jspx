@@ -63,8 +63,7 @@
 
 								<ul>
 									<c:forEach items="${recipe.ingredients}" var="ingredient">
-										<li><span>${ingredient.ingredientType.name}
-												${ingredient.amount} ${ingredient.metric}</span></li>
+										<li><span>${ingredient.amount} ${ingredient.metric} ${ingredient.ingredientType.name}</span></li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -86,7 +85,7 @@
 					<img src="images/${author_icon}"/>
 					</div>
 					
-					<a class="profile-name" href="">Author</a>
+					<a class="profile-name" href="">${recipe.author}</a>
 					
 					<div class="profile-details">
 						<a href="${author_url}">${author_url}</a>

@@ -228,6 +228,13 @@ public class HomeController {
 	uiModel.addAttribute("recipes", recipeService.findByIngredients(ingredients));
 	return RECIPE_LIST_PAGE;
     }
+    
+    @RequestMapping(value = "/loadNextSetOfRecipes", method = RequestMethod.GET)
+    public String loadNextSetOfRecipes(Model uiModel)
+    {
+	uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
+	return RECIPE_LIST_PAGE;
+    }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/searchLikedRecipe", method = RequestMethod.GET)

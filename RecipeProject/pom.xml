@@ -223,7 +223,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -273,15 +273,15 @@
 			<version>3.2-FINAL</version>
 			<scope>test</scope>
 		</dependency>
-	
+
 		<!-- Selenuim -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>2.28.0</version>
 		</dependency>
-		
-		
+
+
 		<!-- c3p0 Data Connection Pooling -->
 		<dependency>
 			<groupId>c3p0</groupId>
@@ -306,12 +306,18 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.2</version>
 		</dependency>
-		
+
 		<!-- JExcel -->
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
 			<version>2.6.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-core</artifactId>
+			<version>0.9</version>
 		</dependency>
 
 	</dependencies>

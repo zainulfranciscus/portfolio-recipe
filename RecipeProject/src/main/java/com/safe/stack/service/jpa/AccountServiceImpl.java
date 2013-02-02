@@ -45,6 +45,7 @@ public class AccountServiceImpl implements AccountService {
      * 
      * @see com.safe.stack.service.AccountService#findByUserName()
      */
+    @Transactional(readOnly=true)
     public Account findByEmail(String name) {
 
 	TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail",
