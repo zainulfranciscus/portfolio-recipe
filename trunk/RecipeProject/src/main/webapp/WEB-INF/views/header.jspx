@@ -6,6 +6,10 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+			
+			$('.infinite-scroll').jscroll({
+				loadingHtml: '<b>Loading</b>'
+			});
 
 			$('.nav li').hover(function() {
 				//show its submenu

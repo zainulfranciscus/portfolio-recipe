@@ -28,13 +28,17 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.AutoPopulatingList;
 
+/**
+ * A POJO mapped to the RECIPE table.
+ * 
+ * @author Zainul Franciscus
+ *
+ */
 @Entity
 @Table(name = "Recipe")
 @NamedQueries({ @NamedQuery(name = "Recipe.findAll", query = "select r from Recipe r") })
 public class Recipe {
 
-    
-    
     private static final int MAX_LENGTH_AUTHOR_LINK = 69;
 
     private Long id;
@@ -50,7 +54,7 @@ public class Recipe {
     /**
      * @return the ingredients
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "RecipeIngredient", joinColumns = { @JoinColumn(name = "recipeId") }, inverseJoinColumns = { @JoinColumn(name = "ingredientId") })
     public List<Ingredient> getIngredients() {
 	return ingredients;

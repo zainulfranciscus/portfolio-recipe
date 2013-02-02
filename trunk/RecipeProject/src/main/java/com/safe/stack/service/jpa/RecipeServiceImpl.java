@@ -81,20 +81,24 @@ public class RecipeServiceImpl implements RecipeService {
      * 
      * @see com.safe.stack.service.RecipeService#findRecipe(java.lang.Long)
      */
+    @Transactional(readOnly=true)
     public Recipe findRecipe(Long id) {
 	return recipeRepository.findOne(id);
     }
 
+    @Transactional(readOnly=true)
     public List<Recipe> findAll() {
 	return (List<Recipe>) entityManager.createNamedQuery("Recipe.findAll", Recipe.class)
 		.getResultList();
     }
 
+    @Transactional(readOnly=true)
     public List<IngredientType> findAllIngredientTypes() {
 	return (List<IngredientType>) entityManager.createNamedQuery("IngredientType.findAll",
 		IngredientType.class).getResultList();
     }
 
+    @Transactional(readOnly=true)
     public List<Recipe> findByIngredients(List<String> ingredients) {
 
 	if (ingredients.size() == 0) {
@@ -126,6 +130,7 @@ public class RecipeServiceImpl implements RecipeService {
      * @see com.safe.stack.service.RecipeService#findRecipesWithNumOfLikes()
      */
     @Override
+    @Transactional(readOnly=true)
     public List<RecipeSummary> findRecipesWithNumOfLikes() {
 
 	return entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES).getResultList();
@@ -139,6 +144,7 @@ public class RecipeServiceImpl implements RecipeService {
      * .lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<RecipeSummary> findRecipesWithLlikedIndicator(String userName) {
 	Query q = entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_LIKED_INDICATOR);
 	q.setParameter("arg0", userName);
@@ -151,7 +157,7 @@ public class RecipeServiceImpl implements RecipeService {
      * @see com.safe.stack.service.RecipeService#importData()
      */
     @Override
-    public void importData() throws BiffException, IOException {
+    public Iterable<Recipe> importData() throws BiffException, IOException {
 	URL fileURL = this.getClass().getClassLoader().getResource("recipe.xls");
 	File excelFile;
 	try {
@@ -172,10 +178,10 @@ public class RecipeServiceImpl implements RecipeService {
 	    Recipe r = new Recipe();
 
 	    if (!StringUtils.isEmpty(recipeName)) {
-		String authorName = sheet.getCell(AUTHOR_COL, i).getContents();
-		String recipePicture = sheet.getCell(PICTURE_COL, i).getContents();
-		String authorURL = sheet.getCell(AUTHOR_LINK_COL, i).getContents();
-		String diet = sheet.getCell(DIET_COL, i).getContents();
+		String authorName = sheet.getCell(AUTHOR_COL, i).getContents().trim();
+		String recipePicture = sheet.getCell(PICTURE_COL, i).getContents().trim();
+		String authorURL = sheet.getCell(AUTHOR_LINK_COL, i).getContents().trim();
+		String diet = sheet.getCell(DIET_COL, i).getContents().trim();
 
 		r.setAuthor(authorName);
 		r.setAuthorLink(authorURL);
@@ -188,9 +194,9 @@ public class RecipeServiceImpl implements RecipeService {
 		r = recipeList.get(recipeList.size() - 1);
 	    }
 
-	    String ingredientName = sheet.getCell(INGREDIENT_COL, i).getContents();
-	    String ingredientAmt = sheet.getCell(AMOUNT_COL, i).getContents();
-	    String ingredientMetric = sheet.getCell(METRIC_COL, i).getContents();
+	    String ingredientName = sheet.getCell(INGREDIENT_COL, i).getContents().trim();
+	    String ingredientAmt = sheet.getCell(AMOUNT_COL, i).getContents().trim();
+	    String ingredientMetric = sheet.getCell(METRIC_COL, i).getContents().trim();
 
 	    Ingredient ingr = new Ingredient();
 	    ingr.setAmount(ingredientAmt);
@@ -217,7 +223,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	}
 
-	recipeRepository.save(recipeList);
+	return recipeRepository.save(recipeList);
 
     }
 

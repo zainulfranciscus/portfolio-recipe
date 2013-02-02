@@ -25,6 +25,6 @@ public interface RecipeService {
     
     List<RecipeSummary> findRecipesWithLlikedIndicator(String userName);
     
-    void importData()  throws BiffException, IOException;
+    Iterable<Recipe> importData()  throws BiffException, IOException;
 
 }

@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -24,25 +22,7 @@ public class Ingredient {
     private String metric;
     private IngredientType ingredientType;
     private int version;
-    private Recipe recipe;
-
-    /**
-     * @return the recipe
-     */
-    @ManyToOne(cascade = { CascadeType.ALL })
-    @JoinTable(name = "RecipeIngredient", joinColumns = @JoinColumn(name = "ingredientId"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
-    public Recipe getRecipe() {
-	return recipe;
-    }
-
-    /**
-     * @param recipe
-     *            the recipe to set
-     */
-    public void setRecipe(Recipe recipe) {
-	this.recipe = recipe;
-    }
-
+    
     /**
      * @return the id
      */
