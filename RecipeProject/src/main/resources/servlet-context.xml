@@ -47,12 +47,10 @@
     
     <!-- store preferred theme configuration in a cookie -->
     <beans:bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>                  
-    
-   
 
     <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <beans:property name="validationMessageSource" ref="messageSource"/>
-    </beans:bean>        
+    </beans:bean>
+       
 
-	
 </beans:beans>

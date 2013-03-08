@@ -5,7 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +17,8 @@ import jxl.read.biff.BiffException;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.safe.stack.annotation.DataSets;
@@ -273,7 +278,9 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 
 	RecipeServiceImpl recipeServiceImpl = new RecipeServiceImpl();
 	ReflectionTestUtils.setField(recipeServiceImpl, "recipeRepository", mockRecipeRepository);
-	Iterable<Recipe> savedRecipes = recipeService.importData();
+	
+
+	Iterable<Recipe> savedRecipes = recipeService.importData(getExcelFile());
 	Iterator<Recipe> savedRecipesIt = savedRecipes.iterator();
 
 	Recipe r1 = savedRecipesIt.next();
@@ -320,6 +327,13 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("3", i4.getAmount());
 	assertEquals("cups", i4.getMetric());
 
+    }
+    
+    private File getExcelFile() throws IOException
+    {
+	Resource resource = new ClassPathResource("test_recipes.xls");
+	return resource.getFile();
+	
     }
 
 }
