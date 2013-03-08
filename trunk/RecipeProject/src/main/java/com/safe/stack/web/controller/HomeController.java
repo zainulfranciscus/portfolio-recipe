@@ -359,5 +359,13 @@ public class HomeController {
 
 	return RECIPE_EDIT_PROFILE_PAGE;
     }
+    
+    @RequestMapping(value = "/restCallConsumer", method = RequestMethod.POST)
+    public String restCallConsumer(@RequestParam(value = "field1") String field1, @RequestParam(value = "field2") String field2) {
+	System.out.println("field1: " + field1);
+	System.out.println("field2: " + field2);
+	
+	return RECIPE_LOGIN_PAGE;
+    }
 
 }

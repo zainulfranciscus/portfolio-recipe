@@ -51,11 +51,10 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 	Recipe likedRecipe = recipes.iterator().next();
 
     }
-    
+
     @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
     @Test
-    public void testUnlikeRecipe()
-    {
+    public void testUnlikeRecipe() {
 
 	Recipe recipe = recipeService.findAll().get(0);
 	accountService.likeARecipe("user@recipe.com", recipe.getId());
@@ -67,7 +66,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 
 	Recipe likedRecipe = recipes.iterator().next();
 	accountService.unlikeARecipe("user@recipe.com", recipe.getId());
-	
+
 	account = accountService.findByEmail("user@recipe.com");
 	recipes = account.getLikedRecipes();
 

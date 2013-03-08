@@ -157,15 +157,9 @@ public class RecipeServiceImpl implements RecipeService {
      * @see com.safe.stack.service.RecipeService#importData()
      */
     @Override
-    public Iterable<Recipe> importData() throws BiffException, IOException {
-	URL fileURL = this.getClass().getClassLoader().getResource("recipe.xls");
-	File excelFile;
-	try {
-	    excelFile = new File(fileURL.toURI());
-	} catch (URISyntaxException e) {
-	    excelFile = new File(fileURL.getPath());
-	}
-	Workbook workbook = Workbook.getWorkbook(excelFile);
+    public Iterable<Recipe> importData(File excel) throws BiffException, IOException {
+	
+	Workbook workbook = Workbook.getWorkbook(excel);
 	Sheet sheet = workbook.getSheet(0);
 	int numOfRow = sheet.getRows();
 

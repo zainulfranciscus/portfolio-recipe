@@ -23,7 +23,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Account")
-@NamedQueries({ @NamedQuery(name = "Account.findByEmail", query = "select a from Account a where a.email = :email") })
 public class Account implements Serializable {
 
     private String email;

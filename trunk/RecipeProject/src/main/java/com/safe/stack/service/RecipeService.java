@@ -1,5 +1,6 @@
 package com.safe.stack.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,6 +26,6 @@ public interface RecipeService {
     
     List<RecipeSummary> findRecipesWithLlikedIndicator(String userName);
     
-    Iterable<Recipe> importData()  throws BiffException, IOException;
+    Iterable<Recipe> importData(File excel)  throws BiffException, IOException;
 
 }
