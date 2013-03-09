@@ -14,9 +14,12 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.converters.collections.MapConverter;
+import com.thoughtworks.xstream.core.util.OrderRetainingMap;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.mapper.Mapper;
 
 public class RestClientTest {
 
@@ -44,14 +47,19 @@ public class RestClientTest {
 	map3.put("island", "faranga");
 
 	XStream xStream = new XStream(new DomDriver());
-	xStream.registerConverter(new MapEntryConverter());
+	xStream.registerConverter(new MapEntryConverter(xStream.getMapper()));
+	
 	xStream.alias("add", multimap.getClass());
 	String xml = xStream.toXML(multimap);
 	System.out.println(xml);
 
     }
 
-    public static class MapEntryConverter implements Converter {
+    public static class MapEntryConverter extends MapConverter {
+
+	public MapEntryConverter(Mapper mapper) {
+	    super(mapper);	   
+	}
 
 	public boolean canConvert(Class clazz) {
 	    return ListMultimap.class.isAssignableFrom(clazz);
@@ -68,10 +76,7 @@ public class RestClientTest {
 	    }
 	}
 
-	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-	    return null;
-	}
-
+	
     }
 
 }
