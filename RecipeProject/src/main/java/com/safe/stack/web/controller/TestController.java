@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class TestController {
     
-    @RequestMapping(value = "/restCallConsumer", method = RequestMethod.POST, consumes={"application/xml"})
+    @RequestMapping(value = "/restCallConsumer", method = RequestMethod.POST)
     public String restCallConsumer(String anXML) {
 	System.out.println("-------------------------");
 	System.out.println("anXML: " + anXML);
