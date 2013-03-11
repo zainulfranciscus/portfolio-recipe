@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TestController {
     
     @RequestMapping(value = "/restCallConsumer", method = RequestMethod.POST)
-    public String restCallConsumer(String anXML) {
+    public String restCallConsumer(Object anXML) {
 	System.out.println("-------------------------");
-	System.out.println("anXML: " + anXML);
+	System.out.println("anXML: " + String.valueOf(anXML));
 	
-	return "";
+	return  "recipe/list";
     }
     
     @RequestMapping(value = "/getSomething", method = RequestMethod.GET)
