@@ -35,6 +35,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -359,13 +360,5 @@ public class HomeController {
 
 	return RECIPE_EDIT_PROFILE_PAGE;
     }
-    
-    @RequestMapping(value = "/restCallConsumer", method = RequestMethod.POST)
-    public String restCallConsumer(@RequestParam(value = "field1") String field1, @RequestParam(value = "field2") String field2) {
-	System.out.println("field1: " + field1);
-	System.out.println("field2: " + field2);
-	
-	return RECIPE_LOGIN_PAGE;
-    }
-
+      
 }
