@@ -40,24 +40,9 @@ public class RestClientTest {
 	String xml = xStream.toXML(multimap);
 	System.out.println(xml);
 
-//
-//	List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-//	Jaxb2RootElementHttpMessageConverter jaxbMessageConverter = new Jaxb2RootElementHttpMessageConverter();
-//	List<MediaType> mediaTypes = new ArrayList<MediaType>();
-//	mediaTypes.add(MediaType.TEXT_XML);
-//	jaxbMessageConverter.setSupportedMediaTypes(mediaTypes);
-//	messageConverters.add(jaxbMessageConverter);
-//	restTemplate.setMessageConverters(messageConverters);
 	
-	HttpHeaders headers = new HttpHeaders();
-	headers.setContentType(MediaType.APPLICATION_XML);
-	
-	HttpEntity<String> entity = new HttpEntity<String>(xml,headers);
-	
-	restTemplate.postForLocation("http://localhost:8080/RecipeProject/restCallConsumer", entity,HttpEntity.class);
-	
-//	restTemplate.postForObject("http://localhost:8080/RecipeProject/restCallConsumer", xml,
-//		String.class);
+	restTemplate.postForObject("http://localhost:8080/RecipeProject/restCallConsumer", xml,
+		String.class);
 
     }
 
