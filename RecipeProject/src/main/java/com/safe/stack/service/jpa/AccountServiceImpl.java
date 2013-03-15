@@ -3,9 +3,12 @@ package com.safe.stack.service.jpa;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,7 @@ import com.safe.stack.domain.LikedRecipe;
 import com.safe.stack.repository.AccountRepository;
 import com.safe.stack.repository.LikedRecipeRepository;
 import com.safe.stack.service.AccountService;
+import com.safe.stack.service.security.RecipeUser;
 
 @Service("accountService")
 @Repository
@@ -29,6 +33,9 @@ public class AccountServiceImpl implements AccountService {
 
     @PersistenceContext
     private EntityManager entityManager;
+    
+    @Autowired
+    private AuthenticationManager authManager;
 
     /*
      * (non-Javadoc)
@@ -84,5 +91,48 @@ public class AccountServiceImpl implements AccountService {
 	entityManager.clear();
 
     }
+
+    /* returns true if the current user is not logged in.
+     * 
+     * @see com.safe.stack.service.AccountService#isAnonymousUser()
+     */
+    @Override
+    public boolean isAnonymousUser() {
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	
+	return principal.toString().equals("anonymousUser");
+	
+    }
+
+    /* return user who is currently logged in. 
+     * 
+     * @see com.safe.stack.service.AccountService#getUser()
+     */
+    @Override
+    public RecipeUser getUser() {
+	
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	if(principal instanceof RecipeUser){
+	    return (RecipeUser) principal;
+	}
+	return null;
+    }
+
+    /* Authenticate a user based on the provided user name and password.
+     * 
+     * @see com.safe.stack.service.AccountService#authenticate(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void authenticate(String userName, String password) {
+	UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+		userName, password);
+
+	Authentication auth = authManager.authenticate(token);
+	Object principal = auth.getPrincipal();
+	SecurityContextHolder.getContext().setAuthentication(auth);
+	
+    }
+    
+    
 
 }

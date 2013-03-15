@@ -204,6 +204,20 @@ public class Account implements Serializable {
         this.authority = authority;
     }
     
+    /**
+     * @param userName of a user
+     * @param password of a user
+     * @return a new Account that can be used to create a new user account
+     */
+    public static Account getNewAccount(String userName, String password){
+	Account acc = new Account();
+	acc.setEmail(userName);
+	acc.setPassword(password);
+	acc.setUserName("user" + userName.hashCode());
+	acc.setAuthority("user");
+	return acc;
+    }
+    
     
 
 }
