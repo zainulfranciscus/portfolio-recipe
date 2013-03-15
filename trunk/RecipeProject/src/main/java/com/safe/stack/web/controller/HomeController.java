@@ -35,7 +35,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +48,12 @@ import com.safe.stack.service.RecipeService;
 import com.safe.stack.service.security.RecipeUser;
 import com.safe.stack.web.form.Message;
 
+/**
+ * A controller intended to redirect user to a web page.
+ * 
+ * @author Zainul Franciscus
+ * 
+ */
 @RequestMapping("/")
 @Controller
 public class HomeController {
@@ -77,23 +82,33 @@ public class HomeController {
     @Autowired
     private AuthenticationManager authManager;
 
+    /**
+     * Directs user to the recipe list page.
+     * 
+     * @param uiModel
+     *            used as a holder for a list of recipe objects
+     * @return the name of the recipe list view.
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String showAllRecipes(Model uiModel) {
 
-	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	
-	if(principal.toString().equals("anonymousUser"))
-	{
+	if (accountService.isAnonymousUser()) {
 	    uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
-	}else
-	{
-	    String userName = ((RecipeUser) principal).getUsername();
+	} else {
+	    String userName = accountService.getUser().getUsername();
 	    uiModel.addAttribute("recipes", recipeService.findRecipesWithLlikedIndicator(userName));
 	}
 
 	return RECIPE_LIST_PAGE;
     }
 
+    /**
+     * @param id
+     *            of a recipe
+     * @param uiModel
+     *            used as a holder of a recipe object
+     * @return user to the page that describes the detail of a recipe
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showRecipe(@PathVariable("id") Long id, Model uiModel) {
 
@@ -101,8 +116,13 @@ public class HomeController {
 	return RECIPE_DETAILS_PAGE;
     }
 
+    /**
+     * @param request
+     *            an instance of HttpServletRequest
+     * @return user to a page where they click the login button
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String openLoginPage(Model uiModel, HttpServletRequest request) {
+    public String openLoginPage(HttpServletRequest request) {
 
 	String referrer = request.getHeader("Referer");
 
@@ -115,6 +135,13 @@ public class HomeController {
 	return RECIPE_LOGIN_PAGE;
     }
 
+    /**
+     * Directs a user who has an admin role to the add recipe page.
+     * 
+     * @param uiModel
+     *            a holder of ingredient types objects and a recipe object
+     * @return
+     */
     @PreAuthorize("hasRole('admin')")
     @RequestMapping(value = "/addRecipe", method = RequestMethod.GET)
     public String showAddRecipe(Model uiModel) {
@@ -126,8 +153,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
-    public String saveRecipe(Recipe recipe, Model uiModel,
-	    @RequestParam(value = "recipePicture", required = false) Part recipePicture,
+    public String saveRecipe(Recipe recipe, Model uiModel, @RequestParam(value = "recipePicture", required = false) Part recipePicture,
 	    @RequestParam(value = "thumbnail", required = false) Part thumbnail) throws IOException {
 
 	Set<ConstraintViolation<Recipe>> recipeViolations = validator.validate(recipe);
@@ -163,11 +189,8 @@ public class HomeController {
 	}
 
 	if (ingredientNames.size() > 0 && ingredientNames.size() < ingredients.size()) {
-	    ConstraintViolation<IngredientType> violation = new ConstraintViolationImpl<IngredientType>(
-		    "{validation.ingredient.duplicate.message}",
-		    "A recipe can't have duplicate ingredients", IngredientType.class,
-		    new IngredientType(), new Object(), new Object(), null, null,
-		    ElementType.ANNOTATION_TYPE);
+	    ConstraintViolation<IngredientType> violation = new ConstraintViolationImpl<IngredientType>("{validation.ingredient.duplicate.message}", "A recipe can't have duplicate ingredients",
+		    IngredientType.class, new IngredientType(), new Object(), new Object(), null, null, ElementType.ANNOTATION_TYPE);
 	    ingredientTypeViolations.add(violation);
 	}
 
@@ -181,8 +204,7 @@ public class HomeController {
 
 	}
 
-	if (recipeViolations.size() > 0 || ingredientViolations.size() > 0
-		|| ingredientTypeViolations.size() > 0) {
+	if (recipeViolations.size() > 0 || ingredientViolations.size() > 0 || ingredientTypeViolations.size() > 0) {
 	    return RECIPE_ADD_RECIPE_PAGE;
 	}
 
@@ -217,6 +239,14 @@ public class HomeController {
 	return RECIPE_LIST_PAGE;
     }
 
+    /**
+     * 
+     * @param ingredient
+     *            that a user looks for
+     * @param uiModel
+     *            is used as a holder of recipes
+     * @return user to the recipe list page
+     */
     @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST)
     public String searchRecipes(@RequestParam("ingredient") String ingredient, Model uiModel) {
 	String[] tokens = ingredient.trim().split("\\s+");
@@ -229,35 +259,44 @@ public class HomeController {
 	uiModel.addAttribute("recipes", recipeService.findByIngredients(ingredients));
 	return RECIPE_LIST_PAGE;
     }
-    
-    @RequestMapping(value = "/loadNextSetOfRecipes", method = RequestMethod.GET)
-    public String loadNextSetOfRecipes(Model uiModel)
-    {
-	uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
-	return RECIPE_LIST_PAGE;
-    }
 
+    /**
+     * show a list of recipes that a user likes
+     * 
+     * @param uiModel
+     *            a holder for an account, recipes and a boolean.
+     * @return user to the recipe list page
+     */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/searchLikedRecipe", method = RequestMethod.GET)
     public String showLikedRecipe(Model uiModel) {
 
-	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	String userName = ((RecipeUser) principal).getUsername();
+	String userName = accountService.getUser().getUsername();
 
 	Account account = accountService.findByEmail(userName);
 	uiModel.addAttribute("account", account);
 	uiModel.addAttribute("recipes", account.getLikedRecipes());
-	uiModel.addAttribute("show_liked_recipes",new Boolean(true));
+	uiModel.addAttribute("show_liked_recipes", new Boolean(true));
 	return RECIPE_LIST_PAGE;
     }
 
+    /**
+     * set a recipe like indicator to true or false depending on the provided
+     * operation
+     * 
+     * @param recipeId
+     *            an id of a recipe
+     * @param operation
+     *            either like or unlike
+     * @param uiModel
+     *            is used as a holder for a recipe object
+     * @return
+     */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/likeARecipe", method = RequestMethod.POST)
-    public String likeARecipe(@RequestParam("recipeId") String recipeId,
-	    @RequestParam("operation") String operation, Model uiModel) {
+    public String likeARecipe(@RequestParam("recipeId") String recipeId, @RequestParam("operation") String operation, Model uiModel) {
 
-	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	String userName = ((RecipeUser) principal).getUsername();
+	String userName = accountService.getUser().getUsername();
 
 	if (operation.equalsIgnoreCase(LIKE)) {
 
@@ -268,41 +307,40 @@ public class HomeController {
 	    accountService.unlikeARecipe(userName, Long.parseLong(recipeId));
 
 	}
-	
+
 	uiModel.addAttribute("recipe", recipeService.findRecipe(Long.parseLong(recipeId)));
 
 	return NUM_OF_LIKE_PAGE;
 
     }
 
-    @RequestMapping("/redirectLogin")
-    public String redirectLogin(HttpServletRequest request, HttpServletResponse response) {
-	SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
-	String url = savedRequest.getRedirectUrl();
-
-	return url;
-    }
-
+    /**
+     * @param uiModel
+     *            a holder for a Message
+     * @param locale
+     * @return user to a page that display a message that tells the user that
+     *         his login failed.
+     */
     @RequestMapping("/loginfail")
     public String loginFail(Model uiModel, Locale locale) {
-	uiModel.addAttribute(
-		"login_failed",
-		new Message("error", messageSource.getMessage("message_login_fail",
-			new Object[] {}, locale)));
+	uiModel.addAttribute("login_failed", new Message("error", messageSource.getMessage("message_login_fail", new Object[] {}, locale)));
 	return RECIPE_LOGIN_PAGE;
     }
 
+    /**
+     * Create a new user account if the provided user name and password is valid.
+     * 
+     * @param userName for a user
+     * @param password for a user
+     * @param uiModel is used as a holder for validation errors
+     * @param request used to store the user into the session
+     * @return user to the edit profile page.
+     */
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, params = "SignUp")
-    public String signUp(@RequestParam("j_username") String userName,
-	    @RequestParam("j_password") String password, Model uiModel, Locale locale,
-	    HttpServletRequest request) {
+    public String signUp(@RequestParam("j_username") String userName, @RequestParam("j_password") String password, Model uiModel, HttpServletRequest request) {
 
-	Account acc = new Account();
-	acc.setEmail(userName);
-	acc.setPassword(password);
-	acc.setUserName("user" + userName.hashCode());
-	acc.setAuthority("user");
-
+	Account acc = Account.getNewAccount(userName, password);
+	
 	Set<ConstraintViolation<Account>> violations = validator.validate(acc);
 
 	if (violations.size() > 0) {
@@ -313,25 +351,20 @@ public class HomeController {
 	}
 
 	accountService.save(acc);
+	accountService.authenticate(userName, password);
 
-	UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-		userName, password);
-
-	Authentication auth = authManager.authenticate(token);
-	Object principal = auth.getPrincipal();
-	SecurityContextHolder.getContext().setAuthentication(auth);
-	request.getSession().setAttribute(
-		HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-		SecurityContextHolder.getContext());
-
-	if (principal != null && principal instanceof RecipeUser) {
-	    request.getSession().setAttribute("RecipeUser", (RecipeUser) principal);
-	}
-
+	request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+	request.getSession().setAttribute("RecipeUser", accountService.getUser());
+	
 	return "redirect:/editProfile";
 
     }
 
+    /**
+     * @param uiModel is used as a holder for an account object
+     * @param request an instance of HttpServletRequest
+     * @return user to the edit profile page
+     */
     @RequestMapping(value = "/editProfile", method = RequestMethod.GET)
     public String editProfile(Model uiModel, HttpServletRequest request) {
 	RecipeUser recipeUser = (RecipeUser) request.getSession().getAttribute("RecipeUser");
@@ -342,9 +375,14 @@ public class HomeController {
 	return RECIPE_EDIT_PROFILE_PAGE;
     }
 
+    /**
+     * @param account of a user
+     * @param uiModel is used as a holder for an account object
+     * @param profilePicture 
+     * @return user to the edit profile page
+     */
     @RequestMapping(value = "/saveProfile", method = RequestMethod.POST)
-    public String saveProfile(Account account, Model uiModel,
-	    @RequestParam(value = "file", required = false) Part file) {
+    public String saveProfile(Account account, Model uiModel, @RequestParam(value = "file", required = false) Part profilePicture) {
 
 	Set<ConstraintViolation<Account>> violations = validator.validate(account);
 
@@ -360,5 +398,5 @@ public class HomeController {
 
 	return RECIPE_EDIT_PROFILE_PAGE;
     }
-      
+
 }
