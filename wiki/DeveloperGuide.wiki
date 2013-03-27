@@ -43,9 +43,16 @@ public IngredientType getIngredientType() {
 These tables are useless unless we can use them to store recipes and display them on the website. To do that, we need to use a framework capable of storing and retrieving data from these tables. This framework is called JPA.  JPA must know how to connect to the database. This is achieved by recording connection details to our database in a configuration file. This includes the URL, the name, and password of the database.  This configuration file is called datasource-tx-jpa.xml in src\main\resources\ folder.
 Once JPA knows how to connect to a database, JPA accesses the database using an EntityManager. In this project, we are using an entity manager provided by spring framework named LocalContainerEntityManagerFactoryBean. This manager manages entities created for accessing recipe data from the database.
 There are three ways for managing transaction. Two of them are for declarative transaction management, with one using Java annotations and the other using XML configuration. The third option is managing transactions programmatically. This website uses Java annotation to manage transactions because annotation makes the application easier to trace and maintain.
-To enable annotation support for transaction management, a <tx:annotation-driven> tag is added in an XML configuration file: C:\source\Recipe\src\main\resources\datasource-tx-jpa.xml.  And since, the website uses JPA to access the database, a JPA transaction manager is defined as a bean in the xml file:
- <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+To enable annotation support for transaction management, aN
+{{{
+<tx:annotation-driven> 
+}}}
+tag is added in an XML configuration file: C:\source\Recipe\src\main\resources\datasource-tx-jpa.xml.  And since, the website uses JPA to access the database, a JPA transaction manager is defined as a bean in the xml file:
+{{{
+<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+}}}
 There are two data sources recorded in the XML configuration file. Each data source is configured for 2 different profiles: dev and mysql. The dev profile is used for unit test purposes. This profile defines a datasource that uses H2 database. This database is an in memory database. The intention of using an in memory database is to avoid having to clean up test data from production database. Mysql profile defines a connection to a MySQL database. The website uses this database to store recipes.
+
 ==SERVICE LAYER==
 This layer consists of a number of java classes intended to provide methods that allow the controller layer to access database. 
 Every service class in this project is annotated with @Service annotation. This intention is to identify that this class is a Spring component that provide business services to another layer. The @Repository annotation indicates that the class contains data access logic and instructs Spring to translate the vendor-specific exceptions to Spring’s DataAccessException hierarchy. The entity manager is injected by using @PersistenceContext annotation. 
@@ -91,26 +98,42 @@ The project uses Spring Data to save data into a database.  The central interfac
 
 This method is intended to persist a LikedRecipe object into the database. A LikedRecipe object is an entity the records data for the LIKED_RECIPE table.
 
-CONTROLLER LAYER 
+=CONTROLLER LAYER=
 The controller layer handles request from web pages and interact with the service layer. There is one controller in the project, which is the HomeController. This section describes common pattern that the HomeController uses to handle request from web pages. To tell spring that HomeController is a Controller, this class is annotated with @Controller. The @RequestMapping annotation used at the class level indicates URL that HomeController handles. 
-@RequestMapping annotations used at method level of HomeController indicates URL that a method handles. For Example, @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST). This annotation indicates that method annotated with this annotation handles a URL that ends with /searchRecipeByIngredient with POST method.
+@RequestMapping annotations used at method level of HomeController indicates URL that a method handles. For Example, 
+{{{
+@RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST). 
+}}}
+This annotation indicates that method annotated with this annotation handles a URL that ends with /searchRecipeByIngredient with POST method.
 Some methods in this class are annotated with @PreAuthorize("isAuthenticated'), which prevents a user from accessing URLs handled by that method from being accessed by user who are not logged in. 
-HomeController also validates user input using JSR-303 validation. This is accomplished using @Valid annotation at parameter in a method. For example, public String signUp(@Valid Account acc ... . The @Valid annotation enables validation when a request binds data into the Account object. When there is an error in the binding result, the errors will be saved into a BindingResult object. These errors canbe displayed using Spring's form tag. For example <form:errors path="email"/>. This tag will display errors resulted from binding an invalid email address to the Account object.
-ENABLING SPRING SECURITY
+HomeController also validates user input using JSR-303 validation. This is accomplished using @Valid annotation at parameter in a method. For example, public String signUp(@Valid Account acc ... . The @Valid annotation enables validation when a request binds data into the Account object. When there is an error in the binding result, the errors will be saved into a BindingResult object. These errors canbe displayed using Spring's form tag. For example 
+{{{
+<form:errors path="email"/>
+}}} 
+
+This tag will display errors resulted from binding an invalid email address to the Account object.
+
+=ENABLING SPRING SECURITY=
 In the controller section, it was briefly mentioned that the Controller uses annotation to prevent user from accesing URL that require user to log in. This is achieved by enabling spring security. To do this, a filter is registered in the web.xml file:
+{{{
 <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
   </filter>
 <filter-mapping>
+}}}
 This filter is configured to intercept request coming from any URL from the website. This is achieved by recording the url-pattern:
+{{{
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
-  </filter-mapping>
+</filter-mapping>
+}}}
 Any requests from users will be authenticated by spring security, and users will not be given access to URL that requires login when they have not logged in to the system. The website uses login framework that comes with Spring Security, and this framework is configured in a separate XML file called security-context.xml.
+{{{
 ...
 <form-login login-page="/login" authentication-failure-url="/loginfail"
 ...
+}}}
 The form-login tag defines that the login page URL is /login.  The UserService class encapsulates logic for authenticating a user. 
