@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.safe.stack.domain.Account;
 import com.safe.stack.domain.Ingredient;
@@ -86,17 +87,26 @@ public class HomeController {
      *            used as a holder for a list of recipe objects
      * @return the name of the recipe list view.
      */
-    @RequestMapping(method = RequestMethod.GET)
-    public String showAllRecipes(Model uiModel) {
+	@RequestMapping(method = RequestMethod.GET)
+	public String showAllRecipes(Model uiModel) {
 
-	if (accountService.isAnonymousUser()) {
-	    uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
-	} else {
-	    String userName = accountService.getUser().getUsername();
-	    uiModel.addAttribute("recipes", recipeService.findRecipesWithLlikedIndicator(userName));
+		if (accountService.isAnonymousUser()) {
+			uiModel.addAttribute("recipes", recipeService.findRecipesWithNumOfLikes());
+		} else {
+			String userName = accountService.getUser().getUsername();
+			uiModel.addAttribute("recipes", recipeService.findRecipesWithLlikedIndicator(userName));
+		}
+
+		return RECIPE_LIST_PAGE;
 	}
-
-	return RECIPE_LIST_PAGE;
+    
+	
+	/**
+	 * @return every recipe in the database in a json format
+	 */
+	@RequestMapping(value="/json.allRecipes", method = RequestMethod.GET,produces = "application/json")
+    public @ResponseBody List<Recipe> findAllRecipe(){
+    	return recipeService.findAll();
     }
 
     /**
