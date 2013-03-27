@@ -132,6 +132,18 @@ public class AccountServiceImpl implements AccountService {
 	SecurityContextHolder.getContext().setAuthentication(auth);
 	
     }
+
+    /* (non-Javadoc)
+     * @see com.safe.stack.service.AccountService#signUpAUser(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void signUpAUser(String userName, String password) {
+	
+	Account acc = Account.getNewAccount(userName, password);
+	save(acc);
+	authenticate(acc.getUserName(), acc.getPassword());
+	
+    }
     
     
 

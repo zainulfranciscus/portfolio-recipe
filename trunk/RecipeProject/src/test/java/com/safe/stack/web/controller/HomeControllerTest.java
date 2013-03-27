@@ -27,6 +27,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.safe.stack.domain.Account;
@@ -249,9 +251,13 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	String result = homeController.signUp("user1", "password", uiModel, new MockHttpServletRequest());
-	Mockito.doCallRealMethod().when(mockAccountService).authenticate(eq("user1"), eq("password"));
-	Mockito.verify(mockAccountService).save(Mockito.isA(Account.class));
+	Account acc = new Account();
+	acc.setUserName("user1");
+	acc.setPassword("password");
+	
+	String result = homeController.signUp(acc, new DataBinder(acc).getBindingResult(), uiModel, new MockHttpServletRequest());
+	Mockito.doCallRealMethod().when(mockAccountService).signUpAUser(eq("user1"), eq("password"));
+	
 
 	assertNotNull(result);
 	assertNull(uiModel.get("message"));
@@ -269,7 +275,8 @@ public class HomeControllerTest extends AbstractControllerTest {
 	HomeController homeController = new HomeController();
 	LocalValidatorFactoryBean mockValidator = mock(LocalValidatorFactoryBean.class);
 	MessageSource mockMessageSource = mock(MessageSource.class);
-
+	AccountService mockAccService = mock(AccountService.class);
+	
 	when(mockMessageSource.getMessage("{validation.email.invalid.format}", new Object[] {}, Locale.UK)).thenReturn("This is not a valid email address");
 
 	ConstraintViolation<Account> violation = new ConstraintViolationImpl<Account>("{validation.email.invalid.format}", "This is not a valid email address", Account.class, new Account(),
@@ -281,18 +288,23 @@ public class HomeControllerTest extends AbstractControllerTest {
 	when(mockValidator.validate(Mockito.isA(Account.class))).thenReturn(violations);
 	ReflectionTestUtils.setField(homeController, "validator", mockValidator);
 	ReflectionTestUtils.setField(homeController, "messageSource", mockMessageSource);
-
+	ReflectionTestUtils.setField(homeController, "accountService", mockAccService);
+	
 	ExtendedModelMap uiModel = new ExtendedModelMap();
 
-	String result = homeController.signUp("user1", "password", uiModel, new MockHttpServletRequest());
+	Account acc = new Account();
+	acc.setUserName("user1");
+	acc.setPassword("password");
+	
+	BindingResult bindingResult = new DataBinder(acc).getBindingResult();
+	bindingResult.reject("valdation_errors");
+	
+	String result = homeController.signUp(acc, bindingResult, uiModel, new MockHttpServletRequest());
 
 	assertNotNull(result);
-	assertEquals(result, HomeController.RECIPE_LOGIN_PAGE);
-
-	Set<ConstraintViolation<Account>> errors = (Set<ConstraintViolation<Account>>) uiModel.get("valdation_errors");
-
-	assertNotNull(errors);
-	assertEquals("This is not a valid email address", errors.iterator().next().getMessage());
+	assertEquals(HomeController.RECIPE_LOGIN_PAGE, result);
+	assertEquals(acc,(Account) uiModel.get("account"));
+	
 
     }
 

@@ -57,5 +57,13 @@ public interface AccountService {
      * @param password
      */
     void authenticate(String userName, String password);
+    
+    /**
+     * Create a new user with the provided user name and password
+     * 
+     * @param userName
+     * @param password
+     */
+    void signUpAUser(String userName, String password);
 
 }

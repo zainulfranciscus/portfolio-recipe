@@ -14,9 +14,9 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,14 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,7 +54,7 @@ import com.safe.stack.web.form.Message;
 @RequestMapping("/")
 @Controller
 public class HomeController {
-
+    
     private static final String LIKE = "like";
     private static final String UNLIKE = "unlike";
     protected static final String RECIPE_LIST_PAGE = "recipe/list";
@@ -122,7 +119,7 @@ public class HomeController {
      * @return user to a page where they click the login button
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String openLoginPage(HttpServletRequest request) {
+    public String openLoginPage(HttpServletRequest request, Model uiModel) {
 
 	String referrer = request.getHeader("Referer");
 
@@ -131,7 +128,7 @@ public class HomeController {
 	}
 
 	request.getSession().setAttribute("url_prior_login", referrer);
-
+	uiModel.addAttribute("account", new Account());
 	return RECIPE_LOGIN_PAGE;
     }
 
@@ -337,22 +334,15 @@ public class HomeController {
      * @return user to the edit profile page.
      */
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, params = "SignUp")
-    public String signUp(@RequestParam("j_username") String userName, @RequestParam("j_password") String password, Model uiModel, HttpServletRequest request) {
+    public String signUp(@Valid Account acc, BindingResult bindingResult, Model uiModel, HttpServletRequest request) {
 
-	Account acc = Account.getNewAccount(userName, password);
 	
-	Set<ConstraintViolation<Account>> violations = validator.validate(acc);
-
-	if (violations.size() > 0) {
-
-	    uiModel.addAttribute("valdation_errors", violations);
+	if (bindingResult.hasErrors()) {	   
+	    uiModel.addAttribute("account", acc);
 	    return RECIPE_LOGIN_PAGE;
-
 	}
-
-	accountService.save(acc);
-	accountService.authenticate(userName, password);
-
+	
+	accountService.signUpAUser(acc.getUserName(), acc.getPassword());
 	request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 	request.getSession().setAttribute("RecipeUser", accountService.getUser());
 	
