@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
@@ -21,7 +22,7 @@
 		});
 	</script>
 
-	
+
 
 
 	<div id="signin-inset">
@@ -29,28 +30,37 @@
 		<div id="signin-body">
 
 			<div id="signin-with-email" class="standard-form">
-				
-					<c:if test="${not empty login_failed}">
-						<div id="error">
-							Your login attempt was not successful, try again.<br />
-						</div>
-					</c:if>
-	
-					<c:if test="${not empty valdation_errors}">
+
+				<c:if test="${not empty login_failed}">
+					<div id="error">
+						Your login attempt was not successful, try again.<br />
+					</div>
+				</c:if>
+
+				<c:if test="${not empty valdation_errors}">
 					<div id="error">
 						<c:forEach items="${valdation_errors}" var="error">
 							${error.message}
 						</c:forEach>
 					</div>
-					</c:if>
+				</c:if>
+
+				<form:form modelAttribute="account" name='f' action="${loginUrl}" method='POST' id="loginForm">
 				
-				<form name='f' action="${loginUrl}" method='POST' id="loginForm">
-					<input id="email" type='text' name='j_username' placeholder="Email"
-						value='' /> <input id="pw" type='password' name='j_password'
-						placeholder="Password" /> <input id="SignInBtn" class="logo-btn"
-						name="SignIn" type="submit" value="SignIn" /> <input
-						id="SignUpBtn" name="SignUp" type="submit" value="SignUp" />
-				</form>
+				   <div id="error">
+				   		<form:errors path="email"/>
+				   </div>
+				   
+				   <form:input id="email" name='j_username' placeholder="Email" value='' path='email'/>
+				   
+				   <div id="error">
+				   		<form:errors path="password"/>
+				   </div>
+					
+				   <form:password id="pw" name='j_password' placeholder="Password" path='password'/> 
+				   <input id="SignInBtn" class="logo-btn" name="SignIn" type="submit" value="SignIn" /> 
+				   <input id="SignUpBtn" name="SignUp" type="submit" value="SignUp" />
+				</form:form>
 
 			</div>
 

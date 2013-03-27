@@ -16,7 +16,7 @@ public class RecipeUploader {
 	System.setProperty("spring.profiles.active", "mysql");
 
 	GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-	ctx.load("classpath:jpa-app-context.xml");
+	ctx.load("classpath:jpa-app-context.xml","security-context.xml");
 	ctx.refresh();
 
 	Resource resourceToImport = new ClassPathResource("recipe.xls");
