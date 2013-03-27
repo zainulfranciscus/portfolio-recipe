@@ -1,0 +1,996 @@
+body {
+	background: #F5EEE3 url("/images/bgtile.png") repeat;
+	color: black;
+	font: 12px 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+
+html,body,div,ul,ol,li,form,fieldset {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+a,a:visited {
+	color: inherit;
+	cursor: pointer;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+div {
+	display: block;
+}
+
+ul {
+	list-style: none outside none;
+}
+
+form .line:first-child {
+	margin-top: 0;
+}
+
+form .line {
+	margin-top: 1.4em;
+}
+
+form .inline input[type="text"],form .inline textarea {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+form label {
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+form label,form input,form textarea {
+	outline: medium none;
+}
+
+form label,form input,form textarea {
+	display: block;
+}
+
+img,fieldset {
+	border: 0 none;
+}
+
+#dark-header {
+	background-color: #404038;
+	background: -webkit-gradient(linear, 0% 0, 0% 100%, from(#484840),
+		to(#383830) );
+	background: -moz-linear-gradient(top, #484840, #383830);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#484840,
+		endColorstr=#383830 );
+	-ms-filter:
+		"progid:DXImageTransform.Microsoft.gradient(startColorstr=#484840,endColorstr=#383830)";
+	border-top: 1px solid #5C5C54;
+	border-bottom: 1px solid #282820;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+}
+
+#edit-profile-form {
+	width: 640px;
+}
+
+#email,#pw {
+	background: none repeat scroll 0 0 #FEFEFE;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) inset;
+	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	margin-bottom: 8px;
+}
+
+#email:focus,#pw:focus {
+	border: 1px solid #DD8888;
+	box-shadow: 0 0 4px rgba(220, 128, 128, 0.5), 0 0 2px
+		rgba(0, 0, 0, 0.15) inset;
+}
+
+#error {
+	background-color: #FFEBE8;
+	border: 1px solid #CC0000;
+	border-radius: 3px 3px 3px 3px;
+	color: #F00000;
+	line-height: 1.5em;
+	margin: 0 0 1em;
+	padding: 0.9em;
+	width: 400px;
+}
+
+#email,#pw {
+	width: 220px;
+}
+
+#ingredientsSection {
+	width: 100%;
+	overflow: auto;
+}
+
+#inner-header.fullscreen {
+	margin: 0 40px;
+}
+
+#inner-header .menu {
+	display: inline-block;
+	font-weight: bold;
+	height: 30px;
+	margin: 0;
+	padding: 13px 15px 0;
+}
+
+#inner-header .signin {
+	height: auto;
+	margin: 7px 0 0 7px;
+	padding: 5px 8px 6px;
+}
+
+#inner-header .dark .menu {
+	color: #DDD;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
+}
+
+#page.fullscreen {
+	min-width: 1140px;
+	padding: 0;
+	width: auto !important;
+}
+
+#search-box,#searchText {
+	border-radius: 16px 16px 16px 16px;
+	text-shadow: none;
+}
+
+#lookForRecipes {	
+	float: left;
+	
+}
+
+#page.center,#inner-header.center {
+	margin: 0 auto;
+	padding: 0 20px;
+	width: 960px;
+}
+
+#publisher-card {
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.35);
+	border-bottom: medium double rgba(0, 0, 0, 0.15);
+	border-top: medium double rgba(0, 0, 0, 0.15);
+	line-height: 1;
+	margin-bottom: 20px;
+	padding: 15px 0;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#publisher-card .profile-photo {
+	background-color: #FFFFFF;
+	border-radius: 2px 2px 2px 2px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+	float: left;
+	height: 64px;
+	margin: 0 12px;
+	padding: 4px;
+	transition: opacity 0.15s linear 0s, box-shadow 0.15s linear 0s;
+	width: 64px;
+}
+
+#publisher-card a {
+	color: #555555;
+	font-weight: normal;
+}
+
+#publisher-card a.profile-name {
+	color: #404038;
+	display: block;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+#publisher-card .profile-photo img {
+	border-radius: 2px 2px 2px 2px;
+	float: left;
+	height: 100%;
+	width: 100%;
+}
+
+#publisher-card .profile-details {
+	margin-top: 9px;
+}
+
+publisher-card .profile-details a.sprite {
+	line-height: 16px;
+}
+
+#recipe-cards,#menuboard-cards {
+	padding: 0 0 0 40px;
+}
+
+#signin-body,#signin-inset {
+	border-radius: 8px 8px 8px 8px;
+}
+
+#signin-body {
+	background: none repeat scroll 0 0 #FFFFFF;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.08);
+	padding: 18px 25px 12px;
+}
+
+#signin-inset {
+	box-shadow: 0 0 3px rgba(32, 32, 32, 0.4) inset;
+	margin: 140px auto 0;
+	padding: 10px;
+	width: 850px;
+}
+
+#signin-buttons,#signin-with-email {
+	padding-top: 8px;
+}
+
+#signin-buttons {
+	float: left;
+}
+
+#signin-with-email {
+	float: right;
+	margin-right: 10px;
+}
+
+#signin-marquee {
+	display: block;
+	float: left;
+	margin-right: 50px;
+}
+
+#SignInBtn,#SignUpBtn {
+	font-size: 14px;
+	padding: 0.5em 1.1em;
+	text-align: center;
+}
+
+#SignInBtn {
+	border: medium none;
+	float: left;
+	font-weight: bold;
+	height: auto;
+	margin: 1px 0 0;
+	width: auto;
+}
+
+#SignUpBtn {
+	border: 1px solid #EAEAEA;
+	border-radius: 5px 5px 5px 5px;
+	color: #D86860;
+	float: right;
+	font-weight: 300;
+}
+
+#submit,#SignUpBtn {
+	font-size: 14px;
+	padding: 0.5em 1.1em;
+	text-align: center;
+}
+
+form input[type="submit"] {
+	cursor: pointer;
+}
+
+.logo-btn {
+	background:
+		url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAyCAYAAACd+7GKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAClJREFUeNpi/v//vwMTAwPDfzjBgMpFI/7hFSOT9Y8qRuF3JLoHAQIMAHYtMmRA+CugAAAAAElFTkSuQmCC")
+		repeat-x scroll 0 0 #DADADA;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.25), 0
+		1px 0 rgba(255, 255, 255, 0.5) inset;
+	color: #444444;
+	display: inline-block;
+	float: left;
+	font: 14px Arial, Helvetica, sans-serif;
+	height: 40px;
+	position: relative;
+	text-align: left;
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+	width: 230px;
+}
+
+.breadcrumbs {
+	display: block;
+	font-size: 13px;
+	margin: 20px 0 20px 40px;
+}
+
+.card-footer {
+	color: #444444;
+	margin: 10px 6px 0;
+	position: relative;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.card-footer a {
+	color: #444444;
+}
+
+.card-footer .domain {
+	font-size: 1.08em;
+	font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.card-footer .byline {
+	line-height: 1.5em;
+	margin-top: 5px;
+}
+
+.card-footer .byline a {
+	font-weight: normal;
+}
+
+.clear-float {
+	clear: both;
+	height: 1px;
+	margin: -1px 0 0;
+	overflow: hidden;
+}
+
+.dialog {
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(0, 0, 0, 0.12);
+	color: #444444;
+	font-size: 1.1666em;
+	margin: 0 auto;
+	padding: 25px 35px;
+	width: 610px;
+}
+
+.dialog.white {
+	background: url("images/diagonal-gray.png") repeat #F7F6F4;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dialog.full {
+	width: 1040px;
+	height: 100%;
+}
+
+.dialog .dialog {
+	font-size: 1em;
+	margin: 0;
+}
+
+.dialog .light-header {
+	border-bottom: 1px solid #F0F0F0;
+	display: block;
+	font-size: 20px;
+	font-weight: 300;
+	margin: 0 0 0.7em;
+	padding: 0 0 0.7em;
+}
+
+.dialog form label {
+	color: #505048;
+}
+
+.btn {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	background-color: #E0E0E0;
+	background-image: linear-gradient(#FCFCFC, #DADADA);
+	background-repeat: repeat-x;
+	border-color: #CCCCCC #C4C4C4 #B8B8B8;
+	border-image: none;
+	border-radius: 4px 4px 4px 4px;
+	border-style: solid;
+	border-width: 1px;
+	color: #444444;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 16px;
+	margin-right: 3px;
+	overflow: visible;
+	padding: 5px 10px;
+	position: relative;
+	text-decoration: none;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.btn span {
+	width: 16px;
+	height: 16px;
+	margin-right: 4px;
+	vertical-align: text-top;
+}
+
+.column1,.column2 {
+	float: left;
+}
+
+.dialog form textarea,.standard-form form textarea {
+	resize: none;
+}
+
+.dialog form input:-moz-placeholder,.standard-form form input:-moz-placeholder
+	{
+	color: #BBBBBB;
+}
+
+.dialog form input[type="text"],.dialog form input[type="email"],.dialog form input[type="password"],.dialog form textarea,.standard-form form input[type="text"],.standard-form form input[type="email"],.standard-form form input[type="password"],.standard-form form textarea
+	{
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-color: #CCCCCC #DCDCDC #E4E4E4;
+	border-radius: 5px 5px 5px 5px;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.12) inset;
+	color: #404038;
+	font: 1.4em Arial, Helvetica, sans-serif;
+	padding: 0.4em 0.6em;
+	transition: all 0.08s ease-in-out 0s;
+}
+
+input:-moz-placeholder {
+	color: #BBBBBB;
+}
+
+form label,form input,form textarea {
+	outline: medium none;
+}
+
+form label,form input,form textarea {
+	display: block;
+}
+
+input,textarea {
+	font-size: 110%;
+	line-height: 1.1;
+}
+
+img.avatart {
+	border-radius: 2px 2px 2px 2px;
+	height: 25px;
+	width: 25px;
+}
+
+img,fieldset {
+	border: 0 none;
+}
+
+.clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.recipe-card .metric,.recipe-card .sprite,.menuboard-card .metric,.menuboard-card .sprite
+	{
+	margin-right: 7px;
+}
+
+.recipe-details h1 {
+	color: #222222;
+	font-size: 25px;
+	font-weight: normal;
+	margin-bottom: 15px;
+}
+
+.recipe-details h1,.recipe-details h2 {
+	font-family: Palatino, 'Palatino Linotype', 'URW Palladio L',
+		'Book Antiqua', Georgia, serif;
+	line-height: 1.1em;
+	margin: 0;
+}
+
+.recipe-details .portrait img {
+	background-color: #FFFFFF;
+	border-radius: 7px 7px 7px 7px;
+	height: 100%;
+	width: 100%;
+}
+
+.recipe-details .ingredients-list {
+	line-height: 1.6em;
+	margin-top: 26px;
+}
+
+.recipe-details a.source {
+	color: #666666;
+	display: block;
+	font-size: 0.9em;
+	font-weight: normal;
+	line-height: normal;
+	margin-top: 1em;
+	white-space: nowrap;
+}
+
+.recipe-details #action-buttons {
+	margin-top: 16px;
+}
+
+.recipe-details #source-ingredients {
+	color: #444444;
+}
+
+.recipe-details #ingredients-toggle {
+	display: inline;
+}
+
+.recipe-details .ingredients-list ul {
+	margin-top: 0.9em;
+}
+
+.recipe-details #ingredients-toggle li {
+	line-height: 1.4em;
+	vertical-align: middle;
+}
+
+.recipe-details .ingredients-list .title,.recipe-details #preparation .title
+	{
+	color: #333333;
+	font: 1.4em Palatino, 'Palatino Linotype', 'URW Palladio L',
+		'Book Antiqua', Georgia, serif;
+	padding-left: 0;
+}
+
+.recipe-details .column2 {
+	text-shadow: 0 1px 0 #FFFFFF;
+	width: 430px;
+}
+
+.recipe-details p {
+	margin: 1.1em 0 0;
+}
+
+.recipe-details h3,.recipe-details p {
+	font-size: 0.9em;
+}
+
+.toggle-menu li {
+	border-radius: 10px 10px 10px 10px;
+	display: inline;
+	margin-right: 0.3em;
+	padding: 0.3em 0.5em;
+}
+
+.tiny-user-card {
+	float: left;
+	height: 25px;
+	margin: 0 3px 3px 0;
+	position: relative;
+	width: 25px;
+}
+
+.recipe-details li {
+	display: block;
+}
+
+ol,ul {
+	list-style: none outside none;
+}
+
+.awesome {
+	background: url("images/base.png") repeat-x scroll 0 0 #E33110;
+	border: 0 none;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	line-height: 1.29em;
+	margin-top: 15px;
+	padding: 10px 16px;
+	position: relative;
+	text-align: left;
+	text-decoration: none;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.awesome.large {
+	font-size: 12px;
+}
+
+.awesome:hover {
+	background-color: #CB2C0E;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.info-card-wrapper {
+	width: 500px;
+}
+
+.info-card {
+	background-color: #FFFFFF;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.12);
+	padding: 20px 25px 25px;
+}
+
+.metric.svc,.metric.save,.sprite.like {
+	background-position: 0 -80px;
+}
+
+.card-footer a {
+	color: #444444;
+}
+
+.lazy-load,.lazy-loaded {
+	-webkit-transition: opacity 0.3s;
+	-moz-transition: opacity 0.3s;
+	-ms-transition: opacity 0.3s;
+	-o-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+	opacity: 0;
+}
+
+.lazy-loaded {
+	opacity: 1;
+}
+
+.recipe-card a,.menuboard-card a {
+	text-decoration: none;
+}
+
+.recipe-details {
+	color: #555555;
+	font-size: 14px;
+	width: 960px;
+}
+
+.recipe-details .column1 {
+	margin-right: 30px;
+	width: 500px;
+}
+
+.recipe-details .portrait-frame.lg {
+	height: 250px;
+	width: 380px;
+}
+
+.recipe-details .portrait-frame {
+	background-color: #222222;
+	border-radius: 3px 3px 3px 3px;
+	height: 215px;
+	margin: 12px 0 0;
+	padding: 3px;
+	width: 320px;
+}
+
+.column1,.column2 {
+	float: left;
+}
+
+.metric,.sprite {
+	background: url("images/icon-sprite.png") no-repeat scroll 0 0
+		transparent;
+	display: inline-block;
+	height: 16px;
+	padding-left: 20px !important;
+}
+
+.inset.dark {
+	border: 1px solid rgba(0, 0, 0, 0.4);
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2), 0px 1px 0px
+		rgba(255, 255, 255, 0.3) inset;
+}
+
+.left {
+	float: left;
+}
+
+.recipe-card {
+	float: left;
+	width: 250px;
+	margin: 0px 25px 25px 0px;
+	border: medium none;
+}
+
+.recipe-card img.thumb {
+	border-radius: 3px 3px 3px 3px;
+	height: 250px;
+	width: 250px;
+}
+
+.recipe-card .img-n-overlay,.menuboard-card .img-n-overlay {
+	height: 250px;
+	transition: opacity 0.15s linear 0s;
+	width: 250px;
+}
+
+.recipe-card a .img-n-title:hover .img-n-overlay {
+	opacity: 0.88;
+}
+
+.recipe-card .img-n-overlay .overlay {
+	background: none repeat scroll 0 0 #333333;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	bottom: 0;
+	height: 64px;
+	left: 0;
+	position: absolute;
+	width: 250px;
+	z-index: 100;
+}
+
+.recipe-card .title {
+	bottom: 0;
+	color: #FFFFFF;
+	font: 19px/23px Palatino, 'Palatino Linotype', 'URW Palladio L',
+		'Book Antiqua', Georgia, serif;
+	height: 46px;
+	left: 0;
+	margin: 0;
+	overflow: hidden;
+	padding: 9px 11px;
+	position: absolute;
+	width: 228px;
+	z-index: 101;
+}
+.blank-box
+{
+	height:500px;
+	width:100%;
+}
+.recipe-card .img-n-title {
+	border: medium none;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+	height: 250px;
+	position: relative;
+	transition: box-shadow 0.15s linear 0s;
+	width: 250px;	
+}
+
+.recipe-card .img-n-overlay .overlay {
+	background: none repeat scroll 0 0 #333333;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	bottom: 0;
+	height: 64px;
+	left: 0;
+	position: absolute;
+	width: 250px;
+	z-index: 100;
+}
+
+.recipe-card .img-n-overlay .overlay {
+	background: none repeat scroll 0 0 rgba(34, 32, 32, 0.5);
+}
+
+.recipe-card img.diet {
+	padding-right: 2px;
+	vertical-align: top;
+}
+
+.recipe-details .column2 hr {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	border-color: -moz-use-text-color -moz-use-text-color rgba(0, 0, 0, 0.1);
+	border-image: none;
+	border-style: none none solid;
+	border-width: 0 0 1px;
+	clear: both;
+	display: block;
+	height: 0;
+	margin: 20px 0;
+}
+
+.recipe-details h3 {
+	color: #404040;
+	font-weight: bold;
+	margin: -4px 0 12px;
+}
+
+.recipe-details #who-likes-count.gutter {
+	margin-bottom: 0.66em;
+}
+
+img.diet {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+}
+
+.right {
+	float: right;
+}
+
+.site-header {
+	position: relative;
+	height: 43px;
+	min-width: 1140px;
+	font-size: 13px;
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+.ingredientLabel {
+	width: 200px;
+	float: left;
+	margin: 0 60px 0 0;
+}
+
+.ingredientSpan {
+	margin: 0 0 3px;
+}
+
+input .ingredientField {
+	width: 10em;
+	border: 1px solid #000;
+	padding: 5px;
+}
+
+input[class="recipeField"] {
+	width: 20em;
+}
+
+textarea[class="recipeField"] {
+	width: 20em;
+}
+
+.nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	height: 37px;
+	color: #DDDDDD;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.nav li {
+	float: right;
+	display: block;
+	width: 124px;
+	position: relative;
+	z-index: 500;
+	text-decoration: none;
+}
+
+.nav li a {
+	display: block;
+	height: 37px;
+	line-height: 37px;
+	text-decoration: none;
+	text-align: center;
+}
+
+.nav a.selected {
+	color: #000;
+}
+
+.nav ul {
+	position: absolute;
+	right: 0;
+	display: none;
+	padding: 0;
+	list-style: none;
+	background-color: #383830;
+	-moz-border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 10px;
+}
+
+.nav ul li {
+	width: 124px;
+	float: right;
+}
+
+.nav ul ul {
+	width: 124px;
+	float: right;
+	margin: 0px 124px 0px 0px;
+	display: block;
+	border-radius: 10px 0 0 10px;
+}
+
+.nav ul a {
+	display: block;
+	height: 30px;
+	color: #DDDDDD;
+	line-height: 30px;
+	text-decoration: none;
+}
+
+.nav li ul ul {
+	margin: 0px 124px 0 10px;
+}
+
+.nav ul a:hover {
+	text-decoration: none;
+}
+
+#search-box {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 0 rgba(255, 255, 255, 0.85) inset;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#searchText:-moz-placeholder {
+    color: #A0A0A0;
+    font-weight: normal;
+}
+#searchText {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #555555;
+    float: left;
+    font: bold 13px Arial,Helvetica,sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 14em;
+    height: 2em;
+}
+
+ul.dropdown-menu > li {
+    position: relative;
+}
+.breadcrumbs > li {
+    color: #444444;
+    float: left;
+    margin-right: 13px;
+    padding: 7px 11px 8px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+* html .nav ul {
+	margin: 0 0 0 -2px;
+}
+
+#marquee {
+width: 650px;
+color: #555;
+margin: 30px auto;
+text-align: center;
+text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+position: relative;
+}
+
+#marquee-title {
+display: inline-block;
+position: relative;
+height: 66px;
+margin-left: 76px;
+}
+
+#marquee h1 {
+display: inline-block;
+color: #282820;
+font: normal 36px Palatino,'Palatino Linotype','URW Palladio L','Book Antiqua',Georgia,serif;
+margin: 0;
+padding: 14px 0 0;
+}
+
+#marquee a {
+font-weight: normal;
+}
+
+#marquee .publisher-avatar {
+    left: -76px;
+    position: absolute;
+    top: 0;
+}
+.publisher-avatar.medium {
+    height: 56px;
+    width: 56px;
+}
+.publisher-avatar {
+    background-color: #FFFFFF;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    padding: 4px;
+}
