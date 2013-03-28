@@ -9,7 +9,11 @@ Relationships between these tables are modelled using JPA. To do this, we annota
 There are three types of relationship between the tables. They are one-to-many, many-to-many, and one-to-one. The following sections describe the usage of JPA annotations to model all these relationships.
 
 ==MODELLING A ONE-TO-MANY RELATIONSHIP== 
-Every recipe has at least one recipe or many ingredients. This relationship is modelled with three tables: the RECIPE table, the RECIPE_INGREDIENT table, and the INGREDIENT table. The association between each recipe and its ingredients are captured in the recipe ingredient table. We decided not to store a foreign key of an ingredient into the RECIPE table to keep each row in the RECIPE table to store one recipe. This way displaying all recipes in the first page of the website can be attained using a simple select query: {{{ select * from recipe }}}.
+Every recipe has at least one recipe or many ingredients. This relationship is modelled with three tables: the RECIPE table, the RECIPE_INGREDIENT table, and the INGREDIENT table. The association between each recipe and its ingredients are captured in the recipe ingredient table. We decided not to store a foreign key of an ingredient into the RECIPE table to keep each row in the RECIPE table to store one recipe. This way displaying all recipes in the first page of the website can be attained using a simple select query: 
+{{{ 
+select * from recipe 
+}}}
+
 To model the relationship between the RECIPE table, the RECIPE_INGREDIENT table, and the INGREDIENT table we use two kind of relationship. A one-to-many relationship between the RECIPE table and the RECIPE_INGREDIENT table is modelled using @OneToMany annotation and @JoinTable on the getIngredients method. We also specified a @Cascade annotation with a persist option and a merge option. This mean that whenever we save a Recipe, all related ingredients will be saved into the INGREDIENT table.
 
 ==MODELLING A MANY-TO-MANY RELATIONSHIP==
@@ -59,7 +63,10 @@ Every service class in this project is annotated with @Service annotation. This 
 Every service class in this project is annotated with the @Transactional annotation. One of that class is the RecipeServiceImpl. This class has a number of find mehods. All these methods are annotated with @Transactional(readOnly=true), because these methods only read data and do not modify them. The intention is to optimize these methods.
 Querying data from the database
 The service layer uses JPQL to query the database.  One example of a JPQL is named queries defined in entity classes such as the Account class. The account class is intended to map columns in the ACCOUNT table.  This class has a named query:
+{{{
 @NamedQuery(name = "Account.findByEmail", query = "select a from Account a where a.email = :email") 
+}}}
+
 This named query is used to retrieve user accounts with a particular email address by the AccountServiceImpl.
 {{{
 @Transactional(readOnly=true)
@@ -80,7 +87,9 @@ entityManager.clear();
 
 Untyped result queries and named queries are not the only two flavour of JPQL that this project uses.  Constructor expression is another form of JPQL that this project uses. The RecipeServiceImpl uses a constructor expression that pulls out recipe information for the home page of the website.
 
+{{{
 select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet,  (select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture, (select count(*) from LikedRecipe l where r.id = l.recipeId and l.email =:arg0) as likedByUser)  from Recipe r;
+}}}
 
 The above query instructs JPA to construct a RecipeSummary object.
 
