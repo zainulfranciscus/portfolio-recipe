@@ -95,7 +95,7 @@ The above query instructs JPA to construct a RecipeSummary object.
 
 Inserting data into the database
 The project uses Spring Data to save data into a database.  The central interface that this project uses is Repository. An example of that  Respository is com.safe.stack.repository. LikedRecipeRepository. This interface extends org.springframework.data.repository.CrudRepository. The intention of this class is to expose methods convenient for saving data. For example:
-
+{{{
 @Override
  public void likeARecipe(String userName, Long recipeId) {
 	LikedRecipe likedRecipe = new LikedRecipe();
@@ -104,6 +104,7 @@ The project uses Spring Data to save data into a database.  The central interfac
 	likedRecipeRepository.save(likedRecipe);
 
  }
+}}}
 
 This method is intended to persist a LikedRecipe object into the database. A LikedRecipe object is an entity the records data for the LIKED_RECIPE table.
 
