@@ -1,6 +1,6 @@
 This documentation is intended for readers with a background of web-based application development using Spring MVC and Hibernate. The purpose of this document is to describe common patterns used to build components in the applications. These components are: the data model, JPA mapping, service layer, and controller layer.
 
-The source code build for each component are located in the source directory [https://code.google.com/p/portfolio-recipe/source/browse/#svn%2Ftrunk%2FRecipeProject%2Fsrc]
+The source code build for each component are located in the  [https://code.google.com/p/portfolio-recipe/source/browse/#svn%2Ftrunk%2FRecipeProject%2Fsrc source directory]
 
 =DATA MODEL=
 This project stores data in these tables: ACCOUNT, INGREDIENT_TYPE, INGREDIENTS, LIKED_RECIPE, RECIPE_INGREDIENT, and RECIPE table. 
