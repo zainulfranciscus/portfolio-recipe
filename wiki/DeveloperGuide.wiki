@@ -77,6 +77,7 @@ return typedQuery.getSingleResult();
 }}}
 Beside named queries, the AccountServiceImpl class also passes JPQL into the entity manager using untyped result queries.  For example:
 
+{{{
 public void unlikeARecipe(String email, Long recipeId) {
 Query query = entityManager.createQuery("delete from LikedRecipe where recipeId = :recipeId and email = :email");
 query.setParameter("recipeId", recipeId);
@@ -84,6 +85,7 @@ query.setParameter("email", email);
 query.executeUpdate();
 entityManager.clear();
 }
+}}}
 
 Untyped result queries and named queries are not the only two flavour of JPQL that this project uses.  Constructor expression is another form of JPQL that this project uses. The RecipeServiceImpl uses a constructor expression that pulls out recipe information for the home page of the website.
 
