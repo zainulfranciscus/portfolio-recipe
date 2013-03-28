@@ -1,6 +1,8 @@
 This documentation is intended for readers with a background of web-based application development using Spring MVC and Hibernate. The purpose of this document is to describe common patterns used to build components in the applications. These components are: the data model, JPA mapping, service layer, and controller layer.
 
-=DATE MODEL=
+The source code build for each component are located in the source directory [https://code.google.com/p/portfolio-recipe/source/browse/#svn%2Ftrunk%2FRecipeProject%2Fsrc]
+
+=DATA MODEL=
 This project stores data in these tables: ACCOUNT, INGREDIENT_TYPE, INGREDIENTS, LIKED_RECIPE, RECIPE_INGREDIENT, and RECIPE table. 
 The ACCOUNT table is intended to record registered user of the website. The INGREDIENT_TYPE table is intended to record ingredient of recipes recorded in the database. The INGREDIENT table is intended to record the amount of ingredients for recipes recorded in the database. The LIKED_RECIPE table is intended to record the number of user who saved a recipe into their liked-recipe list. The RECIPE table is intended to record recipes. The RECIPE_INGREDIENT table is intended as a link table between the RECIPE table and INGREDIENT table.  The DDL script for each table is stored under src/main/resources. 
 
