@@ -1,1 +1,28 @@
-The recipe project
+This page is intended to describe RESTful web services built into the project.
+
+=Importing the Required API=
+
+The webservice returns every recipes in the database in a JSON format. This is done by an API named Jackson, which is a multi-purpose Java library for processing JSON data format. To use the API, a dependency for Jackson is recorded in the pom.xml
+{{{
+<dependency>
+   <groupId>org.codehaus.jackson</groupId>
+   <artifactId>jackson-mapper-asl</artifactId>
+   <version>1.9.2</version>
+</dependency>
+}}}
+
+=Controller=
+
+Once the Jackson has been added as a dependency, this method will act as a webservice endpoint:
+
+{{{
+/**
+ * @return every recipe in the database in a json format
+ */
+@RequestMapping(value="/json.allRecipes", method = RequestMethod.GET,produces = "application/json")
+    public @ResponseBody List<Recipe> findAllRecipe(){
+    	return recipeService.findAll();
+    }
+}}}
+
+=WebService Client=
