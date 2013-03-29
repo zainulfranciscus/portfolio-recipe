@@ -41,7 +41,7 @@ public Set<Recipe> getLikedRecipes() {
 	return likedRecipes;
 }
 }}}
-The method is also annotated with @JoinTable annotation to indicate that the LIKEDRECIPE table records recipes that a user likes. The LIKEDRECIPE table has a foreign key constraint that references email column in the ACCOUNT table. This relationship is modelled using the joinColumns in the @ManyToMany annotation. The LIKEDRECIPE table also has a foreign key constraint that references the recipeId column in the recipe table. This relationship is modelled using the inverseJoinColumns in the @ManyToMany annotation.
+The method is also annotated with @JoinTable annotation to indicate that the LIKEDRECIPE table records recipes that a user likes. The LIKEDRECIPE table has a foreign key constraint that references email column in the ACCOUNT table. This relationship is modelled using the joinColumn attribute of the @ManyToMany annotation. The LIKEDRECIPE table also has a foreign key constraint that references the recipeId column in the recipe table. This relationship is modelled using the inverseJoinColumns attribute of the @ManyToMany annotation.
 
 ==MODELLING A MANY-TO-ONE RELATIONSHIP==
 Ingredients of recipes in the website are stored in two tables. The INGREDIENT table stores the amount and unit of measurement of the ingredients. The names of the ingredients are stored in the INGRDIENTTYPE table under the NAME column. The table enforced a UNIQUE constraint for the name column. This ensures that INGREDIENTTYPE table stores unique ingredient names. 
