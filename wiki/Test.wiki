@@ -1,0 +1,1 @@
+The website is tested using some test tools. Jmeter is one of them. The test cases are stored under the jmeter folder. The [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/resources/jmeter/WorkBench.jmx workbench] encapsulates a number of tests. The test was created by recording request to the website made from a browser.
