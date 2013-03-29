@@ -1,8 +1,8 @@
-This page is intended to describe RESTful web services built into the project.
+This page is intended to describe RESTful web services built into the project.The web services produce recipes in the database in a JSON format.
 
 =Importing the Required API=
 
-The webservice returns every recipes in the database in a JSON format. This is done by an API named Jackson, which is a multi-purpose Java library for processing JSON data format. To use the API, a dependency for Jackson is recorded in the pom.xml
+ This is done by an API named Jackson, which is a multi-purpose Java library for processing JSON data format. To use the API, a dependency for Jackson is recorded in the pom.xml
 {{{
 <dependency>
    <groupId>org.codehaus.jackson</groupId>
@@ -25,4 +25,6 @@ Once the Jackson has been added as a dependency, this method will act as a webse
     }
 }}}
 
-=WebService Client=
+=Web Service Client=
+
+A client intended to produce a list of recipes from the json produced by the webservice is built into the project.JSONClientTest
