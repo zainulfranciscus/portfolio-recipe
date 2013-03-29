@@ -103,7 +103,6 @@ public class HomeController {
 	/**
 	 * @return every recipe in the database in a json format
 	 */
-	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/json/allRecipes", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
 	List<Recipe> findAllRecipe() {

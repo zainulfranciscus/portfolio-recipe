@@ -28,7 +28,7 @@ public class JSONClientTest {
 
 		RestTemplate restTemplate = ctx.getBean("restTemplate", RestTemplate.class);
 
-		String json = restTemplate.getForObject(new URI("http://localhost:8080/recipe/json.allRecipes"), String.class);
+		String json = restTemplate.getForObject(new URI("http://localhost:8080/recipe/json/allRecipes"), String.class);
 
 		List<Recipe> recipes = mapJsonToObjectList(new Recipe(), json, Recipe.class);
 		

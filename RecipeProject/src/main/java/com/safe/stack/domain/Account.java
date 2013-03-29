@@ -216,7 +216,7 @@ public class Account implements Serializable {
 		acc.setEmail(userName);
 		acc.setPassword(password);
 		acc.setUserName("user" + userName.hashCode());
-		acc.setAuthority("user");
+		acc.setAuthority("ROLE_USER");
 		return acc;
 	}
 
