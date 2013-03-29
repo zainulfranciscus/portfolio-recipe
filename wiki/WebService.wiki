@@ -13,7 +13,7 @@ This page is intended to describe RESTful web services built into the project.Th
 
 =Controller=
 
-Once the Jackson has been added as a dependency, a method in the [ https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/web/controller/HomeController.java HomeController] acts as a webservice endpoint:
+Once the Jackson has been added as a dependency, a method in the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/web/controller/HomeController.java HomeController] acts as a webservice endpoint:
 
 {{{
 /**
