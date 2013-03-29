@@ -32,8 +32,8 @@ public List<Ingredient> getIngredients() {
 I also specified a @Cascade annotation with a persist option and a merge option. This mean that whenever we save a Recipe, all related ingredients will be saved into the INGREDIENT table. 
 
 ==MODELLING A MANY-TO-MANY RELATIONSHIP==
-Registered users are allowed to like recipes. Every user can have zero or many recipes that he likes. Therefore, every recipe can be like by zero or many users. This relationship is modelled in the website with a many-to-many mapping. A many-to-many relationship requires a join table, which is the LIKEDRECIPE table.
-The Account class holds information on a user including recipe that the user likes, which is modelled using a java.util.Set. The getter method that returns this set is annotated with the @ManyToMany annotation.
+Registered users are allowed to like recipes. Every user can have zero or many recipes that he likes. Therefore, every recipe can be liked by zero or many users. This relationship is modelled in the website with a many-to-many mapping. A many-to-many relationship requires a join table, which is the LIKEDRECIPE table.
+The [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/domain/Account.java Account class] has information on what a user likes, which is modelled using a java.util.Set. The getter method that returns this set is annotated with the @ManyToMany annotation.
 {{{
 @ManyToMany(fetch = FetchType.LAZY)
 @JoinTable(name = "LikedRecipe", joinColumns = @JoinColumn(name = "email"), inverseJoinColumns = @JoinColumn(name = "recipeId"))
