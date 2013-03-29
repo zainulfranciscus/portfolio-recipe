@@ -47,15 +47,15 @@
 
 				<form:form modelAttribute="account" name='f' action="${loginUrl}" method='POST' id="loginForm">
 				
-				   <div id="error">
-				   		<form:errors path="email"/>
-				   </div>
+				   
+				   <form:errors path="email" cssClass="error"/>
+				  
 				   
 				   <form:input id="email" name='j_username' placeholder="Email" value='' path='email'/>
 				   
-				   <div id="error">
-				   		<form:errors path="password"/>
-				   </div>
+				  
+				   <form:errors path="password" cssClass="error"/>
+				  
 					
 				   <form:password id="pw" name='j_password' placeholder="Password" path='password'/> 
 				   <input id="SignInBtn" class="logo-btn" name="SignIn" type="submit" value="SignIn" /> 

@@ -11,9 +11,9 @@
 			authentication-success-handler-ref="successHandler" 
 			always-use-default-target="false"
 			/>
-		<logout logout-success-url="/" />		
+		<logout logout-success-url="/" />	
 	</http>
-
+	
 	<authentication-manager alias="authManager">
 		<authentication-provider user-service-ref='myUserDetailsService' />
 	</authentication-manager>
@@ -30,7 +30,5 @@
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
 		<beans:property name="loginFormUrl" value="/login"/>	
 	</beans:bean>
-		
-	
 
 </beans:beans>
