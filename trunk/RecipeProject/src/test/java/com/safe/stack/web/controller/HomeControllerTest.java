@@ -227,7 +227,7 @@ public class HomeControllerTest extends AbstractControllerTest {
 
 	ReflectionTestUtils.setField(homeController, "messageSource", mockMessageSource);
 
-	String result = homeController.loginFail(uiModel, Locale.UK);
+	String result = homeController.loginFail(uiModel, Locale.UK, new Account());
 
 	assertNotNull(result);
 	assertEquals(result, HomeController.RECIPE_LOGIN_PAGE);

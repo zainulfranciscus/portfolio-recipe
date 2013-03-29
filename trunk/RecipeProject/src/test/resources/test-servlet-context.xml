@@ -11,6 +11,25 @@
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
    <!-- a REST template intended to unmarshall JSON messages -->
-   <beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+   <beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+   		<beans:constructor-arg ref="httpRequestFactory"/>
+   </beans:bean>
+   
+   <beans:bean id="httpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+		<beans:constructor-arg>
+			<beans:bean class="org.apache.http.impl.client.DefaultHttpClient">
+				<beans:property name="credentialsProvider">
+					<beans:bean class="com.safe.stack.web.controller.CustomCredentialsProvider">
+						<beans:property name="credentials">
+							<beans:bean class="org.apache.http.auth.UsernamePasswordCredentials">
+								<beans:constructor-arg name="userName" value="user1@recipe.com" />
+								<beans:constructor-arg name="password" value="Passw0rd" />
+							</beans:bean>
+						</beans:property>
+					</beans:bean>
+				</beans:property>
+			</beans:bean>
+		</beans:constructor-arg>
+	</beans:bean>
 
 </beans:beans>
