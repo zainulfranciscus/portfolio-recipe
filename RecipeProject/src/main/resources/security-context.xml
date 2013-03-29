@@ -10,6 +10,7 @@
 			default-target-url="/login"
 			authentication-success-handler-ref="successHandler" 
 			always-use-default-target="false"
+			username-parameter="email" password-parameter="password"
 			/>
 		<logout logout-success-url="/" />	
 	</http>
