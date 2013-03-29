@@ -27,4 +27,4 @@ Once the Jackson has been added as a dependency, this method will act as a webse
 
 =Web Service Client=
 
-A client intended to produce a list of recipes from the json produced by the webservice is built into the project.JSONClientTest
+A client intended to produce a list of recipes from the json produced by the webservice is built into the project. JSONClientTest
