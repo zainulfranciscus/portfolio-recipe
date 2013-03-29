@@ -59,14 +59,14 @@ public IngredientType getIngredientType() {
 @JoinColumn annotation specifies a column which a foreign key constraints references the INGREDIENTTYPE table. @NotNull annotation specifies that the ingredientType cannot be empty.
 
 ==ORM MAPPING USING JPA ==
-These tables are useless unless we can use them to store recipes and display them on the website. To do that, we need to use a framework capable of storing and retrieving data from these tables. This framework is called JPA.  JPA must know how to connect to the database. This is achieved by recording connection details to our database in a configuration file. This includes the URL, the name, and password of the database.  This configuration file is called datasource-tx-jpa.xml in src\main\resources\ folder.
+These tables are useless unless we can use them to store recipes and display them on the website. To do that, we need to use a framework capable of storing and retrieving data from these tables. This framework is called JPA.  JPA must know how to connect to the database. This is achieved by recording connection details to our database in a configuration file. This includes the URL, the name, and password of the database.  This configuration file is called [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/resources/datasource-tx-jpa.xml datasource-tx-jpa.xml].
 Once JPA knows how to connect to a database, JPA accesses the database using an EntityManager. In this project, we are using an entity manager provided by spring framework named LocalContainerEntityManagerFactoryBean. This manager manages entities created for accessing recipe data from the database.
 There are three ways for managing transaction. Two of them are for declarative transaction management, with one using Java annotations and the other using XML configuration. The third option is managing transactions programmatically. This website uses Java annotation to manage transactions because annotation makes the application easier to trace and maintain.
-To enable annotation support for transaction management, aN
+To enable annotation support for transaction management, this tag:
 {{{
 <tx:annotation-driven> 
 }}}
-tag is added in an XML configuration file: C:\source\Recipe\src\main\resources\datasource-tx-jpa.xml.  And since, the website uses JPA to access the database, a JPA transaction manager is defined as a bean in the xml file:
+is added in the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/resources/datasource-tx-jpa.xml datasource-tx-jpa.xml].  And since, the website uses JPA to access the database, a JPA transaction manager is defined as a bean in the xml file:
 {{{
 <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 }}}
@@ -77,12 +77,12 @@ This layer consists of a number of java classes intended to provide methods that
 Every service class in this project is annotated with @Service annotation. This intention is to identify that this class is a Spring component that provide business services to another layer. The @Repository annotation indicates that the class contains data access logic and instructs Spring to translate the vendor-specific exceptions to Spring’s DataAccessException hierarchy. The entity manager is injected by using @PersistenceContext annotation. 
 Every service class in this project is annotated with the @Transactional annotation. One of that class is the RecipeServiceImpl. This class has a number of find mehods. All these methods are annotated with @Transactional(readOnly=true), because these methods only read data and do not modify them. The intention is to optimize these methods.
 Querying data from the database
-The service layer uses JPQL to query the database.  One example of a JPQL is named queries defined in entity classes such as the Account class. The account class is intended to map columns in the ACCOUNT table.  This class has a named query:
+The service layer uses JPQL to query the database.  One example of a JPQL are named queries defined in the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/domain/Account.java Account class]. A named query is recorded in this class:
 {{{
 @NamedQuery(name = "Account.findByEmail", query = "select a from Account a where a.email = :email") 
 }}}
 
-This named query is used to retrieve user accounts with a particular email address by the AccountServiceImpl.
+This named query is used to retrieve user accounts with a particular email address by the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/service/jpa/AccountServiceImpl.javaAccountServiceImpl].
 {{{
 @Transactional(readOnly=true)
     public Account findByEmail(String name) {
@@ -102,7 +102,7 @@ entityManager.clear();
 }
 }}}
 
-Untyped result queries and named queries are not the only two flavour of JPQL that this project uses.  Constructor expression is another form of JPQL that this project uses. The RecipeServiceImpl uses a constructor expression that pulls out recipe information for the home page of the website.
+Untyped result queries and named queries are not the only two types of JPQL that this project uses.  Constructor expression is another form of JPQL that this project uses. The [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/service/jpa/RecipeServiceImpl.java RecipeServiceImpl] uses a constructor expression that pulls out recipe information for the home page of the website.
 
 {{{
 select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet,  (select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture, (select count(*) from LikedRecipe l where r.id = l.recipeId and l.email =:arg0) as likedByUser)  from Recipe r;
@@ -111,7 +111,7 @@ select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet,  
 The above query instructs JPA to construct a RecipeSummary object.
 
 Inserting data into the database
-The project uses Spring Data to save data into a database.  The central interface that this project uses is Repository. An example of that  Respository is com.safe.stack.repository. LikedRecipeRepository. This interface extends org.springframework.data.repository.CrudRepository. The intention of this class is to expose methods convenient for saving data. For example:
+The project uses Spring Data to save data into a database.  The central interface that this project uses is Repository. An example of that  Respository is [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/repository/LikedRecipeRepository.java LikedRecipeRepository]. This interface extends org.springframework.data.repository.CrudRepository. The intention of this class is to expose methods for saving data. For example:
 {{{
 @Override
  public void likeARecipe(String userName, Long recipeId) {
@@ -123,10 +123,10 @@ The project uses Spring Data to save data into a database.  The central interfac
  }
 }}}
 
-This method is intended to persist a LikedRecipe object into the database. A LikedRecipe object is an entity the records data for the LIKED_RECIPE table.
+This method is intended to persist a [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/domain/LikedRecipe.java LikedRecipe] object into the database. A LikedRecipe object is an entity the records data for the LIKED_RECIPE table.
 
 =CONTROLLER LAYER=
-The controller layer handles request from web pages and interact with the service layer. There is one controller in the project, which is the HomeController. This section describes common pattern that the HomeController uses to handle request from web pages. To tell spring that HomeController is a Controller, this class is annotated with @Controller. The @RequestMapping annotation used at the class level indicates URL that HomeController handles. 
+The controller layer handles request from web pages and interact with the service layer. There is one controller in the project, which is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/web/controller/HomeController.java HomeController]. This section describes common pattern that the HomeController uses to handle request from web pages. To tell spring that HomeController is a Controller, this class is annotated with @Controller. The @RequestMapping annotation used at the class level indicates URL that HomeController handles. 
 @RequestMapping annotations used at method level of HomeController indicates URL that a method handles. For Example, 
 {{{
 @RequestMapping(value = "/searchRecipeByIngredient", method = RequestMethod.POST). 
