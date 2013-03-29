@@ -82,7 +82,7 @@ The service layer uses JPQL to query the database.  One example of a JPQL are na
 @NamedQuery(name = "Account.findByEmail", query = "select a from Account a where a.email = :email") 
 }}}
 
-This named query is used to retrieve user accounts with a particular email address by the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/service/jpa/AccountServiceImpl.javaAccountServiceImpl].
+This named query is used to retrieve user accounts with a particular email address by the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/service/jpa/AccountServiceImpl.java AccountServiceImpl].
 {{{
 @Transactional(readOnly=true)
     public Account findByEmail(String name) {
@@ -133,15 +133,14 @@ The controller layer handles request from web pages and interact with the servic
 }}}
 This annotation indicates that method annotated with this annotation handles a URL that ends with /searchRecipeByIngredient with POST method.
 Some methods in this class are annotated with @PreAuthorize("isAuthenticated'), which prevents a user from accessing URLs handled by that method from being accessed by user who are not logged in. 
-HomeController also validates user input using JSR-303 validation. This is accomplished using @Valid annotation at parameter in a method. For example, public String signUp(@Valid Account acc ... . The @Valid annotation enables validation when a request binds data into the Account object. When there is an error in the binding result, the errors will be saved into a BindingResult object. These errors canbe displayed using Spring's form tag. For example 
+HomeController also validates user input using JSR-303 validation. This is accomplished using @Valid annotation at parameter in a method. For example, public String signUp(@Valid Account acc ... . The @Valid annotation enables validation when a request binds data into the Account object. When there is an error in the binding result, the errors will be saved into a BindingResult object. These errors is displayed using Spring's form tag. For example, [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/webapp/WEB-INF/views/recipe/login.jspx the login page] uses this tag to display validation error for an email address: 
 {{{
 <form:errors path="email"/>
 }}} 
 
-This tag will display errors resulted from binding an invalid email address to the Account object.
 
 =ENABLING SPRING SECURITY=
-In the controller section, it was briefly mentioned that the Controller uses annotation to prevent user from accesing URL that require user to log in. This is achieved by enabling spring security. To do this, a filter is registered in the web.xml file:
+In the controller section, it was briefly mentioned that the Controller uses annotation to prevent user from accesing URL that require user to log in. This is achieved by enabling spring security. To do this, a filter is registered in the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/webapp/WEB-INF/web.xml web.xml file]:
 {{{
 <filter>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -157,7 +156,7 @@ This filter is configured to intercept request coming from any URL from the webs
     <dispatcher>FORWARD</dispatcher>
 </filter-mapping>
 }}}
-Any requests from users will be authenticated by spring security, and users will not be given access to URL that requires login when they have not logged in to the system. The website uses login framework that comes with Spring Security, and this framework is configured in a separate XML file called security-context.xml.
+Any requests from users will be authenticated by spring security, and users will not be given access to URL that requires login when they have not logged in to the system. The website uses login framework that comes with Spring Security, and this framework is configured in a separate XML file called [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/resources/security-context.xml security-context.xml].
 {{{
 ...
 <form-login login-page="/login" authentication-failure-url="/loginfail"
