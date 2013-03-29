@@ -27,4 +27,26 @@ Once the Jackson has been added as a dependency, a method in the [https://code.g
 
 =Web Service Client=
 
-A client intended to produce a list of recipes from the json produced by the webservice is built into the project. JSONClientTest
+A [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/web/controller/JSONClientTest.java client] intended to produce a list of recipes from the json produced by the webservice is built into the project. 
+
+The client uses restTemplate, which is an Spring API designed to access RESTFul web services. The restTemplate is configured as a bean in [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/resources/test-servlet-context.xml test-servlet-context.xml]
+{{{
+<!-- a REST template intended to unmarshall JSON messages -->
+<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+}}}
+
+The JSONClientTest calls the webservice using this restTemplate
+{{{
+String json = restTemplate.getForObject(new URI("http://localhost:8080/recipe/json.allRecipes"), String.class);
+}}}
+
+The JSON is converted into a list of Recipes object using this method
+{{{
+private static <T> List<T> mapJsonToObjectList(T typeDef, String json, Class clazz) throws Exception {
+		List<T> list;
+		ObjectMapper mapper = new ObjectMapper();		
+		TypeFactory t = TypeFactory.defaultInstance();
+		list = mapper.readValue(json, t.constructCollectionType(ArrayList.class, clazz));
+		return list;
+}
+}}}
