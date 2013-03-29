@@ -25,16 +25,49 @@ Once the Jackson has been added as a dependency, a method in the [https://code.g
     }
 }}}
 
+=Securing the Web Service=
+The web service is secured using a security framework that comes with Spring. This framework is configured in the security-context.xml:
+
+{{{
+<http pattern='/json/**' create-session="stateless">
+   <intercept-url pattern='/json/**' access='ROLE_USER' />
+   <http-basic />
+</http>
+}}}
+
+The http tag records that any url that begins with json must be protected. Only a user that has a role of ROLE_USER is allowed to access the web service. This restriction is defined in the intercept-url tag.
+
 =Web Service Client=
 
 A [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/web/controller/JSONClientTest.java client] intended to produce a list of recipes from the json produced by the webservice is built into the project. 
 
 The client uses restTemplate, which is an Spring API designed to access RESTFul web services. The restTemplate is configured as a bean in [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/resources/test-servlet-context.xml test-servlet-context.xml]
 {{{
-<!-- a REST template intended to unmarshall JSON messages -->
-<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
+<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+   <beans:constructor-arg ref="httpRequestFactory"/>
+</beans:bean>
 }}}
 
+A bean named httpRequestFactory is injected into the restTemplate. This bean records the required user name and password to access the webservice. The configuration of this bean is as follow:
+
+{{{
+<beans:bean id="httpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+		<beans:constructor-arg>
+			<beans:bean class="org.apache.http.impl.client.DefaultHttpClient">
+				<beans:property name="credentialsProvider">
+					<beans:bean class="com.safe.stack.web.controller.CustomCredentialsProvider">
+						<beans:property name="credentials">
+							<beans:bean class="org.apache.http.auth.UsernamePasswordCredentials">
+								<beans:constructor-arg name="userName" value="user1@recipe.com" />
+								<beans:constructor-arg name="password" value="Passw0rd" />
+							</beans:bean>
+						</beans:property>
+					</beans:bean>
+				</beans:property>
+			</beans:bean>
+		</beans:constructor-arg>
+	</beans:bean>
+}}}
 The JSONClientTest calls the webservice using this restTemplate
 {{{
 String json = restTemplate.getForObject(new URI("http://localhost:8080/recipe/json.allRecipes"), String.class);
