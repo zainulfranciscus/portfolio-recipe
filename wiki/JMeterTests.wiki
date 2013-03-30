@@ -20,7 +20,11 @@ To do this, a jmeter with the following components are created:
 
 The above performance test was develop by recording steps performed by me in Firefox. These steps are required to record a test:
 
-  # Add an HTTP Proxy Component under a workbench. The HTTP Proxy Component allows JMeter to watch and record actions while users browse web application with standard browsers. This proxy is setup to listen to port number 90. This number should be set into your browser proxy setting. This filter: ".*\.(jpg|png|gif)" is added with the intention to ignore any images from being recorded by the HTTP Proxy Component.
+  # Add an HTTP Proxy Component under a workbench. The HTTP Proxy Component allows JMeter to watch and record actions while users browse web application with standard browsers. This proxy is setup to listen to port number 90. This number should be set into your browser proxy setting. This filter: 
+{{{
+".*\.(jpg|png|gif)" 
+}}}
+is added with the intention to ignore any images from being recorded by the HTTP Proxy Component.
 
   # Add a simple controller as a child component of the HTTP Proxy Component.
 
