@@ -1,6 +1,6 @@
 The website is tested using some test tools; Jmeter is one of them. This documentation is intended as a guide that describe how to create Jmeter test for the project. One way to create a test case is by modifying existing JMeter tests location under the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/resources/jmeter/ jmeter folder]. 
 
-One of this test is a performance test.
+One of this test is a performance test named [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/resources/jmeter/400Users.jmx 400Users].
 
 =PERFORMANCE TEST=
 
