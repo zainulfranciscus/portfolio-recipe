@@ -43,3 +43,5 @@ Once the tables have been created, open STS, and start the server. Once the serv
 The recipes comes with pictures, which are compressed into a Pictures.7z. Unzip this file into c:\source\Pictures. The website will display images from this folder.
 
 Open the home page of the website
+
+[https://docs.google.com/file/d/0B-dr2cA-K3TwdHFTYjFkV0RJWUk/edit?usp=sharing]
