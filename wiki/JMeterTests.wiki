@@ -1,4 +1,6 @@
-The website is tested using some test tools. Jmeter is one of them. The test cases are stored under the jmeter folder. The [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/resources/jmeter/Thread%20Group.jmx Thread Group.jmx] encapsulates a number of tests. One of that test is a performance test.
+The website is tested using some test tools; Jmeter is one of them. This documentation is intended as a guide that describe how to create Jmeter test for the project. One way to create a test case is by modifying existing JMeter tests location under the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/resources/jmeter/ jmeter folder]. 
+
+One of this test is a performance test.
 
 =PERFORMANCE TEST=
 
@@ -13,3 +15,13 @@ To do this, a jmeter with the following components are created:
   * A Simple Controller that records the steps that each user perform in the test. The controller defined in this test records two steps: opening the home page, and opening the first recipe in the home page.
 
   * An aggregate report listener that records the average and median response time of the homepage.
+
+=RECORDING A TEST=
+
+The above performance test was develop by recording steps performed by me in Firefox. These steps are required to record a test:
+
+  # Add an HTTP Proxy Component under a workbench. The HTTP Proxy Component allows JMeter to watch and record actions while users browse web application with standard browsers. This proxy is setup to listen to port number 90. This number should be set into your browser proxy setting. This filter: ".*\.(jpg|png|gif)" is added with the intention to ignore any images from being recorded by the HTTP Proxy Component.
+
+  # Add a simple controller as a child component of the HTTP Proxy Component.
+
+Once these component have been setup, we can start recording by clicking on the start button of the HTTP Proxy Component screen. Once the proxy server has been started, go to your browser and perform the dsired test steps. JMeter will record these steps as child components of the simple controller. Click the stop button to stop recording.
