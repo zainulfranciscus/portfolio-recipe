@@ -42,12 +42,12 @@
 
     <beans profile="dev">
         <jdbc:embedded-database id="dataSource" type="H2">            
-            <jdbc:script location="classpath:DDL_ACCOUNT.sql"/>    
-            <jdbc:script location="classpath:DDL_RECIPE.sql"/>
-            <jdbc:script location="classpath:DDL_LIKED_RECIPE.sql"/>
-            <jdbc:script location="classpath:DDL_INGREDIENT_TYPE.sql"/>
-			<jdbc:script location="classpath:DDL_INGREDIENTS.sql"/>
-			<jdbc:script location="classpath:DDL_RECIPE_INGREDIENT.sql"/>
+            <jdbc:script location="classpath:sql_scripts/DDL_ACCOUNT.sql"/>    
+            <jdbc:script location="classpath:sql_scripts/DDL_RECIPE.sql"/>
+            <jdbc:script location="classpath:sql_scripts/DDL_LIKED_RECIPE.sql"/>
+            <jdbc:script location="classpath:sql_scripts/DDL_INGREDIENT_TYPE.sql"/>
+			<jdbc:script location="classpath:sql_scripts/DDL_INGREDIENTS.sql"/>
+			<jdbc:script location="classpath:sql_scripts/DDL_RECIPE_INGREDIENT.sql"/>
 			
         </jdbc:embedded-database>
     </beans>
