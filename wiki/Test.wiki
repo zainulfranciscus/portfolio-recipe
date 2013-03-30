@@ -2,7 +2,10 @@ The website is tested using some test tools. Jmeter is one of them. The test cas
 
 The first test, which is named 400 users, simulates 400 users visiting the home page of the website simultaneously. The intention of this test is to monitor at what point does the website performance starts to degrades. The test consists of three components:
 
-  * A Thread Group
-  * An HTTP Request
-  * A Simple Controller
-  * An aggregate report listener
+  * A Thread Group that records 400 users accessing the home  page. The ramp up period is 400 seconds, which means that each user will open the home page every 1 second. The loop is set to 50, which means that the test is repeated 50 times per user.
+ 
+  * An HTTP Request that records a URL and a port of the home page.
+
+  * A Simple Controller that records the steps that each user perform in the test. The controller defined in this test records two steps: opening the home page, and opening the first recipe in the home page.
+
+  * An aggregate report listener that records the average and median response time of the homepage.
