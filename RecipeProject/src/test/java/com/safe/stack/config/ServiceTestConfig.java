@@ -29,12 +29,12 @@ public class ServiceTestConfig {
 	@Bean
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-				.addScript("classpath:DDL_ACCOUNT.sql")
-				.addScript("classpath:DDL_RECIPE.sql")
-				.addScript("classpath:DDL_LIKED_RECIPE.sql")
-				.addScript("classpath:DDL_INGREDIENT_TYPE.sql")
-				.addScript("classpath:DDL_INGREDIENTS.sql")
-				.addScript("classpath:DDL_RECIPE_INGREDIENT.sql")								
+				.addScript("classpath:sql_scripts/DDL_ACCOUNT.sql")
+				.addScript("classpath:sql_scripts/DDL_RECIPE.sql")
+				.addScript("classpath:sql_scripts/DDL_LIKED_RECIPE.sql")
+				.addScript("classpath:sql_scripts/DDL_INGREDIENT_TYPE.sql")
+				.addScript("classpath:sql_scripts/DDL_INGREDIENTS.sql")
+				.addScript("classpath:sql_scripts/DDL_RECIPE_INGREDIENT.sql")								
 				.build();
 	}
 	
