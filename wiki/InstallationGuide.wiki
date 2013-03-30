@@ -1,11 +1,8 @@
 To install the project, you need these softwares installed in your system:
   # JDK 6. You can get an installer of [http://www.oracle.com/technetwork/java/javase/index-137561.html JDK 6 from this website]
-
   # The project is built using Spring STS, and this tool makes it easy to code, run, deploy, and debug the application. Get the installer from [http://www.springsource.org/sts Spring Tool Suite] website and download the right installer for your system.
-
   # It might also be handy to [http://maven.apache.org/ install maven], because this project is build using maven.
-
-  # The project stores data into a MySQL Database. Go to MySQL database and install the database.
+  # The project stores data into a MySQL Database. Go to [http://www.mysql.com/ MySQL website], download a version for your OS, and install the database.
 
 
 The project it self is versioned controlled in Google Code. Therefore you need a good subversion client to check out the code. The best Subversion client that I could find when I wrote this documentation is [http://tortoisesvn.net/ TortoiseSVN]. Go to their website, and install the software. Once the software is installed, create a folder in your computer, and check out the code into that folder.
