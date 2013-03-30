@@ -2,7 +2,7 @@ The website is tested using some test tools. Jmeter is one of them. The test cas
 
 The first test, which is named 400 users, simulates 400 users visiting the home page of the website simultaneously. The intention of this test is to monitor at what point does the website performance starts to degrades. The test consists of three components:
 
-* A Thread Group
-* An HTTP Request
-* A Simple Controller
-* An aggregate report listener
+*A Thread Group
+*An HTTP Request
+*A Simple Controller
+*An aggregate report listener
