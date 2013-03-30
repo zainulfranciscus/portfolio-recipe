@@ -1,0 +1,2 @@
+To install the project, you need these softwares installed in your system:
+  # JDK 6. You can get an installer of [http://www.oracle.com/technetwork/java/javase/index-137561.html JDK 6 from this website]
