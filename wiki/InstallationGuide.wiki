@@ -1,2 +1,29 @@
 To install the project, you need these softwares installed in your system:
   # JDK 6. You can get an installer of [http://www.oracle.com/technetwork/java/javase/index-137561.html JDK 6 from this website]
+
+  # The project is built using Spring STS, and this tool makes it easy to code, run, deploy, and debug the application. Get the installer from [http://www.springsource.org/sts Spring Tool Suite] website and download the right installer for your system.
+
+  # It might also be handy to [http://maven.apache.org/ install maven], because this project is build using maven.
+
+  # The project stores data into a MySQL Database. Go to MySQL database and install the database.
+
+
+The project it self is versioned controlled in Google Code. Therefore you need a good subversion client to check out the code. The best Subversion client that I could find when I wrote this documentation is [http://tortoisesvn.net/ TortoiseSVN]. Go to their website, and install the software. Once the software is installed, create a folder in your computer, and check out the code into that folder.
+
+Once all the source code has been downloaded, open STS, and select Import from the File Menu. 
+
+
+This project is a maven project. Therefore, select existing maven project from the list of import options. 
+
+Browse the folder where you downloaded the source code. You should see a pom.xml displayed in STS. Make sure you tick the checkbox, and click next.
+
+Click finish, and STS will create a Maven project in your STS workbench.
+
+STS might report problems in the project. Don't worry, this probably means that you might not have the required library for the project. Clean the project from STS, or run this maven command from your command line: mvn clean install -DskipTests=true. These commands will download the required library, and build your project.
+
+Once this is done, run the Junit test from STS. This can be done by clicking on the src/test/java package, and choose run JUnit test. STS should report a green tick. This means that every unit tests runs successfully.
+
+Now, lets deploy the application to a server. Luckily for us, STS comes with a server capable for running the website. To do that, open the server view.
+
+
+Choose the recipe project, and click the add button. This tells STS to deploy the project into a server.
