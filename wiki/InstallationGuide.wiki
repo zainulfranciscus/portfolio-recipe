@@ -5,7 +5,7 @@ To install the project, you need these softwares installed in your system:
   # The project stores data into a MySQL Database. Go to [http://www.mysql.com/ MySQL website], download a version for your OS, and install the database.
 
 
-The project it self is versioned controlled in Google Code. Therefore you need a good subversion client to check out the code. The best Subversion client that I could find when I wrote this documentation is [http://tortoisesvn.net/ TortoiseSVN]. Go to their website, and install the software. Once the software is installed, create a folder in your computer, and check out the code into that folder.
+The source code is versioned controlled in Google Code. Therefore you need a good subversion client to check out the code. The best Subversion client that I could find when I wrote this documentation is [http://tortoisesvn.net/ TortoiseSVN]. Go to their website, and install the software. Once the software is installed, create a folder in your computer, and check out the code into that folder.
 
 Once all the source code has been downloaded, open STS, and select Import from the File Menu. 
 
@@ -24,3 +24,22 @@ Now, lets deploy the application to a server. Luckily for us, STS comes with a s
 
 
 Choose the recipe project, and click the add button. This tells STS to deploy the project into a server.
+
+After the recipe project has been added, you should see the project listed under the server in the server view.
+
+This project requires a schema called portfolio in the MySQL database. Open the MySQL Workbench.
+
+Run the DDL scripts stored [https://code.google.com/p/portfolio-recipe/source/browse/#svn%2Ftrunk%2FRecipeProject%2Fsrc%2Fmain%2Fresources%2Fsql_scripts in the sql script folder] in this sequence:
+
+  # DDL_ACCOUNT.sql
+  # DDL_RECIPE.sql
+  # DDL_INGREDIENT_TYPE.sql
+  # DDL_INGREDIENTS.sql
+  # DDL_RECIPE_INGREDIENT.sql
+  # DDL_LIKED_RECIPE.sql
+
+Once the tables have been created, open STS, and start the server. Once the server has been started, open the RecipeUploader.java file. Run this   java application. The purpose of this Java file is to create recipes into the database.
+
+The recipes comes with pictures, which are compressed into a Pictures.7z. Unzip this file into c:\source\Pictures. The website will display images from this folder.
+
+Open the home page of the website
