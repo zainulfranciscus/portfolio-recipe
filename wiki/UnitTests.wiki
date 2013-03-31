@@ -1,0 +1,7 @@
+This page describes how unit tests classes are developed for the project. The unit test has two components: the infrastructure classes, and the unit test classes.
+
+=Infrastructure Classes=
+
+Infrastructure classes refer to classes intended to setup the required configuration for running unit tests. One of these classes is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/config/ControllerTestConfig.java ControllerTestConfig] class. This class is annotated with Configuration annotation to indicate that this class is an Application context class. This class is intended to be used by unit test classes for testing a Controller. 
+
+The second infrastructure class is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/web/controller/AbstractControllerTest.java AbstrackControllerTest] class. This class is intended to be a superclass for every unit tests class that test a controller. This class has some annotations. The RunWith annotation describes that child classes of this class will be run by a unit test. The  context configuration annotation describes the Configuration class used by this class. The active profile annotation indicates that child classes of this class should use the test profile for running unit tests.
