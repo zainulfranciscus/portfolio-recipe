@@ -110,4 +110,27 @@ public void afterTestMethod(TestContext arg0) throws Exception {
 }}}
 =Unit Test Classes=
 
-A service layer unit test uses excel spreadsheet for loading test data. This is achieved using @DataSet annotation that indicate testing data must be loaded from an excel spreadsheet.
+A service layer unit test uses excel spreadsheet for loading test data. This is achieved using @DataSet annotation that indicate testing data must be loaded from an excel spreadsheet. For example, the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/service/jpa/RecipeServiceImplTest.java RecipeServiceImplTest] class:
+
+{{{
+...
+@DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+@Test
+public void testFindAllIngredientType() {
+   List<IngredientType> ingredientTypes = recipeService.findAllIngredientTypes();
+
+   assertNotNull(ingredientTypes);
+   assertEquals(3, ingredientTypes.size());
+
+   assertEquals(0, ingredientTypes.get(0).getId().intValue());
+   assertEquals("egg", ingredientTypes.get(0).getName());
+
+   assertEquals(1, ingredientTypes.get(1).getId().intValue());
+   assertEquals("rice", ingredientTypes.get(1).getName());
+
+   assertEquals(2, ingredientTypes.get(2).getId().intValue());
+   assertEquals("potato", ingredientTypes.get(2).getName());
+
+}
+...
+}}}
