@@ -16,6 +16,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
+ * Intended to be an application context for testing service layer classes.
+ * 
  * @author Zainul Franciscus
  * 
  */
@@ -26,6 +28,9 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 public class ServiceTestConfig {
 	
 	
+	/**
+	 * @return a DataSource for an H2 database with the required ddl scripts.
+	 */
 	@Bean
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
@@ -38,12 +43,18 @@ public class ServiceTestConfig {
 				.build();
 	}
 	
+	/**
+	 * @return a Datasource required to connect to a H2 database
+	 */
 	@Bean(name="databaseTester")
 	public DataSourceDatabaseTester dataSourceDatabaseTester() {
 		DataSourceDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource());
 		return databaseTester;
 	}
 	
+	/**
+	 * @return an XlsDataFileLoader required to load data from an excel spreadsheet.
+	 */
 	@Bean(name="xlsDataFileLoader")
 	public XlsDataFileLoader xlsDataFileLoader() {
 		return new XlsDataFileLoader();
