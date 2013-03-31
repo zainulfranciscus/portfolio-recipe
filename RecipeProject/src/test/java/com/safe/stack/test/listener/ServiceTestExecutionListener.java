@@ -12,6 +12,7 @@ import org.springframework.test.context.TestExecutionListener;
 import com.safe.stack.annotation.DataSets;
 
 /**
+ * An implementation of a TestExecutionListener. This listener 
  * @author Zainul Franciscus
  *
  */
@@ -23,6 +24,9 @@ public class ServiceTestExecutionListener implements TestExecutionListener {
 		// TODO Auto-generated method stub		
 	}
 
+	/* clean up the data
+	 * @see org.springframework.test.context.TestExecutionListener#afterTestMethod(org.springframework.test.context.TestContext)
+	 */
 	public void afterTestMethod(TestContext arg0) throws Exception {
 		// Clear up testing data if exists
 		if (databaseTester != null) {			
@@ -34,6 +38,11 @@ public class ServiceTestExecutionListener implements TestExecutionListener {
 		// TODO Auto-generated method stub		
 	}
 
+	/* This method checks whether a unit test method is annotated with a DataSet annotation. 
+	 * If the annotation exists, the test data will be loaded from the specified Excel file.
+	 * 
+	 * @see org.springframework.test.context.TestExecutionListener#beforeTestMethod(org.springframework.test.context.TestContext)
+	 */
 	public void beforeTestMethod(TestContext testCtx) throws Exception {
 
 		// Check for existence of DataSets annotation for the method under testing
