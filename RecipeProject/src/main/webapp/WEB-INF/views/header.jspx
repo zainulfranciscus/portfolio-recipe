@@ -48,7 +48,7 @@
 				<ul class="nav right dark">
 					<li><a href="#">${sessionScope.RecipeUser.userAlias}</a>
 						<ul class="subnav">
-							<sec:authorize access="hasRole('admin')">
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
 								<li><a href="addRecipe">Add Recipe</a></li>
 							</sec:authorize>
 							<li><a href="editProfile">Edit Profile</a></li>
