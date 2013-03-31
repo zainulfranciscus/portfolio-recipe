@@ -47,7 +47,7 @@ The method is also annotated with @JoinTable annotation to indicate that the LIK
 Ingredients of recipes in the website are stored in two tables. The INGREDIENT table stores the amount and unit of measurement of the ingredients. The names of the ingredients are stored in the INGRDIENTTYPE table under the NAME column. The table enforced a UNIQUE constraint for the name column. This ensures that INGREDIENTTYPE table stores unique ingredient names. 
 
 Administrator of the website can select ingredients stored in the INGREDIENTTYPE table when he create new recipes using the add recipe page. Storing the ingredient names in the INGREDIENTTYPE table makes it easy to display unique ingredient names on that page.
-One or many ingredients recorded in the INGREDIENT table can share a single ingredient name recorded in the INGREDIENTTYPE table. This relationship is modelled using @ManyToOne annotation.
+One or many ingredients recorded in the INGREDIENT table can share a single ingredient name recorded in the INGREDIENTTYPE table. This relationship is modelled using @ManyToOne annotation in the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/domain/Ingredient.java Ingredient class].
 {{{
 @ManyToOne (cascade = { CascadeType.ALL })
 @JoinColumn(name="ingredientType")
