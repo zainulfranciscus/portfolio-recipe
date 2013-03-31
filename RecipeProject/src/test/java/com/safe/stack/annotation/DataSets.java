@@ -9,7 +9,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author Clarence
+ * An annotation intended to instruct unit test classes to load 
+ * test data from an excel spreadsheet.
+ * 
+ * @author Zainul Franciscus
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
