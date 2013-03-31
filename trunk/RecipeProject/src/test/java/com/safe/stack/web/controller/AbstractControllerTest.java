@@ -12,14 +12,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.safe.stack.config.ControllerTestConfig;
 
 /**
+ * An abstract class intended to be the superclass for unit test classes that
+ * test a controller.
+ * 
  * @author Zainul Franciscus
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ControllerTestConfig.class})
+@ContextConfiguration(classes = { ControllerTestConfig.class })
 @ActiveProfiles("test")
 @Ignore
 public class AbstractControllerTest {
-	
 
 }
