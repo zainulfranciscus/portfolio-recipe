@@ -7,13 +7,11 @@ This page is intended to describe RESTful web services built into the project.Th
 </dependency>
 }}}
 
-Why did I chose Jackson as the API for the webservice ? Simplicity. If I choose XML over JSON, I would need to create a mapping file (e.g.: a schema) that describe how to map variables of a POJO to XML elements. Jackson does not requires a mapping file to marshal POJO to JSON. Jackson converts instance variables and the variables value of a POJO into a collection of key-value pairs of a JSON.
-
-A client, who marshalls the JSON, need to create a POJO with the same instance variable names with the key names in the JSON.
+Why did I chose Jackson as the API for the webservice ? Simplicity. If I choose XML over JSON, I would need to create a mapping file (e.g.: a schema) that describe how to map variables of a POJO to XML elements. Jackson does not requires a mapping file to marshal POJO to JSON. Jackson converts instance variables and the variables value of a POJO into a collection of key-value pairs of a JSON. A client, who marshalls the JSON, need to create a POJO with the same instance variable names with the key names in the JSON. Let's see that in action.
 
 =Controller=
 
-Once Jackson has been added as a dependency, a method in the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/web/controller/HomeController.java HomeController] acts as a webservice endpoint:
+A method in the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/main/java/com/safe/stack/web/controller/HomeController.java HomeController] acts as a webservice endpoint. This method relies on Jackson to marshall a list of Recipe to JSON:
 
 {{{
 /**
@@ -24,6 +22,14 @@ Once Jackson has been added as a dependency, a method in the [https://code.googl
     	return recipeService.findAll();
     }
 }}}
+
+This method can be accessed using a browser by typing this URL in its address bar: http://localhost:8080/recipe/json/allRecipes. The resulting JSON would look something like this:
+
+{{{
+[{"id":3,"name":"Handmade Udon Noodles","author":"La Fuji Mama","diet":"","authorLink":"http://www.lafujimama.com/2010/06/how-to-make-handmade-udon-noodles-its-easier-than-you-might-think/","picture":"udon_noodle.jpg","version":0,"account":[],"ingredients":[{"ingredientId":16,"amount":"4","metric":"tsp","ingredientType":{"id":16,"name":"salt","version":0},"version":0},{"ingredientId":17,"amount":"1","metric":"cup","ingredientType":{"id":17,"name":"warm water","version":0},"version":0},{"ingredientId":18,"amount":"2 1/2","metric":"cups","ingredientType":{"id":18,"name":"unbleached bread flour","version":0},"version":0},{"ingredientId":19,"amount":"1 1/4","metric":"cups","ingredientType":{"id":19,"name":"unbleached bread all purpose flour","version":0},"version":0}]}]
+}}}
+
+Jackson transforms Recipe objects to a collection of key-value pairs displayed in JSON format.
 
 =Securing the Web Service=
 The web service is secured using a security framework that comes with Spring. This framework is configured in the security-context.xml:
