@@ -1,3 +1,0 @@
-This project was intended as a web-based applications for sharing recipes online. The project is inspired by punchfork.com, therefore you'll see similarity in the user interface. This project is far from completion, and functions are being added as you're reading this wiki. 
-
-I wrote a [DeveloperGuide Developer Guide] was written to inform developers how this web application is built. 
