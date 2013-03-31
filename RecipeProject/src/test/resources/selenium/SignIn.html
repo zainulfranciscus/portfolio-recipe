@@ -3,15 +3,114 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://localhost:8080/recipe" />
-<title>SignIn</title>
+<link rel="selenium.base" href="http://localhost:8080/RecipeProject/" />
+<title>Signin</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">SignIn</td></tr>
+<tr><td rowspan="1" colspan="3">Signin</td></tr>
 </thead><tbody>
-
+<tr>
+	<td>open</td>
+	<td>/recipe/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=signin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=signin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=pw</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=email</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=SignInBtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=email</td>
+	<td>admin@recipe.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=pw</td>
+	<td>Passw0rd</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=SignInBtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Add Recipe</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Add Recipe</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Edit Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Sign Out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>id=SignInBtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//a[@class='btn like']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@title='1']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//a[@title='1']</td>
+	<td>unlike</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@title='1']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//a[@title='1']</td>
+	<td>Like</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Sign Out</td>
+	<td></td>
+</tr>
 </tbody></table>
 </body>
 </html>
