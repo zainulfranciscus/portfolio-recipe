@@ -2,173 +2,176 @@ package com.safe.stack.domain;
 
 import java.io.Serializable;
 
-public class RecipeSummary implements Serializable{
-    
-    private Long id;
+/**
+ * A POJO intended to encapsulates information about a recipe that will be displayed for the home page.
+ * 
+ * @author Zainul Franciscus
+ *
+ */
+public class RecipeSummary implements Serializable {
 
-    private String name;
+	private Long id;
 
-    private String author;
+	private String name;
 
-    private String diet;
+	private String author;
 
-    private Long numberOfLikes;
+	private String diet;
 
-    private String authorLink;
+	private Long numberOfLikes;
 
-    private String picture;
-    
-    private Long likedByUser = new Long(0);
-    
-    public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes,
-	    String authorLink, String picture) {
-	super();
-	this.id = id;
-	this.name = name;
-	this.author = author;
-	this.diet = diet;
-	this.numberOfLikes = numOfLikes;
-	this.authorLink = authorLink;
-	this.picture = picture;	
-    }
-    
-    public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes,
-	    String authorLink, String picture, Long likedByUser) {
-	super();
-	this.id = id;
-	this.name = name;
-	this.author = author;
-	this.diet = diet;
-	this.numberOfLikes = numOfLikes;
-	this.authorLink = authorLink;
-	this.picture = picture;
-	this.likedByUser = likedByUser;
-    }
+	private String authorLink;
 
-    
-    public boolean isLikedByThisUser()
-    {
-	return likedByUser.intValue() > 0;
-    }
-    /**
-     * @return the likedByAUser
-     */
-    public Long getLikedByAUser() {
-        return likedByUser;
-    }
+	private String picture;
+
+	private Long likedByUser = new Long(0);
 
 
-    /**
-     * @param likedByAUser the likedByAUser to set
-     */
-    public void setLikedByAUser(Long likedByUser) {
-        this.likedByUser = likedByUser;
-    }
+	public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes, String authorLink, String picture) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.author = author;
+		this.diet = diet;
+		this.numberOfLikes = numOfLikes;
+		this.authorLink = authorLink;
+		this.picture = picture;
+	}
 
+	public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes, String authorLink, String picture, Long likedByUser) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.author = author;
+		this.diet = diet;
+		this.numberOfLikes = numOfLikes;
+		this.authorLink = authorLink;
+		this.picture = picture;
+		this.likedByUser = likedByUser;
+	}
 
-    /**
-     * @return the picture
-     */
-    public String getPicture() {
-        return picture;
-    }
+	public boolean isLikedByThisUser() {
+		return likedByUser.intValue() > 0;
+	}
 
-    /**
-     * @param picture the picture to set
-     */
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
+	/**
+	 * @return the likedByAUser
+	 */
+	public Long getLikedByAUser() {
+		return likedByUser;
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-	return name;
-    }
+	/**
+	 * @param likedByAUser
+	 *            the likedByAUser to set
+	 */
+	public void setLikedByAUser(Long likedByUser) {
+		this.likedByUser = likedByUser;
+	}
 
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-	this.name = name;
-    }
+	/**
+	 * @return the picture
+	 */
+	public String getPicture() {
+		return picture;
+	}
 
-    /**
-     * @return the author
-     */
-    public String getAuthor() {
-	return author;
-    }
+	/**
+	 * @param picture
+	 *            the picture to set
+	 */
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 
-    /**
-     * @param author
-     *            the author to set
-     */
-    public void setAuthor(String author) {
-	this.author = author;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @return the diet
-     */
-    public String getDiet() {
-	return diet;
-    }
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * @param diet
-     *            the diet to set
-     */
-    public void setDiet(String diet) {
-	this.diet = diet;
-    }
+	/**
+	 * @return the author
+	 */
+	public String getAuthor() {
+		return author;
+	}
 
-    /**
-     * @return the numOfLikes
-     */
-    public Long getNumberOfLikes() {
-	return numberOfLikes;
-    }
+	/**
+	 * @param author
+	 *            the author to set
+	 */
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
-    /**
-     * @param numOfLikes
-     *            the numOfLikes to set
-     */
-    public void setNumberOfLikes(Long numOfLikes) {
-	this.numberOfLikes = numOfLikes;
-    }
+	/**
+	 * @return the diet
+	 */
+	public String getDiet() {
+		return diet;
+	}
 
-    /**
-     * @return the authorLink
-     */
-    public String getAuthorLink() {
-	return authorLink;
-    }
+	/**
+	 * @param diet
+	 *            the diet to set
+	 */
+	public void setDiet(String diet) {
+		this.diet = diet;
+	}
 
-    /**
-     * @param authorLink
-     *            the authorLink to set
-     */
-    public void setAuthorLink(String authorLink) {
-	this.authorLink = authorLink;
-    }
+	/**
+	 * @return the numOfLikes
+	 */
+	public Long getNumberOfLikes() {
+		return numberOfLikes;
+	}
 
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * @param numOfLikes
+	 *            the numOfLikes to set
+	 */
+	public void setNumberOfLikes(Long numOfLikes) {
+		this.numberOfLikes = numOfLikes;
+	}
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    
+	/**
+	 * @return the authorLink
+	 */
+	public String getAuthorLink() {
+		return authorLink;
+	}
+
+	/**
+	 * @param authorLink
+	 *            the authorLink to set
+	 */
+	public void setAuthorLink(String authorLink) {
+		this.authorLink = authorLink;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 }
