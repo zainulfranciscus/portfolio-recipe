@@ -30,7 +30,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.AutoPopulatingList;
 
 /**
- * A POJO mapped to the RECIPE table.
+ * A POJO mapped to the RECIPE table. 
+ * JsonIgnoreProperties annotation records getter methods that should not be marshalled into key-value pairs
+ * in a JSON message. 
  * 
  * @author Zainul Franciscus
  * 
