@@ -4,7 +4,7 @@ There are are two type of infrastructure classes: controller infrastructure, whi
 
 =Controller Infrastructure=
 
-The first class is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/config/ControllerTestConfig.java ControllerTestConfig] class. This class is annotated with Configuration annotation to indicate that this class is an Application context class. The profile annotation indicates a profile associated with this class, which is test.
+The first class is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/config/ControllerTestConfig.java ControllerTestConfig] class. This class is annotated with @Configuration annotation to indicate that this class is an Application context class. The profile annotation indicates a profile associated with this class, which is test.
 
 {{{
 @Configuration
@@ -14,7 +14,7 @@ public class ControllerTestConfig {
 }
 }}}
 
-The second infrastructure class is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/web/controller/AbstractControllerTest.java AbstrackControllerTest] class. This class is intended to be a superclass for every unit tests class that test a controller. This class has some annotations. The RunWith annotation describes that child classes of this class will be run by a unit test. The  context configuration annotation describes the Configuration class used by this class. The active profile annotation indicates that child classes of this class should use the test profile for running unit tests.
+The second infrastructure class is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/web/controller/AbstractControllerTest.java AbstrackControllerTest] class. This class is intended to be a superclass for every unit tests class that test a controller. This class has some annotations. The @RunWith annotation describes that child classes of this class will be run by a unit test. The  context configuration annotation describes the Configuration class used by this class. The active profile annotation indicates that child classes of this class should use the test profile for running unit tests.
 
 {{{
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,4 +30,40 @@ public class AbstractControllerTest {
 
 The first infrastructure class is [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/config/ServiceTestConfig.java ServiceTestConfig] class. This class defines an application context for testing service layer classes. 
 
-The ImportResource annotation indicates that this class loads xml files that records the required configurations for running a test for a service layer class. 
+{{{
+@Configuration
+@ImportResource({"classpath:datasource-tx-jpa.xml","classpath:servlet-context.xml","classpath:security-context.xml"})
+@ComponentScan(basePackages={"com.safe.stack.service.jpa"})
+@Profile("test")
+public class ServiceTestConfig {
+	
+	
+	@Bean
+	public DataSource dataSource() {
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+				.addScript("classpath:sql_scripts/DDL_ACCOUNT.sql")
+				.addScript("classpath:sql_scripts/DDL_RECIPE.sql")
+				.addScript("classpath:sql_scripts/DDL_LIKED_RECIPE.sql")
+				.addScript("classpath:sql_scripts/DDL_INGREDIENT_TYPE.sql")
+				.addScript("classpath:sql_scripts/DDL_INGREDIENTS.sql")
+				.addScript("classpath:sql_scripts/DDL_RECIPE_INGREDIENT.sql")								
+				.build();
+	}
+	
+	@Bean(name="databaseTester")
+	public DataSourceDatabaseTester dataSourceDatabaseTester() {
+		DataSourceDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource());
+		return databaseTester;
+	}
+	
+	@Bean(name="xlsDataFileLoader")
+	public XlsDataFileLoader xlsDataFileLoader() {
+		return new XlsDataFileLoader();
+	}
+
+}
+}}}
+
+The @ImportResource annotation indicates that this class loads xml files that records the required configurations for running a test for a service layer class. 
+
+Then the @ComponentScan annotation is applied to instruct Spring to scan the service layer beans that we want to test. The @Profile annotation specifies that the beans defined in this class belong to the test profile. Second, within the class, another dataSource bean was declared that executes only the schema.sql script to the H2 database without any data. The databaseTester and xlsDataFileLoader beans were used by the custom test execution listener for loading test data from the Excel file. Note that the dataSourceDatabaseTester bean was constructed using the dataSource bean defined for the testing environment.
