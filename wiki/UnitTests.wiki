@@ -2,6 +2,7 @@ This page describes how unit tests classes are developed for the project. The un
 
 There are are two type of infrastructure classes: controller infrastructure, which is a set of classes intended to setup the required infrastructure for running unit tests of a controller. And, service infrastructure , which is a set of classes intended to setup the required infrastructure for testing service classes.
 
+
 =Controller Infrastructure=
 
 The first class is the [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/config/ControllerTestConfig.java ControllerTestConfig] class. This class is annotated with @Configuration annotation to indicate that this class is an Application context class. The profile annotation indicates a profile associated with this class, which is test.
@@ -69,3 +70,44 @@ The @ImportResource annotation indicates that this class loads xml files that re
 Then the @ComponentScan annotation is applied to instruct Spring to scan the service layer beans that we want to test. The @Profile annotation specifies that the beans defined in this class belong to the test profile. Second, within the class, another dataSource bean was declared that executes only the schema.sql script to the H2 database without any data. The databaseTester and xlsDataFileLoader beans were used by the custom test execution listener for loading test data from the Excel file. Note that the dataSourceDatabaseTester bean was constructed using the dataSource bean defined for the testing environment.
 
 The second infrastructure class is [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/service/jpa/AbstractServiceImplTest.java AbstractServiceImplTest] class. This class is very similar to [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/web/controller/AbstractControllerTest.java AbstrackControllerTest] class. Any child class of this class will use data source define int he ServiceTestConfig class instead the datasource define in datasource-tx-jpa.xml.
+
+The @TestExecutionListeners annotation indicates that a listener will be registered for every unit tests. That listener is  [https://code.google.com/p/portfolio-recipe/source/browse/trunk/RecipeProject/src/test/java/com/safe/stack/test/listener/ServiceTestExecutionListener.java ServiceTestExecutionListener] which implements a number of methods. There are two methods that are of interest to us. The beforeTestMethod, and the afterTestMethod.
+
+The beforeTestMethod checks whether a unit test method is annotated with a DataSet annotation. If the annotation exists, the test data will be loaded from the specified Excel file.
+
+{{{
+public void beforeTestMethod(TestContext testCtx) throws Exception {
+
+// Check for existence of DataSets annotation for the method under testing
+    DataSets dataSetAnnotation =  testCtx.getTestMethod().getAnnotation(DataSets.class);
+		
+    if ( dataSetAnnotation == null ) {
+	return;
+    }
+		
+    String dataSetName = dataSetAnnotation.setUpDataSet();
+
+    // Populate data set if data set name exists
+    if ( ! dataSetName.equals("") ) {
+      databaseTester = (IDatabaseTester) testCtx.getApplicationContext().getBean("databaseTester");
+      XlsDataFileLoader xlsDataFileLoader = (XlsDataFileLoader) testCtx.getApplicationContext().getBean("xlsDataFileLoader");
+      IDataSet dataSet = xlsDataFileLoader.load(dataSetName);
+	
+      databaseTester.setDataSet(dataSet);	
+      databaseTester.onSetup();
+		}
+	}
+}}}
+
+The afterTestMethod cleans up the test data. 
+{{{
+public void afterTestMethod(TestContext arg0) throws Exception {
+  // Clear up testing data if exists
+  if (databaseTester != null) {			
+	databaseTester.onTearDown();			
+  }				
+}
+}}}
+=Unit Test Classes=
+
+A service layer unit test uses excel spreadsheet for loading test data. This is achieved using @DataSet annotation that indicate testing data must be loaded from an excel spreadsheet.
