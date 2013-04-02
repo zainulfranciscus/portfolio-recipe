@@ -52,5 +52,6 @@
         <beans:property name="validationMessageSource" ref="messageSource"/>
     </beans:bean>
        
+    <beans:bean id="sheet" class="com.safe.stack.domain.ExcelSpreadSheet" init-method="init"/>
 
 </beans:beans>

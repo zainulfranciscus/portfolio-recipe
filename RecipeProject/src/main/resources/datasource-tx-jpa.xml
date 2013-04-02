@@ -11,6 +11,8 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
 
+	<context:component-scan base-package="com.safe.stack.domain"/>
+	
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="emf"/>
     </bean>
@@ -33,6 +35,11 @@
             </props>        
         </property>
     </bean>    
+    
+     <!-- an excel spreadsheet containing a list of recipes -->
+    <bean id="excelFile" class="org.springframework.core.io.ClassPathResource">
+    	<constructor-arg name="path" value="recipe.xls"/>
+    </bean>
     
     <context:annotation-config/>    
     
@@ -61,5 +68,10 @@
 			<property name="password" value="m00n1te!" />
 		</bean>
     </beans>   
+    
+    <!--  mongo db -->
+    
+   
+    
 
 </beans>

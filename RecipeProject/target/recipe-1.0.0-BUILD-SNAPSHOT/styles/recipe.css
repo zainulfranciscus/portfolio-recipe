@@ -92,7 +92,7 @@ img,fieldset {
 		rgba(0, 0, 0, 0.15) inset;
 }
 
-#error {
+.error {
 	background-color: #FFEBE8;
 	border: 1px solid #CC0000;
 	border-radius: 3px 3px 3px 3px;
