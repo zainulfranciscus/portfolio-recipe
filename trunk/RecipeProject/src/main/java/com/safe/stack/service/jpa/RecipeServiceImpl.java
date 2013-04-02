@@ -1,7 +1,5 @@
 package com.safe.stack.service.jpa;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,16 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.safe.stack.domain.ExcelSpreadSheet;
 import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
@@ -49,6 +44,12 @@ public class RecipeServiceImpl implements RecipeService {
 	 */
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	/**
+	 * used for importing recipes into a database from an excel spreadsheet.
+	 */
+	@Autowired
+	private ExcelSpreadSheet excelSpreadSheet;
 
 	/**
 	 * An SQL used to search recipes based on a set of ingredients
@@ -186,25 +187,21 @@ public class RecipeServiceImpl implements RecipeService {
 	 * @see com.safe.stack.service.RecipeService#importData()
 	 */
 	@Override
-	public Iterable<Recipe> importData(File excel) throws BiffException, IOException {
-
-		Workbook workbook = Workbook.getWorkbook(excel);
-		Sheet sheet = workbook.getSheet(0);
-		int numOfRow = sheet.getRows();
+	public Iterable<Recipe> importData() {
 
 		List<IngredientType> ingredientTypes = findAllIngredientTypes();
 		List<Recipe> recipeList = new ArrayList<Recipe>();
 
-		for (int i = 1; i < numOfRow; i++) {
+		for (int rowNumber = 1; rowNumber < excelSpreadSheet.getNumOfRow(); rowNumber++) {
 
-			String recipeName = sheet.getCell(NAME_COL, i).getContents();
+			String recipeName = excelSpreadSheet.getRecipeName(rowNumber);
 			Recipe r = new Recipe();
 
 			if (!StringUtils.isEmpty(recipeName)) {
-				String authorName = sheet.getCell(AUTHOR_COL, i).getContents().trim();
-				String recipePicture = sheet.getCell(PICTURE_COL, i).getContents().trim();
-				String authorURL = sheet.getCell(AUTHOR_LINK_COL, i).getContents().trim();
-				String diet = sheet.getCell(DIET_COL, i).getContents().trim();
+				String authorName = excelSpreadSheet.getAuthorName(rowNumber);
+				String recipePicture = excelSpreadSheet.getPicture(rowNumber);
+				String authorURL = excelSpreadSheet.getAuthor(rowNumber);
+				String diet = excelSpreadSheet.getDiet(rowNumber);
 
 				r.setAuthor(authorName);
 				r.setAuthorLink(authorURL);
@@ -217,9 +214,9 @@ public class RecipeServiceImpl implements RecipeService {
 				r = recipeList.get(recipeList.size() - 1);
 			}
 
-			String ingredientName = sheet.getCell(INGREDIENT_COL, i).getContents().trim();
-			String ingredientAmt = sheet.getCell(AMOUNT_COL, i).getContents().trim();
-			String ingredientMetric = sheet.getCell(METRIC_COL, i).getContents().trim();
+			String ingredientName = excelSpreadSheet.getIngredientName(rowNumber);
+			String ingredientAmt = excelSpreadSheet.getIngredientAmount(rowNumber);
+			String ingredientMetric = excelSpreadSheet.getIngredientMetric(rowNumber);
 
 			Ingredient ingr = new Ingredient();
 			ingr.setAmount(ingredientAmt);
