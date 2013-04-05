@@ -13,14 +13,34 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+/**
+ * An class intended for mapping fields in Ingredient table to a Java Object
+ * @author Zainul Franciscus
+ *
+ */
 @Entity
 @Table(name = "Ingredient")
 public class Ingredient {
 
+    /**
+     * An id for an ingredient
+     */
     private Long ingredientId;
+    /**
+     * Amount required of an ingredient for a recipe
+     */
     private String amount;
+    /**
+     * Unit of measurement for the amount
+     */
     private String metric;
+    /**
+     * The ingredient type 
+     */
     private IngredientType ingredientType;
+    /**
+     * A number used for optimistic locking
+     */
     private int version;
     
     /**
