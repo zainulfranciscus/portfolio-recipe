@@ -10,23 +10,59 @@ import java.io.Serializable;
  */
 public class RecipeSummary implements Serializable {
 
+	/**
+	 * An id of a recipe
+	 */
 	private Long id;
 
+	/**
+	 * A name of a recipe
+	 */
 	private String name;
 
+	/**
+	 * Author of a recipe
+	 */
 	private String author;
 
+	/**
+	 * The type of diet of a recipe. e.g.: Vegan, Vegetarian, etc
+	 */
 	private String diet;
 
+	/**
+	 * The number of users who have liked a recipe 
+	 */
 	private Long numberOfLikes;
 
+	/**
+	 * A URL to the author of this recipe.
+	 */
 	private String authorLink;
 
+	/**
+	 * The file name of a picture for this recipe
+	 */
 	private String picture;
 
+	/**
+	 * Indicate whether a recipe has been liked by a user. 0 means that a user
+	 * has not liked this recipe; 1 otherwise.
+	 */
 	private Long likedByUser = new Long(0);
 
 
+	/**
+	 * Contructor for this object
+	 * 
+	 * @param id
+	 * @param name
+	 * @param author
+	 * @param diet
+	 * @param numOfLikes
+	 * @param authorLink
+	 * @param picture
+	 */
 	public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes, String authorLink, String picture) {
 		super();
 		this.id = id;
@@ -38,6 +74,17 @@ public class RecipeSummary implements Serializable {
 		this.picture = picture;
 	}
 
+	/**
+	 * Contructor for this object.
+	 * @param id
+	 * @param name
+	 * @param author
+	 * @param diet
+	 * @param numOfLikes
+	 * @param authorLink
+	 * @param picture
+	 * @param likedByUser
+	 */
 	public RecipeSummary(Long id, String name, String author, String diet, Long numOfLikes, String authorLink, String picture, Long likedByUser) {
 		super();
 		this.id = id;
@@ -50,6 +97,9 @@ public class RecipeSummary implements Serializable {
 		this.likedByUser = likedByUser;
 	}
 
+	/**
+	 * @return true if this recipe has been liked by this user.
+	 */
 	public boolean isLikedByThisUser() {
 		return likedByUser.intValue() > 0;
 	}

@@ -10,13 +10,28 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ * This class is intended to map LikedRecipe table to a Java Class
+ * 
+ * @author Zainul Franciscus
+ *
+ */
 @Entity
 @Table (name = "LikedRecipe")
 @NamedQueries({ @NamedQuery(name = "LikedRecipe.unlikeARecipe", query = "delete from LikedRecipe where recipeId = :recipeId and email = :email") })
 public class LikedRecipe {
 	
+	/**
+	 * An id of a LikedRecipe data
+	 */
 	private Long id;
+	/**
+	 * A recipe id
+	 */
 	private Long recipeId;
+	/**
+	 * Email address of a user.
+	 */
 	private String email;
 	
 	/**

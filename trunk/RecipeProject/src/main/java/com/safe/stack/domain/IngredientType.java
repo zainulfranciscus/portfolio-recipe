@@ -16,13 +16,28 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * This class is intended to map IngredientType table to a Java class.
+ * 
+ * @author Zainul Franciscus 
+ *
+ */
 @Entity
 @Table(name = "IngredientType", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 @NamedQueries({ @NamedQuery(name = "IngredientType.findAll", query = "select t from IngredientType t") })
 public class IngredientType {
 
+    /**
+     * an Id for this ingredient type
+     */
     private Integer id;
+    /**
+     * a name for this ingredient type
+     */
     private String name;
+    /**
+     * A number used for optimistic locking
+     */
     private int version;
 
     /**

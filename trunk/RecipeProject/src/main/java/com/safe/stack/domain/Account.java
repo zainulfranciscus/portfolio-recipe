@@ -21,20 +21,56 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * 
+ * An entity class intended to map field in ACCOUNT table to a Java Object
+ * @author Zainul Franciscus
+ *
+ */
 @Entity
 @Table(name = "Account")
 public class Account implements Serializable {
 
+	/**
+	 * An email of a user.
+	 */
 	private String email;
+	/**
+	 * Password of a user
+	 */
 	private String password;
+	/**
+	 * User Name of a user
+	 */
 	private String userName;
+	/**
+	 * Picture of a user
+	 */
 	private Blob picture;
+	/**
+	 * A description of a user
+	 */
 	private String bio;
+	/**
+	 * A location of a user
+	 */
 	private String location;
+	/**
+	 * A twitter user name of a user
+	 */
 	private String twitter;
+	/**
+	 * A number used for optimistic locking
+	 */
 	private int version;
+	/**
+	 * A role that assigned to this user
+	 */
 	private String authority;
 
+	/**
+	 * A set of recipes that a user has liked
+	 */
 	private Set<Recipe> likedRecipes = new HashSet<Recipe>();
 
 	/**
