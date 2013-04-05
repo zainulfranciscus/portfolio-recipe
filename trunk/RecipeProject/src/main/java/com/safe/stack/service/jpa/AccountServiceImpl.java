@@ -21,20 +21,46 @@ import com.safe.stack.repository.LikedRecipeRepository;
 import com.safe.stack.service.AccountService;
 import com.safe.stack.service.security.RecipeUser;
 
+/**
+ * An implementation of AccountService interface that perform database operations
+ * using methods defined in this class.
+ * 
+ * @author Zainul Franciscus
+ *
+ */
 @Service("accountService")
 @Repository
 @Transactional
 public class AccountServiceImpl implements AccountService {
 
+	/**
+	 * An instance of LikedRecipeRepository intended
+	 * for performing database operations related
+	 * to LikedRecipe table
+	 */
 	@Autowired
 	private LikedRecipeRepository likedRecipeRepository;
 
+	/**
+	 * An instance of AccountRepository intended 
+	 * for performing database operations related to 
+	 * Account table.
+	 */
 	@Autowired
 	private AccountRepository accountRepository;
 
+	/**
+	 * An instance of an EntityManager that
+	 * can be used to commit data into 
+	 * the database, or creating an sql query.
+	 */
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * An instance of AuthenticationManager that 
+	 * can be used to authenticate a user.
+	 */
 	@Autowired
 	private AuthenticationManager authManager;
 
