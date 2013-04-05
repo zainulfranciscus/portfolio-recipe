@@ -56,6 +56,9 @@ import com.safe.stack.web.form.Message;
 @Controller
 public class HomeController {
 
+	//============================================================================
+	// Constants
+	//============================================================================
 	private static final String LIKE = "like";
 	private static final String UNLIKE = "unlike";
 	protected static final String RECIPE_LIST_PAGE = "recipe/list";
@@ -65,20 +68,30 @@ public class HomeController {
 	protected static final String RECIPE_EDIT_PROFILE_PAGE = "recipe/editProfile";
 	protected static final String NUM_OF_LIKE_PAGE = "recipe/numOfLikes";
 
+	/**
+	 * A message source that is used to display messages on a webpage
+	 */
 	@Autowired
 	private MessageSource messageSource;
 
+	/**
+	 * An instance of RecipeService used to retrieve recipes from the database
+	 */
 	@Autowired
 	private RecipeService recipeService;
 
+	/**
+	 * An instance of AccountService used to perform user-related operations
+	 */
 	@Autowired
 	private AccountService accountService;
 
+	/**
+	 * An instance of LocalValidatorFactoryBean used to validate user input
+	 */
 	@Autowired
 	private LocalValidatorFactoryBean validator;
 
-	@Autowired
-	private AuthenticationManager authManager;
 
 	/**
 	 * Directs user to the recipe list page.
@@ -101,6 +114,9 @@ public class HomeController {
 	}
 
 	/**
+	 * this method is intended as an end-point of a RESTful webservice. The purpose
+	 * of this method is to return recipes in the database in a json format.
+	 * 
 	 * @return every recipe in the database in a json format
 	 */
 	@RequestMapping(value = "/json/allRecipes", method = RequestMethod.GET, produces = "application/json")
@@ -159,93 +175,7 @@ public class HomeController {
 		return RECIPE_ADD_RECIPE_PAGE;
 	}
 
-	@RequestMapping(value = "/saveRecipe", method = RequestMethod.POST)
-	public String saveRecipe(Recipe recipe, Model uiModel, @RequestParam(value = "recipePicture", required = false) Part recipePicture,
-			@RequestParam(value = "thumbnail", required = false) Part thumbnail) throws IOException {
-
-		Set<ConstraintViolation<Recipe>> recipeViolations = validator.validate(recipe);
-
-		if (recipeViolations.size() > 0) {
-
-			uiModel.addAttribute("recipe_errors", recipeViolations);
-
-		}
-
-		List<Ingredient> ingredients = recipe.getIngredients();
-
-		Set<ConstraintViolation<Ingredient>> ingredientViolations = new HashSet<ConstraintViolation<Ingredient>>();
-
-		Set<ConstraintViolation<IngredientType>> ingredientTypeViolations = new HashSet<ConstraintViolation<IngredientType>>();
-
-		Set<String> ingredientNames = new HashSet<String>();
-
-		for (Ingredient ingr : ingredients) {
-
-			ingredientNames.add(ingr.getIngredientType().getName());
-
-			if (ingredientViolations.size() == 0) {
-				ingredientViolations = validator.validate(ingr);
-			}
-
-			IngredientType ingrType = ingr.getIngredientType();
-
-			if (ingredientTypeViolations.size() == 0) {
-				ingredientTypeViolations = validator.validate(ingrType);
-			}
-
-		}
-
-		if (ingredientNames.size() > 0 && ingredientNames.size() < ingredients.size()) {
-			ConstraintViolation<IngredientType> violation = new ConstraintViolationImpl<IngredientType>("{validation.ingredient.duplicate.message}", "A recipe can't have duplicate ingredients",
-					IngredientType.class, new IngredientType(), new Object(), new Object(), null, null, ElementType.ANNOTATION_TYPE);
-			ingredientTypeViolations.add(violation);
-		}
-
-		if (ingredientViolations.size() > 0) {
-			uiModel.addAttribute("ingredient_errors", ingredientViolations);
-
-		}
-
-		if (ingredientTypeViolations.size() > 0) {
-			uiModel.addAttribute("ingredientType_errors", ingredientTypeViolations);
-
-		}
-
-		if (recipeViolations.size() > 0 || ingredientViolations.size() > 0 || ingredientTypeViolations.size() > 0) {
-			return RECIPE_ADD_RECIPE_PAGE;
-		}
-
-		String imgFileName = "";
-
-		if (recipePicture != null) {
-
-			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy-hhmmss");
-			imgFileName = sdf.format(Calendar.getInstance().getTime()) + ".png";
-
-			File imgFile = new File("C:/source/Pictures/" + imgFileName);
-			imgFile.createNewFile();
-
-			OutputStream out = new FileOutputStream(imgFile);
-			IOUtils.copy(recipePicture.getInputStream(), out);
-			out.flush();
-			out.close();
-
-			File thumbnailFile = new File("C:/source/Pictures/thumb" + imgFileName);
-			thumbnailFile.createNewFile();
-
-			out = new FileOutputStream(thumbnailFile);
-			IOUtils.copy(thumbnail.getInputStream(), out);
-			out.flush();
-			out.close();
-
-		}
-
-		recipe.setPicture(imgFileName);
-		recipeService.save(recipe);
-
-		return RECIPE_LIST_PAGE;
-	}
-
+	
 	/**
 	 * 
 	 * @param ingredient
