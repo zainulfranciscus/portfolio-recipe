@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -39,7 +37,6 @@ import org.springframework.util.AutoPopulatingList;
  */
 @Entity
 @Table(name = "Recipe")
-@NamedQueries({ @NamedQuery(name = "Recipe.findAll", query = "select r from Recipe r") })
 @JsonIgnoreProperties({"authorNameWithoutSpace","formattedAuthorURL","numberOfLikes"})
 public class Recipe {
 
