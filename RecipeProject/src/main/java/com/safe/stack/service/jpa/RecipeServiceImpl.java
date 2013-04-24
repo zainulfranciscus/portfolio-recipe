@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,12 +57,6 @@ public class RecipeServiceImpl implements RecipeService {
 	 */
 	private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select distinct(r) from Recipe as r join r.ingredients as i join i.ingredientType as t where ";
 
-	/**
-	 * Retrieve a list of recipe with the number of likes per recipe. 
-	 * This SQL is intended to produce a list of RecipeSummary objects
-	 */
-	private static final String NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES = "select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
-			+ "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture) " + "from Recipe r";
 
 	/**
 	 * Retrieve a list of recipes, where each recipe has information whether a logged in user
@@ -72,21 +67,6 @@ public class RecipeServiceImpl implements RecipeService {
 			+ "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture,"
 			+ "(select count(*) from LikedRecipe l where r.id = l.recipeId and l.email =:arg0) as likedByUser) " + "from Recipe r";
 
-	private static final int NAME_COL = 0;
-
-	private static final int AUTHOR_COL = 1;
-
-	private static final int DIET_COL = 2;
-
-	private static final int AUTHOR_LINK_COL = 3;
-
-	private static final int PICTURE_COL = 4;
-
-	private static final int INGREDIENT_COL = 5;
-
-	private static final int AMOUNT_COL = 6;
-
-	private static final int METRIC_COL = 7;
 
 	/*
 	 * Save the supplied recipe object into the database
@@ -112,7 +92,9 @@ public class RecipeServiceImpl implements RecipeService {
 	 */
 	@Transactional(readOnly = true)
 	public List<Recipe> findAll() {
-		return (List<Recipe>) entityManager.createNamedQuery("Recipe.findAll", Recipe.class).getResultList();
+		List<Recipe> recipes = new ArrayList<Recipe>();
+		CollectionUtils.addAll(recipes, recipeRepository.findAll().iterator());
+		return recipes;
 	}
 
 	/* Retrieve every ingredients stored in the database.
@@ -162,7 +144,7 @@ public class RecipeServiceImpl implements RecipeService {
 	@Transactional(readOnly = true)
 	public List<RecipeSummary> findRecipesWithNumOfLikes() {
 
-		return entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_NUM_OF_LIKES).getResultList();
+		return recipeRepository.findNumOfLikePerRecipe();
 	}
 
 	/*
@@ -176,9 +158,7 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<RecipeSummary> findRecipesWithLlikedIndicator(String userName) {
-		Query q = entityManager.createQuery(NATIVEQUERY_RECIPES_WITH_LIKED_INDICATOR);
-		q.setParameter("arg0", userName);
-		return q.getResultList();
+		return recipeRepository.countRecipesAUserLikes(userName);
 	}
 
 	/*

@@ -7,7 +7,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,8 +31,6 @@ import org.springframework.validation.DataBinder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.safe.stack.domain.Account;
-import com.safe.stack.domain.Ingredient;
-import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.domain.RecipeSummary;
 import com.safe.stack.service.AccountService;

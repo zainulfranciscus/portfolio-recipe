@@ -1,7 +1,6 @@
 package com.safe.stack.service.jpa;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
