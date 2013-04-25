@@ -51,6 +51,17 @@ public class Recipe {
 	private int version;
 	private Set<Account> account;
 	private List<Ingredient> ingredients = new AutoPopulatingList<Ingredient>(Ingredient.class);
+	
+	/**
+	 * Indicate whether a recipe has been liked by a user. 0 means that a user
+	 * has not liked this recipe; 1 otherwise.
+	 */
+	private Long likedByUser = new Long(0);
+	
+	/**
+	 * The number of users who have liked a recipe 
+	 */
+	private Long numberOfLikes;
 
 	/**
 	 * @return the ingredients
@@ -226,11 +237,6 @@ public class Recipe {
 		strBuilder.append(authorLink.substring(0, MAX_LENGTH_AUTHOR_LINK - 3)).append("...");
 
 		return strBuilder.toString();
-	}
-
-	@Transient
-	public int getNumberOfLikes() {
-		return this.account.size();
 	}
 }
 

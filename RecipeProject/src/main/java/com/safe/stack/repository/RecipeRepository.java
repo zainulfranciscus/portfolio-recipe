@@ -22,6 +22,10 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 			+ "from Recipe r")
 	public List<RecipeSummary> findNumOfLikePerRecipe();
 	
+	/**
+	 * Retrieve a list of recipes, where each recipe has information whether a user
+	 * likes that recipe.This SQL is intended to produce a list of RecipeSummary Objects.
+	 */
 	@Query(value="select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
 			+ "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture,"
 			+ "(select count(*) from LikedRecipe l where r.id = l.recipeId and l.email =?1) as likedByUser) " + "from Recipe r")

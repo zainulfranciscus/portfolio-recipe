@@ -10,10 +10,13 @@ import javax.persistence.Query;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.safe.stack.domain.ExcelSpreadSheet;
 import com.safe.stack.domain.Ingredient;
 import com.safe.stack.domain.IngredientType;
@@ -58,16 +61,6 @@ public class RecipeServiceImpl implements RecipeService {
 	private static final String FIND_RECIPE_BY_INGREDIENT_SQL = "select distinct(r) from Recipe as r join r.ingredients as i join i.ingredientType as t where ";
 
 
-	/**
-	 * Retrieve a list of recipes, where each recipe has information whether a logged in user
-	 * has liked that recipe.
-	 * This SQL is intended to produce a list of RecipeSummary Objects.
-	 */
-	private static final String NATIVEQUERY_RECIPES_WITH_LIKED_INDICATOR = "select new com.safe.stack.domain.RecipeSummary(r.id, r.name, r.author, r.diet, "
-			+ "(select count(*) from LikedRecipe l where r.id = l.recipeId) as numOfLikes, r.authorLink, r.picture,"
-			+ "(select count(*) from LikedRecipe l where r.id = l.recipeId and l.email =:arg0) as likedByUser) " + "from Recipe r";
-
-
 	/*
 	 * Save the supplied recipe object into the database
 	 * 
@@ -87,14 +80,67 @@ public class RecipeServiceImpl implements RecipeService {
 		return recipeRepository.findOne(id);
 	}
 
-	/* Retrieve all recipes in the database
-	 * @see com.safe.stack.service.RecipeService#findAll()
+	/**
+	 * Defines the maximum number of data that can be retrieved from the
+	 * recipe table.
 	 */
-	@Transactional(readOnly = true)
-	public List<Recipe> findAll() {
-		List<Recipe> recipes = new ArrayList<Recipe>();
-		CollectionUtils.addAll(recipes, recipeRepository.findAll().iterator());
-		return recipes;
+	@Value("${numofdata.perpage}")
+	private int recipeDataLimit;
+
+	/**
+	 * This method uses the findAll() method method of
+	 * PagingAndSortingRepository to retrieve recipes stored in the database.
+	 * Without using PagingAndSortingRepository, this method need to use a query
+	 * such as: select r from Recipe r. PagingAndSortingRepository takes care of
+	 * this for us.
+	 * 
+	 * PagingAndSortingRepository also provides a mechanism to get only an x
+	 * number of data at a time. This method uses that mechanism to ensure that
+	 * a client does not retrieve every recipes from the database, because there
+	 * could be millions of recipe in the database.
+	 * 
+	 * 
+	 * @param pageNumber
+	 *            1 page of data contains an X number of recipes. If there are
+	 *            100 recipes in the database there will be 10 pages of data.
+	 * 
+	 * @param numOfDataPerPage
+	 *            describes the amount of data that this method should return.
+	 * @return a list of recipes
+	 */
+	public List<Recipe> findAll(int pageNumber, int numOfDataPerPage) {
+
+		PageRequest pageRequest = pageRequest(pageNumber, numOfDataPerPage);
+		return Lists.newArrayList(recipeRepository.findAll(pageRequest).iterator());
+
+	}
+
+	/**
+	 * A PageRequest object defines a start index used by
+	 * PagingAndSortingRepository to retrieve data from the database.
+	 * 
+	 * This method ensures that the max num of data retrieved is not more than
+	 * the specified in the recipeDataLimit variable
+	 * 
+	 * @param pageNumber
+	 *            records the start index of the data
+	 * @param numOfDataPerPage
+	 *            defines the amount of data to be retrieved.
+	 * @return
+	 */
+	private PageRequest pageRequest(int pageNumber, int numOfDataPerPage) {
+
+		//A page starts at page number. 
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (numOfDataPerPage > recipeDataLimit) {
+			numOfDataPerPage = recipeDataLimit;
+		}
+		
+		return new PageRequest(pageNumber, numOfDataPerPage);
+
 	}
 
 	/* Retrieve every ingredients stored in the database.
