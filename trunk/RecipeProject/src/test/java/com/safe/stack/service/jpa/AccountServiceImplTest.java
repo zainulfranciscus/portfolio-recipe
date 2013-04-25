@@ -40,7 +40,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
     @Test
     public void testLikedRecipe() {
 
-	Recipe recipe = recipeService.findAll().get(0);
+	Recipe recipe = recipeService.findAll(0,6).get(0);
 	accountService.likeARecipe("user@recipe.com", recipe.getId());
 
 	Account account = accountService.findByEmail("user@recipe.com");
@@ -56,7 +56,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
     @Test
     public void testUnlikeRecipe() {
 
-	Recipe recipe = recipeService.findAll().get(0);
+	Recipe recipe = recipeService.findAll(0,6).get(0);
 	accountService.likeARecipe("user@recipe.com", recipe.getId());
 
 	Account account = accountService.findByEmail("user@recipe.com");

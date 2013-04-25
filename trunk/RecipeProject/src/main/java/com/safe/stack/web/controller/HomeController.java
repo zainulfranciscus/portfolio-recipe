@@ -1,18 +1,25 @@
 package com.safe.stack.web.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -26,6 +33,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.io.ByteProcessor;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Files;
+import com.google.common.io.InputSupplier;
 import com.safe.stack.domain.Account;
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
@@ -44,9 +55,9 @@ import com.safe.stack.web.form.Message;
 @Controller
 public class HomeController {
 
-	//============================================================================
+	// ============================================================================
 	// Constants
-	//============================================================================
+	// ============================================================================
 	private static final String LIKE = "like";
 	private static final String UNLIKE = "unlike";
 	protected static final String RECIPE_LIST_PAGE = "recipe/list";
@@ -57,13 +68,24 @@ public class HomeController {
 	protected static final String NUM_OF_LIKE_PAGE = "recipe/numOfLikes";
 
 	/**
+	 * This variable is intended to record a name of a file hosted in a server.
+	 * The @Value annotation is used to retrieve the file name, which is stored
+	 * in a properties file.
+	 */
+	@Value("${resources.file}")
+	private String file;
+	
+	/**
 	 * A message source that is used to display messages on a webpage
 	 */
 	@Autowired
 	private MessageSource messageSource;
 
+
 	/**
-	 * An instance of RecipeService used to retrieve recipes from the database
+	 * An instance of RecipeService used to retrieve recipes from the database.
+	 * The Autowired annotation indicates that Spring will inject an
+	 * implementation of a RecipeService into this variable.
 	 */
 	@Autowired
 	private RecipeService recipeService;
@@ -79,7 +101,6 @@ public class HomeController {
 	 */
 	@Autowired
 	private LocalValidatorFactoryBean validator;
-
 
 	/**
 	 * Directs user to the recipe list page.
@@ -102,17 +123,106 @@ public class HomeController {
 	}
 
 	/**
-	 * this method is intended as an end-point of a RESTful webservice. The purpose
-	 * of this method is to return recipes in the database in a json format.
+	 * this method is intended as an end-point of a RESTful webservice. The
+	 * purpose of this method is to return recipes in the database in a json
+	 * format.
 	 * 
-	 * @return every recipe in the database in a json format
+	 * URL of this method is intercepted by spring security. 
+	 * 
+	 * <http pattern='/json/**' create-session="stateless">
+	 *	<intercept-url pattern='/json/**' access='ROLE_USER' />
+	 *	<http-basic />
+	 *  <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
+	 * </http>
+	 * 
+	 * Client must provide a user name and password to access this URL. The password
+	 * will be hashed by a server provided nonce before sending the password over the 
+	 * network
+	 * 
+	 * The value variable of the RequestMapping annotation records an HTTP path that this method handles. The
+	 * dispatcher servlet will call this method for any HTTP path that ends with
+	 * /json/allRecipes.
+	 * 
+	 * @return every recipe in the database in a json format. This is indeicated
+	 *         by the produces variable. MediaType.Application_JSON_VALUE is
+	 *         equivalent to 'application/json'
 	 */
-	@RequestMapping(value = "/json/allRecipes", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/json/allRecipes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	List<Recipe> findAllRecipe() {
-		return recipeService.findAll();
+	List<Recipe> findAllRecipe(@RequestParam(value = "pageNumber", required = false) int pageNumber, @RequestParam(value = "numOfDataPerPage", required = false) int numOfData) {
+
+		return recipeService.findAll(pageNumber, numOfData);
+	}
+	
+	/**
+	 * The purpose of this method is to provide a way for user to download a
+	 * file stored in a server. Access to this file is restricted to registered user of the website.
+	 * Therefore, this file cannot be serve as a static resource in the server. Instead, this method
+	 * need to be written for downloading the file. 
+	 * 
+	 * Access restriction is achieved by recording the URL of this method within a spring security XML file:
+	 * 
+	 * <http pattern='/getFile' create-session="stateless">
+	 *	<intercept-url pattern='/getFile' access='ROLE_USER' />
+	 *	<http-basic />
+	 *	<custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
+	 *  </http>
+	 * 
+	 * Whenever a client access this URL, Spring will ask the client to specify 
+	 * a user name and password. The password
+	 * will be hashed by a server provided nonce before sending the password over the 
+	 * network
+	 * 
+	 * The value in the RequestMapping annotation records an HTTP path that this method handles. The
+	 * dispatcher servlet will call this method for any HTTP path that ends with
+	 * /getFile. The produces variable indicates that this method will return a
+	 * binary file. MediaType.APPLICATION_OCTET_STREAM_VALUE is equivalent to
+	 * "application/octet-stream", which is A MIME attachment with the content
+	 * type is a binary file
+	 * 
+	 * @param response
+	 *            is used to write the content of the binary file to an output
+	 *            stream
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/getFile", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public @ResponseBody
+	void getFile(final HttpServletResponse response) throws IOException {
+
+		
+		InputSupplier<FileInputStream> inputStreamSupplier = Files.newInputStreamSupplier(new File(file));
+		
+		/**
+		 * This method uses Guava's ByteStream to read the file. There are 2 benefits for using ByteStream.
+		 * The first benefit is that ByteStream takes care of closing the input stream. Therefore omitting
+		 * try-catch-finally code. The ByteStream also reads the file in 4KB chunks, and uses a ByteProcessor
+		 * to immediately write that byte into an output stream.
+		 */
+		ByteStreams.readBytes(inputStreamSupplier, new ByteProcessor<Byte>() {
+			
+			/** 
+			 * The file could be very huge ( > 5 GB). Therefore, the whole file
+			 * should not be loaded into the memory. Instead, for every byte read, 
+			 * that byte will be written directly to the response output stream.
+			 */
+			public boolean processBytes(byte[] b, int off, int len) throws IOException{
+				
+				OutputStream os = response.getOutputStream();				
+			    os.write(b, 0, len);
+				return true;
+				
+			}
+			public Byte getResult() {
+				return null;
+				
+			}
+		});
+		
 	}
 
+	@Value("${resources.file}")
+	private String dir;
+	
 	/**
 	 * @param id
 	 *            of a recipe
@@ -163,7 +273,6 @@ public class HomeController {
 		return RECIPE_ADD_RECIPE_PAGE;
 	}
 
-	
 	/**
 	 * 
 	 * @param ingredient

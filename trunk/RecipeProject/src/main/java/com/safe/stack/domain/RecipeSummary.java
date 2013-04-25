@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Zainul Franciscus
  *
  */
-public class RecipeSummary implements Serializable {
+public class RecipeSummary extends Recipe implements Serializable {
 
 	/**
 	 * An id of a recipe
@@ -30,10 +30,6 @@ public class RecipeSummary implements Serializable {
 	 */
 	private String diet;
 
-	/**
-	 * The number of users who have liked a recipe 
-	 */
-	private Long numberOfLikes;
 
 	/**
 	 * A URL to the author of this recipe.
@@ -50,6 +46,11 @@ public class RecipeSummary implements Serializable {
 	 * has not liked this recipe; 1 otherwise.
 	 */
 	private Long likedByUser = new Long(0);
+	
+	/**
+	 * The number of users who have liked a recipe 
+	 */
+	private Long numberOfLikes;
 
 
 	/**
