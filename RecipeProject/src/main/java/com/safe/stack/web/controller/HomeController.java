@@ -35,8 +35,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.io.ByteProcessor;
 import com.google.common.io.ByteStreams;
+import com.google.common.io.Closeables;
 import com.google.common.io.Files;
 import com.google.common.io.InputSupplier;
+import com.google.common.io.OutputSupplier;
 import com.safe.stack.domain.Account;
 import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
@@ -149,9 +151,9 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/json/allRecipes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody
-	List<Recipe> findAllRecipe(@RequestParam(value = "pageNumber", required = false) int pageNumber, @RequestParam(value = "numOfDataPerPage", required = false) int numOfData) {
+	List<Recipe> findAllRecipe(@RequestParam(value = "pageNumber", required = false,defaultValue="0") int pageNumber) {
 
-		return recipeService.findAll(pageNumber, numOfData);
+		return recipeService.findAll(pageNumber);
 	}
 	
 	/**
@@ -187,18 +189,14 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/getFile", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public @ResponseBody
-	void getFile(final HttpServletResponse response) throws IOException {
+	void getFile(HttpServletResponse response) throws IOException {
 
 		
 		InputSupplier<FileInputStream> inputStreamSupplier = Files.newInputStreamSupplier(new File(file));
 		
-		/**
-		 * This method uses Guava's ByteStream to read the file. There are 2 benefits for using ByteStream.
-		 * The first benefit is that ByteStream takes care of closing the input stream. Therefore omitting
-		 * try-catch-finally code. The ByteStream also reads the file in 4KB chunks, and uses a ByteProcessor
-		 * to immediately write that byte into an output stream.
-		 */
-		ByteStreams.readBytes(inputStreamSupplier, new ByteProcessor<Byte>() {
+		final OutputSupplier<OutputStream> outputStreamSupplier = outputStreamSupplier(response);
+		
+		final ByteProcessor<Byte> byteProcessor = new ByteProcessor<Byte>() {
 			
 			/** 
 			 * The file could be very huge ( > 5 GB). Therefore, the whole file
@@ -207,19 +205,39 @@ public class HomeController {
 			 */
 			public boolean processBytes(byte[] b, int off, int len) throws IOException{
 				
-				OutputStream os = response.getOutputStream();				
-			    os.write(b, 0, len);
+				outputStreamSupplier.getOutput().write(b,off,len);
 				return true;
-				
 			}
 			public Byte getResult() {
 				return null;
 				
 			}
-		});
+		};
+		
+		/**
+		 * This method uses Guava's ByteStream to read the file. There are 2 benefits for using ByteStream.
+		 * The first benefit is that ByteStream takes care of closing the input stream. Therefore omitting
+		 * try-catch-finally code. The ByteStream also reads the file in 4KB chunks, and uses a ByteProcessor
+		 * to immediately write that byte into an output stream.
+		 */
+		ByteStreams.readBytes(inputStreamSupplier, byteProcessor);
+		Closeables.closeQuietly(outputStreamSupplier.getOutput());
 		
 	}
 
+	/**
+	 * @param response
+	 * @return an outputsupplier that could be used to write a byte to an output stream using the provided 
+	 * HttpServletResponse
+	 */
+	private OutputSupplier<OutputStream> outputStreamSupplier(final HttpServletResponse response){
+		return new OutputSupplier<OutputStream>() {
+			  public OutputStream getOutput() throws IOException {
+			    return response.getOutputStream();
+			  }
+		};
+	}
+	
 	@Value("${resources.file}")
 	private String dir;
 	

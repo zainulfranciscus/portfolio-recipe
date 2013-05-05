@@ -33,7 +33,7 @@ public interface RecipeService {
 	/**
 	 * @return a list of recipes
 	 */
-	List<Recipe> findAll(int pageNumber, int numOfDataPerPage);
+	List<Recipe> findAll(int pageNumber);
 
 	/**
 	 * @param ingredients
