@@ -108,7 +108,7 @@ public class RecipeServiceImplTest extends AbstractServiceImplTest {
 	@Test
 	public void testFindAll() {
 
-		List<Recipe> recipes = recipeService.findAll(0,6);
+		List<Recipe> recipes = recipeService.findAll(0);
 
 		assertNotNull(recipes);
 		assertEquals(3, recipes.size());

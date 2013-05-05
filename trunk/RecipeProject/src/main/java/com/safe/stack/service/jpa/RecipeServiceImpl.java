@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,9 @@ import com.safe.stack.domain.IngredientType;
 import com.safe.stack.domain.Recipe;
 import com.safe.stack.domain.RecipeSummary;
 import com.safe.stack.repository.RecipeRepository;
+import com.safe.stack.service.AccountService;
 import com.safe.stack.service.RecipeService;
+import com.safe.stack.service.security.RecipeUser;
 
 /**
  * A service class responsible for retrieving information about a recipe from
@@ -54,6 +55,9 @@ public class RecipeServiceImpl implements RecipeService {
 	 */
 	@Autowired
 	private ExcelSpreadSheet excelSpreadSheet;
+	
+	@Autowired
+	private AccountService accountService;
 
 	/**
 	 * An SQL used to search recipes based on a set of ingredients
@@ -104,13 +108,12 @@ public class RecipeServiceImpl implements RecipeService {
 	 *            1 page of data contains an X number of recipes. If there are
 	 *            100 recipes in the database there will be 10 pages of data.
 	 * 
-	 * @param numOfDataPerPage
-	 *            describes the amount of data that this method should return.
 	 * @return a list of recipes
 	 */
-	public List<Recipe> findAll(int pageNumber, int numOfDataPerPage) {
+	public List<Recipe> findAll(int pageNumber) {
 
-		PageRequest pageRequest = pageRequest(pageNumber, numOfDataPerPage);
+		
+		PageRequest pageRequest = pageRequest(pageNumber);
 		return Lists.newArrayList(recipeRepository.findAll(pageRequest).iterator());
 
 	}
@@ -128,18 +131,20 @@ public class RecipeServiceImpl implements RecipeService {
 	 *            defines the amount of data to be retrieved.
 	 * @return
 	 */
-	private PageRequest pageRequest(int pageNumber, int numOfDataPerPage) {
+	private PageRequest pageRequest(int pageNumber) {
 
 		//A page starts at page number. 
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
 
-		if (numOfDataPerPage > recipeDataLimit) {
-			numOfDataPerPage = recipeDataLimit;
-		}
+		/**
+		 * A registered user can only get an X number of recipes at a time. 
+		 * This code ensure that a request from user does not exceed the data limit.
+		 */
+		//int dataAllowance = accountService.getUser().dataAllowance();
 		
-		return new PageRequest(pageNumber, numOfDataPerPage);
+		return new PageRequest(pageNumber, 5);
 
 	}
 
