@@ -1,0 +1,9 @@
+This project was intended as a web-based application that records popular recipes online. The project is inspired by punchfork.com, therefore you'll see similarity in the user interface. This project is not intended as a copy of punchfork. It does emulate punchfork elegant design as a starting point. This project is far from completion, and functions are being added as you're reading this wiki.
+
+I intend to make the web application an open source software, and let everyone contribute to the project. I wrote a [Developer Guide](DeveloperGuide.md) that describes how this web application is built. A separate documentation on [Web Services](WebService.md) was written to describe how a web service are built using Spring framework.
+
+The project has a number of test, that includes a [JMeter Test](https://docs.google.com/document/d/1961gOR5ihRsRKOD6sBahwG2aaeB75DUMhLSdYqtEfPU/edit?usp=sharing), a [unit test](UnitTests.md), and a [Selenium Test](https://docs.google.com/document/d/1XD23FOp77mgsMFyabFkDzgd7Y4rW5BdqB1p3pIzlw7g/edit?usp=sharing). Documentations for these tests are intended to familiarize developers with the structure of the tests.
+
+I wrote a documentation that describes how to use [Spring Insight](https://docs.google.com/document/d/1ri1YgKS4ONiszjq6gg-szffY7b-E5FdZwIwnfl7btW0/edit?usp=sharing) to monitor the performance of the application. This documentation is intended to inform developers how spot components of the web application that performed badly.
+
+A good way to familiarize your self with the project is by installing this project in your computer. And, this [Installation Guide](https://docs.google.com/document/d/1Rh-b_MnvlgsHNxvZ_5d3GZO6pDH42XeRGhJQbVCVuB8/edit?usp=sharing) tells you how to do it.
