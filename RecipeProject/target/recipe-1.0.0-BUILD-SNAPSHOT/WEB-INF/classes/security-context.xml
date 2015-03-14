@@ -7,7 +7,27 @@
 	<http pattern='/json/**' create-session="stateless">
 		<intercept-url pattern='/json/**' access='ROLE_USER' />
 		<http-basic />
+		<custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
 	</http>
+	
+	<http pattern='/getFile' create-session="stateless">
+		<intercept-url pattern='/getFile' access='ROLE_USER' />
+		<http-basic />
+		<custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
+	</http>
+
+	<beans:bean id="digestFilter"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+		<beans:property name="userDetailsService" ref="myUserDetailsService" />
+		<beans:property name="authenticationEntryPoint" ref="digestEntryPoint" />
+	</beans:bean>
+
+	<beans:bean id="digestEntryPoint"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
+		<beans:property name="realmName"
+			value="Contacts Realm via Digest Authentication" />
+		<beans:property name="key" value="acegi" />
+	</beans:bean>
 
 	<http pattern="/**" use-expressions="true" auto-config="false"  entry-point-ref="authenticationEntryPoint">
 		<intercept-url pattern="/login" access="permitAll" />

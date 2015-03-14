@@ -24,7 +24,7 @@
 
     <!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
     <default-servlet-handler/> 
-	
+	<context:property-placeholder location="classpath*:safestack.properties"/>
 	<context:component-scan base-package="com.safe.stack.web.controller" />
 	
     <!-- register "global" interceptor beans to apply to all registered HandlerMappings -->
@@ -51,7 +51,6 @@
     <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <beans:property name="validationMessageSource" ref="messageSource"/>
     </beans:bean>
-       
-    <beans:bean id="sheet" class="com.safe.stack.domain.ExcelSpreadSheet" init-method="init"/>
+   
 
 </beans:beans>

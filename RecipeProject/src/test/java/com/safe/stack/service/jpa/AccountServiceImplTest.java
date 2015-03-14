@@ -22,7 +22,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
     @Autowired
     RecipeService recipeService;
 
-    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @DataSets(setUpDataSet = "/test-data/recipeTestData.xls")
     @Test
     public void testSave() {
 
@@ -36,7 +36,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 	assertEquals("user", account.getAuthority());
     }
 
-    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @DataSets(setUpDataSet = "/test-data/recipeTestData.xls")
     @Test
     public void testLikedRecipe() {
 
@@ -52,7 +52,7 @@ public class AccountServiceImplTest extends AbstractServiceImplTest {
 
     }
 
-    @DataSets(setUpDataSet = "/com/safe/stack/service/jpa/recipeTestData.xls")
+    @DataSets(setUpDataSet = "/test-data/recipeTestData.xls")
     @Test
     public void testUnlikeRecipe() {
 
