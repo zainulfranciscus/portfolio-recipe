@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+
+  	<c:set var="username" value='${sessionScope.RecipeUser.username}' />
+	<c:set var="isLikedByUser" value='${recipe.isLikedByUser(username)}' />
+		
+	<spring:message code="icon.${recipe.authorNameWithoutSpace}" var="author_icon"/>
+	<spring:message code="url.${recipe.authorNameWithoutSpace}" var="author_url"/>
+	
+	<spring:url value='/img_resources/${recipe.picture}' var="recipe_picture"/>
+	
+	
+	
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<div id="page" class="center">
+		<div class="recipe-details">
+
+			<div class="column1">
+				<div class="info-card-wrapper">
+					<div class="info-card">
+						<h1 class="title">${recipe.name}</h1>
+						<a class="source" href="${recipe.authorLink}">${recipe.formattedAuthorURL}</a>
+						
+						<div id="action-buttons">
+							
+							<c:if test="${not empty username}">
+								<c:if test="${isLikedByUser}">
+								
+									<a class="btn like" href="#" title="${recipe.id}" name="unlike">
+										<span>Unlike</span>
+									</a>
+									
+								</c:if>
+					
+								<c:if test="${not isLikedByUser}">
+								
+									<a class="btn like" href="#" title="${recipe.id}" name="like">
+										<span>Like</span>
+									</a>
+									
+								</c:if>
+							</c:if>						
+						</div>
+		
+						<div class="portrait-frame lg">
+							<div class="portrait">
+								<a href="${recipe.authorLink}"> 
+									<img src="${recipe_picture}"></img> 
+								</a>
+							</div>
+						</div>
+
+						<div class="ingredients-list">
+							<div id="source-ingredients" class="">
+								<ul id="ingredients-toggle" class="toggle-menu">
+									<li class="title">Ingredients</li>
+								</ul>
+
+								<ul>
+									<c:forEach items="${recipe.ingredients}" var="ingredient">
+										<li><span>${ingredient.amount} ${ingredient.metric} ${ingredient.ingredientType.name}</span></li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+
+						<div id="preparation">
+							<span class="title">Preparation</span> <a class="source" href="${recipe.authorLink}">Read Recipe Preparation on <strong>${recipe.author}</strong></a>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="column2">
+			
+				<div id="publisher-card">
+					<div class="profile-photo">
+					<img src="images/${author_icon}"/>
+					</div>
+					
+					<a class="profile-name" href="">${recipe.author}</a>
+					
+					<div class="profile-details">
+						<a href="${author_url}">${author_url}</a>
+					</div>
+					
+					<div class="clear-float"></div>
+				</div>
+				<hr/>
+				<div id="who-likes">
+					<h3>Recipe Stats</h3>
+					<p id="who-likes-count" class="gutter">${fn:length(recipe.account)} people saved this recipe.</p>
+					
+					<c:forEach items="${recipe.account}" var="account">
+						<div class="tiny-user-card">
+							<a title="${account.userName}" href="/${account.userName}"> <img
+								class="avatart" alt="${account.userName}"
+								src="images/mystery_avatart2.jpg" />
+							</a>
+						</div>
+
+					</c:forEach>
+					<div class="clear-float"></div>
+					
+				</div>
+
+				
+
+			</div>
+		</div>
+	</div>
+
+</div>
